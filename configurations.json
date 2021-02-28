@@ -1,0 +1,29 @@
+{
+"gru":{
+    "model_type":"gru",
+    "input_size":1,
+    "output_size":7,
+    "n_hidden":50,
+    "n_layers":1,
+    "lr":1e-3,
+    "num_epochs":800
+},
+"lstm":{
+    "model_type":"lstm",
+    "input_size":1,
+    "output_size":7,
+    "n_hidden":50,
+    "n_layers":2,
+    "lr":1e-3,
+    "num_epochs":100
+},
+"rnn":{
+    "model_type":"rnn",
+    "input_size":1,
+    "output_size":7,
+    "n_hidden":50,
+    "n_layers":2,
+    "lr":1e-3,
+    "num_epochs":800
+}
+}
