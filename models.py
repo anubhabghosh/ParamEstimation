@@ -5,7 +5,9 @@ from torch import nn, optim
 import torch.nn.functional as F
 import sys
 from torch.autograd import Variable
-from tqdm import tqdm
+from timeit import default_timer as timer
+import copy
+#from tqdm import tqdm
 
 # Create an RNN model for prediction
 class RNN_model(nn.Module):
@@ -96,7 +98,7 @@ def push_model(nets, device='cpu'):
     nets = nets.to(device=device)
     return nets
         
-def train_rnn(options, nepochs, train_loader, val_loader, device, tr_verbose=True):
+def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True):
     """ This function implements the training algorithm for the RNN model
     """
     model = RNN_model(**options)
@@ -104,12 +106,14 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, tr_verbose=Tru
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//2, gamma=0.9, verbose=False)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//2, gamma=0.9)
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
     model_filepath = "./models/"
-    training_logfile = "./log/training.log"
+    training_logfile = "./log/training_{}_usenorm_{}.log".format(usenorm_flag, model.model_type)
+    best_val_loss = np.inf
+    best_model_wts = None
 
     orig_stdout = sys.stdout
     f_tmp = open(training_logfile, 'a')
@@ -123,7 +127,10 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, tr_verbose=Tru
     #patience = 0
     #relative_loss = 0.0
     #threshold = 0.02
-
+    print("------------------------------ Training begins ---------------------------------")
+    
+    # Start time
+    starttime = timer()
     for epoch in range(nepochs):
         
         tr_running_loss = 0.0
@@ -139,17 +146,18 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, tr_verbose=Tru
             tr_loss_batch = criterion(tr_predictions_batch, tr_targets_batch.squeeze(2).to(device))
             tr_loss_batch.backward()
             optimizer.step()
-            scheduler.step()
+            #scheduler.step()
 
             # print statistics
             tr_running_loss += tr_loss_batch.item()
             tr_loss_epoch_sum += tr_loss_batch.item()
 
-            if i % 10 == 9 and ((epoch + 1) % 10 == 0):    # print every 10 mini-batches
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 10))
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 10), file=orig_stdout)
+            if i % 50 == 49 and ((epoch + 1) % 50 == 0):    # print every 10 mini-batches
+                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50))
+                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50), file=orig_stdout)
                 tr_running_loss = 0.0
-
+        
+        scheduler.step()
         with torch.no_grad():
             
             for i, data in enumerate(val_loader, 0):
@@ -165,25 +173,43 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, tr_verbose=Tru
         tr_loss = tr_loss_epoch_sum / len(train_loader)
         val_loss = val_loss_epoch_sum / len(val_loader)
 
+        endtime = timer()
+        # Measure wallclock time
+        time_elapsed = endtime - starttime
+
         # Displaying loss at an interval of 50 epochs
-        if tr_verbose == True and (((epoch + 1) % 50) == 0 or epoch == 0):
+        if tr_verbose == True and (((epoch + 1) % 100) == 0 or epoch == 0):
             
             print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
             model.num_epochs, tr_loss, val_loss), file=orig_stdout)
             #save_model(model, model_filepath + "/" + "{}_ckpt_epoch_{}.pt".format(model.model_type, epoch+1))
 
-            print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
-            model.num_epochs, tr_loss, val_loss))
-            save_model(model, model_filepath + "/" + "{}_ckpt_epoch_{}.pt".format(model.model_type, epoch+1))
-
-        tr_losses.append(tr_loss)
-        val_losses.append(val_loss)
-
+            print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, Time_Elapsed:{:.4f} secs".format(epoch+1, 
+            model.num_epochs, tr_loss, val_loss, time_elapsed))
+        
+        # Checkpointing the model every 200 epochs
+        if (((epoch + 1) % 500) == 0 or epoch == 0):     
+            # Checkpointing model every 100 epochs
+            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+        
+        # Save best model in case validation loss improves
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_epoch = epoch+1
+            best_model_wts = copy.deepcopy(model.state_dict())
+        
+        # Saving losses every 10 epochs
+        if (epoch + 1) % 10 == 0:
+            tr_losses.append(tr_loss)
+            val_losses.append(val_loss)
+    
+    # Save the best model as per validation loss at the end
+    print("Saving the best model at epoch={}".format(best_epoch))
+    torch.save(best_model_wts, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch))
     sys.stdout = orig_stdout
-
     return tr_losses, val_losses, model
 
-def evaluate_rnn(options, test_loader, device, model_file=None):
+def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
 
     te_running_loss = 0.0
     test_loss_epoch_sum = 0.0
@@ -195,7 +221,7 @@ def evaluate_rnn(options, test_loader, device, model_file=None):
     criterion = nn.MSELoss()
     model = push_model(nets=model, device=device)
     model.eval()
-    test_log = "./log/test.log"
+    test_log = "./log/test_{}_usenorm_{}.log".format(usenorm_flag, options["model_type"])
 
     with torch.no_grad():
         

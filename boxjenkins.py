@@ -15,9 +15,9 @@ import json
 from models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 
-def create_and_save_dataset(N, num_trajs, num_realizations, filename):
+def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
 
-    Z_pM = generate_trajectory_param_pairs(N, M=num_trajs, P=num_realizations)
+    Z_pM = generate_trajectory_param_pairs(N, M=num_trajs, P=num_realizations, usenorm_flag=usenorm_flag)
     with open(filename, 'wb') as handle:
         pkl.dump(Z_pM, handle, protocol=pkl.HIGHEST_PROTOCOL)
 
@@ -26,6 +26,12 @@ def load_saved_dataset(filename):
     with open(filename, 'rb') as handle:
         Z_pM = pkl.load(handle)
     return Z_pM
+
+class NDArrayEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 def main():
 
@@ -36,24 +42,32 @@ def main():
         "train - training and testing is done, test-only evlaution is carried out")
     parser.add_argument("--mode", help="Enter the desired mode", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
-    parser.add_argument("--epoch_test", help="Particualr epoch to be tested on", type=int, default=None)
+    parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
+    #parser.add_argument("--epoch_test", help="Particualr epoch to be tested on", type=int, default=None)
+    parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
     args = parser.parse_args() 
     mode = args.mode
     model_type = args.model_type
-    epoch_test = args.epoch_test
+    #epoch_test = args.epoch_test
+    usenorm_flag = args.use_norm
+    model_file_saved = args.model_file_saved
 
     # Define the parameters of the model
     N = 1000
 
     # Plot the trajectory versus sample points
     num_trajs = 100
-    num_realizations = 10
-    datafile = "./data/trajectories_data.pkl"
+    num_realizations = 50
+
+    if usenorm_flag == 1:
+        datafile = "./data/trajectories_data_normalized.pkl"
+    else:
+        datafile = "./data/trajectories_data.pkl"
 
     if not os.path.isfile(datafile):
-        print("Creating the data file")
+        print("Creating the data file: {}".format(datafile))
         create_and_save_dataset(N=N, num_trajs=num_trajs, num_realizations=num_realizations, 
-                                filename=datafile)
+                                filename=datafile, usenorm=usenorm_flag)
 
         Z_pM = load_saved_dataset(filename=datafile)
         #plot_trajectories(Z_pM, ncols=1, nrows=10)
@@ -93,14 +107,22 @@ def main():
                                                 train_loader=train_loader,
                                                 val_loader=val_loader,
                                                 device=device,
+                                                usenorm_flag=usenorm_flag,
                                                 tr_verbose=tr_verbose)
-        if tr_verbose == True:
-            plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
+        #if tr_verbose == True:
+        #    plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
+        
+        losses_model = {}
+        losses_model["tr_losses"] = tr_losses
+        losses_model["val_losses"] = val_losses
+
+        with open('{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
+            f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":
 
-        model_file_saved = "./models/{}_ckpt_epoch_{}.pt".format(model_type, epoch_test)
-        evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved)
+        #model_file_saved = "./models/{}_usenorm_{}_ckpt_epoch_{}.pt".format(model_type, usenorm_flag, epoch_test)
+        evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
 
     return None
 

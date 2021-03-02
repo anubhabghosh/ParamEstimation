@@ -91,7 +91,21 @@ def sample_parameter():
 
     return theta_vector
 
-def generate_trajectory_param_pairs(N=1000, M=50, P=5):
+def normalize(X, feature_space=(0, 1)):
+    """ Normalizing the features in the feature_space (lower_lim, upper_lim)
+
+    Args:
+        X ([numpy.ndarray]): Unnormalized data consisting of signal points
+        feature_space (tuple, optional): [lower and upper limits]. Defaults to (0, 1).
+
+    Returns:
+        X_norm [numpy.ndarray]: Normalized feature values
+    """
+    X_normalized = (X - X.min())/(X.max() - X.min()) * (feature_space[1] - feature_space[0]) + \
+        feature_space[0]
+    return X_normalized
+
+def generate_trajectory_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
 
     # Define the parameters of the model
     #N = 1000
@@ -116,6 +130,11 @@ def generate_trajectory_param_pairs(N=1000, M=50, P=5):
             
             # Obtain the trajectory from the recursion
             Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            # Normalize the data in range [0,1]
+            if usenorm_flag == 1:
+                Y = normalize(Y, feature_space=(0,1))
+            elif usenorm_flag == 0:
+                pass
             Z_pM_data.append([theta_vector, Y])
             Z_pM_data_lengths.append(N) 
         
