@@ -102,13 +102,13 @@ def main():
     if mode.lower() == "train": 
         model_gru = RNN_model(**options[model_type])
         tr_verbose = True  
-        tr_losses, val_losses, model = train_rnn(options=options[model_type], 
-                                                nepochs=options[model_type]["num_epochs"],
-                                                train_loader=train_loader,
-                                                val_loader=val_loader,
-                                                device=device,
-                                                usenorm_flag=usenorm_flag,
-                                                tr_verbose=tr_verbose)
+        tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
+                                                                                            nepochs=options[model_type]["num_epochs"],
+                                                                                            train_loader=train_loader,
+                                                                                            val_loader=val_loader,
+                                                                                            device=device,
+                                                                                            usenorm_flag=usenorm_flag,
+                                                                                            tr_verbose=tr_verbose)
         #if tr_verbose == True:
         #    plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
         
