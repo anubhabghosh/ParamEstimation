@@ -110,7 +110,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
-    model_filepath = "./models/"
+    model_filepath = "./models/gru_L2_H50_results/"
     training_logfile = "./log/training_{}_usenorm_{}.log".format(usenorm_flag, model.model_type)
     best_val_loss = np.inf
     best_model_wts = None
@@ -128,7 +128,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     #relative_loss = 0.0
     #threshold = 0.02
     print("------------------------------ Training begins ---------------------------------")
-    
+    print("Model config / options:\n{}\n".format(options))
     # Start time
     starttime = timer()
     for epoch in range(nepochs):
