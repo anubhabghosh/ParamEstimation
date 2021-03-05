@@ -98,7 +98,7 @@ def push_model(nets, device='cpu'):
     nets = nets.to(device=device)
     return nets
         
-def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True):
+def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True, save_chkpoints=True):
     """ This function implements the training algorithm for the RNN model
     """
     model = RNN_model(**options)
@@ -110,25 +110,23 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
-    model_filepath = "./models/gru_L2_H50_results/"
-    training_logfile = "./log/training_{}_usenorm_{}.log".format(usenorm_flag, model.model_type)
+    model_filepath = "./models/"
+    if save_chkpoints == True:
+        # No grid search
+        training_logfile = "./log/training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
+    else:
+        # Grid search
+        training_logfile = "./log/gs_training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
     best_val_loss = np.inf
+    tr_loss_for_best_valloss = np.inf
     best_model_wts = None
 
     orig_stdout = sys.stdout
     f_tmp = open(training_logfile, 'a')
     sys.stdout = f_tmp
 
-    #best_model_wts = None
-    #best_val_epoch = None
-    #check_patience = False
-    #num_patience = 4
-    #best_val_loss = np.inf
-    #patience = 0
-    #relative_loss = 0.0
-    #threshold = 0.02
-    print("------------------------------ Training begins ---------------------------------")
-    print("Model config / options:\n{}\n".format(options))
+    print("------------------------------ Training begins --------------------------------- \n")
+    print("Config: {} \n".format(options))
     # Start time
     starttime = timer()
     for epoch in range(nepochs):
@@ -188,15 +186,18 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             model.num_epochs, tr_loss, val_loss, time_elapsed))
         
         # Checkpointing the model every 200 epochs
-        if (((epoch + 1) % 500) == 0 or epoch == 0):     
-            # Checkpointing model every 100 epochs
+        #if (((epoch + 1) % 500) == 0 or epoch == 0):   
+        if (((epoch + 1) % 200) == 0 or epoch == 0) and save_chkpoints == True:     
+            # Checkpointing model every 100 epochs, in case of grid_search is being done, save_chkpoints = False
             save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
         # Save best model in case validation loss improves
         if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            best_epoch = epoch+1
-            best_model_wts = copy.deepcopy(model.state_dict())
+
+            best_val_loss = val_loss # Save best validation loss
+            tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+            best_epoch = epoch+1 # Corresponding value of epoch
+            best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
         
         # Saving losses every 10 epochs
         if (epoch + 1) % 10 == 0:
@@ -204,10 +205,19 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_losses.append(val_loss)
     
     # Save the best model as per validation loss at the end
-    print("Saving the best model at epoch={}".format(best_epoch))
-    torch.save(best_model_wts, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch))
+    print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_valloss, best_val_loss))
+    
+    if save_chkpoints == True:
+        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch)
+        # Save the best model using the designated filename
+        torch.save(best_model_wts, model_filepath + "/" + model_filename)
+    elif save_chkpoints == False:
+        pass
+    
+    # Restoring the original std out pointer
     sys.stdout = orig_stdout
-    return tr_losses, val_losses, model
+
+    return tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model
 
 def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
 

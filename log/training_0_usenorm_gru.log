@@ -56,3 +56,23 @@ Epoch: 1800/2000, Training MSE Loss:0.069288691, Val. MSE Loss:0.124849274, Time
 Epoch: 1900/2000, Training MSE Loss:0.023635724, Val. MSE Loss:0.118727992, Time_Elapsed:4755.7311 secs
 Epoch: 2000/2000, Training MSE Loss:0.131780041, Val. MSE Loss:0.224168271, Time_Elapsed:5005.9901 secs
 Saving the best model at epoch=1184
+------------------------------ Training begins ---------------------------------
+------------------------------ Training begins ---------------------------------
+Epoch: 1/1000, Training MSE Loss:0.548991882, Val. MSE Loss:0.060889481, Time_Elapsed:57.7082 secs
+------------------------------ Training begins ---------------------------------
+Epoch: 1/1000, Training MSE Loss:0.472683837, Val. MSE Loss:0.069788562, Time_Elapsed:55.1943 secs
+------------------------------ Training begins ---------------------------------
+Epoch: 1/1000, Training MSE Loss:0.494250817, Val. MSE Loss:0.047377865, Time_Elapsed:63.7151 secs
+------------------------------ Training begins ---------------------------------
+Epoch: 1/1000, Training MSE Loss:1.148765564, Val. MSE Loss:1.106644869, Time_Elapsed:1.3496 secs
+Epoch: 100/1000, Training MSE Loss:0.002635100, Val. MSE Loss:0.001700245, Time_Elapsed:147.3777 secs
+------------------------------ Training begins ---------------------------------
+Epoch: 1/400, Training MSE Loss:0.673114955, Val. MSE Loss:0.635845244, Time_Elapsed:1.2645 secs
+------------------------------ Training begins ---------------------------------
+------------------------------ Training begins ---------------------------------
+Epoch: 1/400, Training MSE Loss:1.217765590, Val. MSE Loss:1.073816419, Time_Elapsed:11.6098 secs
+Epoch: 100/400, Training MSE Loss:0.000053093, Val. MSE Loss:0.000052187, Time_Elapsed:879.3621 secs
+Epoch: 200/400, Training MSE Loss:0.000009801, Val. MSE Loss:0.000009293, Time_Elapsed:1474.4543 secs
+Epoch: 300/400, Training MSE Loss:0.000003450, Val. MSE Loss:0.000002959, Time_Elapsed:2062.6349 secs
+Epoch: 400/400, Training MSE Loss:0.000001464, Val. MSE Loss:0.000001277, Time_Elapsed:2638.6871 secs
+Saving the best model at epoch=395
