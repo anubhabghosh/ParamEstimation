@@ -14,6 +14,7 @@ import torch
 import json
 from models import RNN_model, train_rnn, evaluate_rnn
 import argparse
+from gs_utils import create_list_of_dicts
 
 def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
 
@@ -40,17 +41,17 @@ def main():
     
     parser = argparse.ArgumentParser(description="Input a string indicating the mode of the script \n"\
         "train - training and testing is done, test-only evlaution is carried out")
-    parser.add_argument("--mode", help="Enter the desired mode", type=str)
+    #parser.add_argument("--mode", help="Enter the desired mode", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
-    parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
+    #parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
     #parser.add_argument("--epoch_test", help="Particualr epoch to be tested on", type=int, default=None)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
     args = parser.parse_args() 
-    mode = args.mode
+    #mode = args.mode
     model_type = args.model_type
     #epoch_test = args.epoch_test
     usenorm_flag = args.use_norm
-    model_file_saved = args.model_file_saved
+    #model_file_saved = args.model_file_saved
 
     # Define the parameters of the model
     N = 1000
@@ -100,14 +101,16 @@ def main():
     print("Device Used:{}".format(device))
 
     # Json file to store grid search results
-    jsonfile = './param_selection/gsresults_{}.json'.format(model_type)
+    jsonfile = './log/grid_search_results_{}.json'.format(model_type)
     
     # Parameters to be tuned
-    gs_params = {"n_hidden":[30, 40, 50, 60, 80],
+    gs_params = {
+                "n_hidden":[20, 30, 40, 50, 60],
                 "n_layers":[1, 2],
                 "num_epochs":[2000, 3000]
                 }
-
+    
+    # Creates the list of param combinations (options) based on the provided 'model_type'
     gs_list_of_options = create_list_of_dicts(options=options,
                                             model_type=model_type,
                                             param_dict=gs_params)
@@ -120,14 +123,16 @@ def main():
         # Load the model with the corresponding options
         model = RNN_model(**gs_option)
     
-        tr_verbose = True  
-        tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
-                                                                                            nepochs=options[model_type]["num_epochs"],
+        tr_verbose = True 
+        save_chkpoints = False
+        tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=gs_option, 
+                                                                                            nepochs=gs_option["num_epochs"],
                                                                                             train_loader=train_loader,
                                                                                             val_loader=val_loader,
                                                                                             device=device,
                                                                                             usenorm_flag=usenorm_flag,
-                                                                                            tr_verbose=tr_verbose)
+                                                                                            tr_verbose=tr_verbose,
+                                                                                            save_chkpoints=save_chkpoints)
         
         gs_option["Config_no"] = i+1
         gs_option["tr_loss_end"] = val_losses[-1]

@@ -106,7 +106,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//2, gamma=0.9)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9)
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
@@ -118,7 +118,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         # Grid search
         training_logfile = "./log/gs_training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
     best_val_loss = np.inf
-    tr_loss_for_best_valloss = np.inf
+    tr_loss_for_best_val_loss = np.inf
     best_model_wts = None
 
     orig_stdout = sys.stdout
@@ -127,6 +127,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
+    print("\n Config: {} \n".format(options), file=orig_stdout)
+
     # Start time
     starttime = timer()
     for epoch in range(nepochs):
@@ -176,7 +178,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         time_elapsed = endtime - starttime
 
         # Displaying loss at an interval of 50 epochs
-        if tr_verbose == True and (((epoch + 1) % 100) == 0 or epoch == 0):
+        if tr_verbose == True and (((epoch + 1) % 200) == 0 or epoch == 0):
             
             print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
             model.num_epochs, tr_loss, val_loss), file=orig_stdout)
@@ -205,7 +207,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_losses.append(val_loss)
     
     # Save the best model as per validation loss at the end
-    print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_valloss, best_val_loss))
+    print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_val_loss, best_val_loss))
     
     if save_chkpoints == True:
         model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch)
@@ -214,6 +216,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     elif save_chkpoints == False:
         pass
     
+    print("------------------------------ Training ends --------------------------------- \n")
     # Restoring the original std out pointer
     sys.stdout = orig_stdout
 
