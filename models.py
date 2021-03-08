@@ -113,7 +113,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_trial1.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
         training_logfile = "./log/gs_training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
@@ -234,7 +234,7 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
     criterion = nn.MSELoss()
     model = push_model(nets=model, device=device)
     model.eval()
-    test_log = "./log/test_{}_usenorm_{}.log".format(usenorm_flag, options["model_type"])
+    test_log = "./log/test_{}_usenorm_{}_trial1.log".format(usenorm_flag, options["model_type"])
 
     with torch.no_grad():
         
