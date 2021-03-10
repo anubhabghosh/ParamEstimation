@@ -113,7 +113,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_trial1.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
         training_logfile = "./log/gs_training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
@@ -189,7 +189,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         
         # Checkpointing the model every 200 epochs
         #if (((epoch + 1) % 500) == 0 or epoch == 0):   
-        if (((epoch + 1) % 200) == 0 or epoch == 0) and save_chkpoints == True:     
+        if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
             # Checkpointing model every 100 epochs, in case of grid_search is being done, save_chkpoints = False
             save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
