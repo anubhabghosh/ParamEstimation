@@ -116,7 +116,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         training_logfile = "./log/training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/gs_training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
     best_model_wts = None

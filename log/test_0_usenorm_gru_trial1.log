@@ -1,1 +1,1 @@
-Test loss: 0.029 using weights from file: ./models/gru_usenorm_0_ckpt_epoch_1891_best.pt
+Test loss: 0.177 using weights from file: ./models/gru_usenorm_0_ckpt_epoch_306_best.pt
