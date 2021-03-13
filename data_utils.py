@@ -93,7 +93,9 @@ def sample_parameter():
                     theta_6,
                     theta_7]).reshape((7, 1))
 
-    return theta_vector
+    weight_vector = 1.0 / (np.array((np.array([0.9/2, 50.0/2, 2.1/2, 11.0/2, 1.01/2, (10+eps)/2, (5+eps)/2]))) + eps)
+
+    return theta_vector, weight_vector
 
 def normalize(X, feature_space=(0, 1)):
     """ Normalizing the features in the feature_space (lower_lim, upper_lim)
@@ -128,7 +130,7 @@ def generate_trajectory_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
     for i in range(P):
         
         # Obtain a realization of theta
-        theta_vector = sample_parameter()
+        theta_vector, _ = sample_parameter()
         
         for m in range(M): 
             
@@ -167,7 +169,7 @@ def generate_trajectory_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0):
     for i in range(P):
         
         # Obtain a realization of theta
-        variances_vector = sample_parameter()[-2:].reshape((2, 1))  # Choose only the last two parameters (as stochastically generated)
+        variances_vector = sample_parameter()[0][-2:].reshape((2, 1))  # Choose only the last two parameters (as stochastically generated)
         fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
         # Combine them to form the theta vector required for generating trajectories
         theta_vector = np.concatenate((fixed_theta_vector, variances_vector), axis=0) 
