@@ -111,20 +111,21 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9)
-    #criterion = nn.MSELoss() # By default reduction is 'mean'
+    criterion_default = nn.MSELoss() # By default reduction is 'mean'
 
     criterion = weighted_mse_loss
-    weights = sample_parameter()[-1]
+    weights = torch.from_numpy(sample_parameter()[-1][-2:]) # add weights to device (these weights will weight the MSE loss)
+    weights = Variable(weights, requires_grad=False).type(torch.FloatTensor).to(device)
 
     tr_losses = []
     val_losses = []
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_weightedMSE_var.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/gs_training_{}_usenorm_{}_weightedMSE_var.log".format(model.model_type, usenorm_flag)
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
     best_model_wts = None
@@ -173,7 +174,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
                 val_inputs_batch, val_targets_batch = data
                 X_val = Variable(val_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
                 val_predictions_batch = model.forward(X_val)
-                val_loss_batch = criterion(val_predictions_batch, val_targets_batch.squeeze(2).to(device), weight=weights)
+                val_loss_batch = criterion_default(val_predictions_batch, val_targets_batch.squeeze(2).to(device))
+                #val_loss_batch = criterion(val_predictions_batch, val_targets_batch.squeeze(2).to(device), weight=weights)
                 # print statistics
                 val_loss_epoch_sum += val_loss_batch.item()
         
@@ -199,7 +201,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         #if (((epoch + 1) % 500) == 0 or epoch == 0):   
         if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
             # Checkpointing model every 100 epochs, in case of grid_search is being done, save_chkpoints = False
-            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_weightedMSE_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
         # Save best model in case validation loss improves
         if val_loss < best_val_loss:
@@ -218,7 +220,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_val_loss, best_val_loss))
     
     if save_chkpoints == True:
-        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch)
+        model_filename = "{}_usenorm_{}_ckpt_weightedMSE_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch)
         # Save the best model using the designated filename
         torch.save(best_model_wts, model_filepath + "/" + model_filename)
     elif save_chkpoints == False:
@@ -239,12 +241,13 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
     # Set model in evaluation mode
     model = RNN_model(**options)
     model.load_state_dict(torch.load(model_file))
-    #criterion = nn.MSELoss()
-    criterion = weighted_mse_loss
-    weights = sample_parameter()[-1]
+    criterion = nn.MSELoss()
+    #criterion = weighted_mse_loss
+    #weights = torch.from_numpy(sample_parameter()[-1][-2:])
+    #weights = Variable(weights, requires_grad=False).type(torch.FloatTensor).to(device)
     model = push_model(nets=model, device=device)
     model.eval()
-    test_log = "./log/test_{}_usenorm_{}_trial1.log".format(usenorm_flag, options["model_type"])
+    test_log = "./log/test_{}_usenorm_{}_weightedMSE_var.log".format(usenorm_flag, options["model_type"])
 
     with torch.no_grad():
         
@@ -253,7 +256,8 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
             te_inputs_batch, te_targets_batch = data
             X_test = Variable(te_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
             test_predictions_batch = model.forward(X_test)
-            test_loss_batch = criterion(test_predictions_batch, te_targets_batch.squeeze(2).to(device), weight=weights)
+            test_loss_batch = criterion(test_predictions_batch, te_targets_batch.squeeze(2).to(device))
+            #test_loss_batch = criterion(test_predictions_batch, te_targets_batch.squeeze(2).to(device), weight=weights)
             # print statistics
             test_loss_epoch_sum += test_loss_batch.item()
 

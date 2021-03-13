@@ -12,7 +12,9 @@ import pickle as pkl
 import os
 import torch
 import json
-from models import RNN_model, train_rnn, evaluate_rnn
+#from models import RNN_model, train_rnn, evaluate_rnn
+# Add weighted MSE based model
+from models_with_weightedloss import RNN_model, train_rnn, evaluate_rnn
 import argparse
 
 def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
