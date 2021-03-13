@@ -15,7 +15,7 @@
         "n_hidden":40,
         "n_layers":1,
         "lr":1e-3,
-        "num_epochs":3000
+        "num_epochs":2000
     },
     "rnn":{
         "model_type":"rnn",
