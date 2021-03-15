@@ -8,6 +8,7 @@ from torch.autograd import Variable
 from timeit import default_timer as timer
 import copy
 #from tqdm import tqdm
+from custom_callback import callback_val_loss
 
 # Create an RNN model for prediction
 class RNN_model(nn.Module):
@@ -129,6 +130,13 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     else:
         # Grid search
         training_logfile = "./log/gs_training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
+    
+    # Call back parameters
+
+    patience = 0
+    num_patience = 4 
+    min_delta = 1e-4
+    check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
     best_model_wts = None
@@ -208,17 +216,35 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
         # Save best model in case validation loss improves
-        if val_loss < best_val_loss:
+        
+        best_val_loss, best_model_wts, best_val_epoch, patience, check_patience = callback_val_loss(model=model,
+                                                                                                best_model_wts=best_model_wts,
+                                                                                                val_loss=val_loss,
+                                                                                                best_val_loss=best_val_loss,
+                                                                                                current_epoch=epoch+1,
+                                                                                                patience=patience,
+                                                                                                num_patience=num_patience,
+                                                                                                min_delta=min_delta,
+                                                                                                check_patience=check_patience)
+        if check_patience == True:
+            print("Monitoring validation loss for criterion", file=orig_stdout)
+            print("Monitoring validation loss for criterion")
+        else:
+            pass
+            
+        #if val_loss < best_val_loss:
 
-            best_val_loss = val_loss # Save best validation loss
-            tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-            best_epoch = epoch+1 # Corresponding value of epoch
-            best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+        #    best_val_loss = val_loss # Save best validation loss
+        #    tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+        #    best_epoch = epoch+1 # Corresponding value of epoch
+        #    best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
         
         # Saving losses every 10 epochs
-        if (epoch + 1) % 10 == 0:
-            tr_losses.append(tr_loss)
-            val_losses.append(val_loss)
+        #if (epoch + 1) % 10 == 0:
+        
+        # Saving every value
+        tr_losses.append(tr_loss)
+        val_losses.append(val_loss)
     
     # Save the best model as per validation loss at the end
     print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_val_loss, best_val_loss))
