@@ -12,9 +12,9 @@ import pickle as pkl
 import os
 import torch
 import json
-#from models import RNN_model, train_rnn, evaluate_rnn
+from models import RNN_model, train_rnn, evaluate_rnn
 # Add weighted MSE based model
-from models_with_weightedloss import RNN_model, train_rnn, evaluate_rnn
+#from models_with_weightedloss import RNN_model, train_rnn, evaluate_rnn
 import argparse
 
 def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
@@ -59,12 +59,15 @@ def main():
 
     # Plot the trajectory versus sample points
     num_trajs = 100
-    num_realizations = 50
+    #num_realizations = 50
+    num_realizations = 100
 
     if usenorm_flag == 1:
-        datafile = "./data/trajectories_data_vars_normalized.pkl"
+        #datafile = "./data/trajectories_data_vars_normalized.pkl"
+        datafile = "./data/trajectories_data_vars_normalized_NS10000.pkl"
     else:
-        datafile = "./data/trajectories_data_vars.pkl"
+       # datafile = "./data/trajectories_data_vars.pkl"
+       datafile = "./data/trajectories_data_vars_NS10000.pkl"
 
     if not os.path.isfile(datafile):
         print("Creating the data file: {}".format(datafile))
@@ -118,7 +121,7 @@ def main():
         losses_model["tr_losses"] = tr_losses
         losses_model["val_losses"] = val_losses
 
-        with open('{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
+        with open('{}_losses_eps{}_var.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":

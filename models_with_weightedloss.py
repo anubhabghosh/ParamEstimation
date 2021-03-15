@@ -102,11 +102,22 @@ def push_model(nets, device='cpu'):
 def weighted_mse_loss(input, target, weight):
     return (weight * (input - target) ** 2).mean()
 
+def count_params(model):
+    """
+    Counts two types of parameters:
+    - Total no. of parameters in the model (including trainable parameters)
+    - Number of trainable parameters (i.e. parameters whose gradients will be computed)
+    """
+    total_num_params = sum(p.numel() for p in model.parameters())
+    total_num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad == True)
+    return total_num_params, total_num_trainable_params
+
 def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True, save_chkpoints=True):
     """ This function implements the training algorithm for the RNN model
     """
     model = RNN_model(**options)
     model = push_model(nets=model, device=device)
+    total_num_params, total_num_trainable_params = count_params(model)
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
@@ -137,7 +148,9 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
     print("\n Config: {} \n".format(options), file=orig_stdout)
-
+    print("No. of trainable parameters: {}\n".format(total_num_trainable_params), file=orig_stdout)
+    print("No. of trainable parameters: {}\n".format(total_num_trainable_params))
+    
     # Start time
     starttime = timer()
     for epoch in range(nepochs):

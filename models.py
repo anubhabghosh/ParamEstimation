@@ -114,7 +114,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model = RNN_model(**options)
     model = push_model(nets=model, device=device)
     total_num_params, total_num_trainable_params = count_params(model)
-    print("No. of trainable parameters: {}\n".format(total_num_trainable_params))
+    
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
@@ -140,6 +140,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
     print("\n Config: {} \n".format(options), file=orig_stdout)
+    print("No. of trainable parameters: {}\n".format(total_num_trainable_params), file=orig_stdout)
+    print("No. of trainable parameters: {}\n".format(total_num_trainable_params))
 
     # Start time
     starttime = timer()
@@ -164,9 +166,9 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             tr_running_loss += tr_loss_batch.item()
             tr_loss_epoch_sum += tr_loss_batch.item()
 
-            if i % 50 == 49 and ((epoch + 1) % 50 == 0):    # print every 10 mini-batches
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50))
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50), file=orig_stdout)
+            if i % 100 == 99 and ((epoch + 1) % 100 == 0):    # print every 10 mini-batches
+                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100))
+                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100), file=orig_stdout)
                 tr_running_loss = 0.0
         
         scheduler.step()
