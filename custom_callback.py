@@ -3,7 +3,7 @@ import numpy as np
 
 def check_patience_fn(best_val_loss_past, best_val_loss_present, threshold):
 
-    abs_change = ((best_val_loss_past - best_val_loss_present) / best_val_loss_past).abs()
+    abs_change = np.abs((best_val_loss_past - best_val_loss_present))
     #print("Abs. change after suitable improvement in val.loss :{}".format(rel_change))
     if abs_change > 0 and abs_change < threshold:
         return True
@@ -12,15 +12,15 @@ def check_patience_fn(best_val_loss_past, best_val_loss_present, threshold):
 
         
 def callback_val_loss(model, best_model_wts, val_loss, best_val_loss, 
-                    current_epoch, patience, num_patience, 
+                    best_val_epoch, current_epoch, patience, num_patience, 
                     min_delta, check_patience=False, orig_stdout=None):
     
     #TODO: Fix this function
 
-    abs_change_in_val_loss = ((best_val_loss - val_loss) / best_val_loss).abs()
-    print("Abs. change in val_loss:{}".format(abs_change_in_val_loss))
+    abs_change_in_val_loss = np.abs((best_val_loss - val_loss))
+    #print("Abs. change in val_loss:{}".format(abs_change_in_val_loss))
 
-    if relative_change_in_val_loss > 0 or check_patience == True: # Initially was 2 % decrease in value
+    if abs_change_in_val_loss > 0 or check_patience == True: # Initially was 2 % decrease in value
                     
         check_patience = True # Set patience checking flag to be True
         
@@ -30,24 +30,30 @@ def callback_val_loss(model, best_model_wts, val_loss, best_val_loss,
 
             if abs_change_diff == True:
                 
-                patience += 1
+                #patience += 1
                 print("Patience:{}".format(patience))
+                print("Abs. change in val_loss:{} at Epoch {}".format(abs_change_in_val_loss, current_epoch))
                 print("Patience:{}".format(patience), file=orig_stdout)
+                print("Abs. change in val_loss:{} at Epoch {}".format(abs_change_in_val_loss, current_epoch), file=orig_stdout)
+                
                 if patience == num_patience:
                     
-                    print("Saving Model at Epoch {} with val loss: {} ...".format(current_epoch+1, val_loss))
-                    print("Saving Model at Epoch {} with val loss: {} ...".format(current_epoch+1, val_loss), file=orig_stdout)
+                    print("Saving Model at Epoch {} with val loss: {} ...".format(current_epoch, val_loss))
+                    print("Saving Model at Epoch {} with val loss: {} ...".format(current_epoch, val_loss), file=orig_stdout)
                     
                     #best_val_loss = val_loss 
-                    best_val_epoch = current_epoch + 1 
+                    best_val_epoch = current_epoch
                     best_model_wts = copy.deepcopy(model.state_dict())
                     patience = 0
                     check_patience = False
-            
+                
+                else:    
+                    patience += 1
+
             else:
                 # Reset patience in case consecutive criterion is not fulfilled
-                print("Reset patience")
-                print("Reset patience", file=orig_stdout)
+                #print("Reset patience")
+                #print("Reset patience", file=orig_stdout)
                 
                 patience = 0
                 check_patience = False

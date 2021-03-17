@@ -63,7 +63,8 @@ def main():
     if usenorm_flag == 1:
         datafile = "./data/trajectories_data_vars_normalized.pkl"
     else:
-        datafile = "./data/trajectories_data_vars.pkl"
+        #datafile = "./data/trajectories_data_vars.pkl"
+        datafile = "./data/trajectories_data_vars_NS10000.pkl"
 
     if not os.path.isfile(datafile):
         print("Creating the data file: {}".format(datafile))
@@ -101,7 +102,7 @@ def main():
     print("Device Used:{}".format(device))
 
     # Json file to store grid search results
-    jsonfile = './log/grid_search_results_{}_var.json'.format(model_type)
+    jsonfile = './log/grid_search_results_{}_var_NS10000_dropout.json'.format(model_type)
     
     # Parameters to be tuned
     gs_params = {

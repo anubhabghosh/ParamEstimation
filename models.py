@@ -62,8 +62,13 @@ class RNN_model(nn.Module):
             sys.exit() 
         
         # Fully connected layer to be used for mapping the output
-        self.fc = nn.Linear(self.hidden_dim * self.num_directions, self.output_size)
-    
+        #self.fc = nn.Linear(self.hidden_dim * self.num_directions, self.output_size)
+        
+        self.fc = nn.Linear(self.hidden_dim * self.num_directions, 32)
+        self.fc2 = nn.Linear(32, self.output_size)
+        # Add a dropout layer with 20% probability
+        #self.d1 = nn.Dropout(p=0.2)
+
     def init_h0(self, batch_size):
         """ This function defines the initial hidden state of the RNN
         """
@@ -86,8 +91,13 @@ class RNN_model(nn.Module):
         r_out = r_out[:, -1, :, :]
         r_out_last_step = r_out.reshape((-1, self.hidden_dim))
         
+        # Pass this through dropout layer
+        #r_out_last_step = self.d1(r_out_last_step)
+
         # Passing the output to the fully connected layer
-        y = self.fc(r_out_last_step)
+        y = F.relu(self.fc(r_out_last_step))
+        y = self.fc2(y)
+        #y = self.fc(r_out_last_step)
         return y
 
 def save_model(model, filepath):
@@ -119,7 +129,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9) # gamma was initially 0.9
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
@@ -129,18 +139,18 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         training_logfile = "./log/training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS10000_dropout.log".format(model.model_type, usenorm_flag)
     
     # Call back parameters
 
     patience = 0
-    num_patience = 4 
-    min_delta = 1e-4
+    num_patience = 3 
+    min_delta = 1e-3
     check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
     best_model_wts = None
-
+    best_val_epoch = None
     orig_stdout = sys.stdout
     f_tmp = open(training_logfile, 'a')
     sys.stdout = f_tmp
@@ -216,43 +226,51 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
         # Save best model in case validation loss improves
-        
+        '''
         best_val_loss, best_model_wts, best_val_epoch, patience, check_patience = callback_val_loss(model=model,
                                                                                                 best_model_wts=best_model_wts,
                                                                                                 val_loss=val_loss,
                                                                                                 best_val_loss=best_val_loss,
+                                                                                                best_val_epoch=best_val_epoch,
                                                                                                 current_epoch=epoch+1,
                                                                                                 patience=patience,
                                                                                                 num_patience=num_patience,
                                                                                                 min_delta=min_delta,
-                                                                                                check_patience=check_patience)
-        if check_patience == True:
-            print("Monitoring validation loss for criterion", file=orig_stdout)
-            print("Monitoring validation loss for criterion")
-        else:
-            pass
-            
-        #if val_loss < best_val_loss:
+                                                                                                check_patience=check_patience,
+                                                                                                orig_stdout=orig_stdout)
+        #if check_patience == True:
+        #    print("Monitoring validation loss for criterion", file=orig_stdout)
+        #    print("Monitoring validation loss for criterion")
+        #else:
+        #    pass
+        ''' 
+        if val_loss < best_val_loss:
 
-        #    best_val_loss = val_loss # Save best validation loss
-        #    tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-        #    best_epoch = epoch+1 # Corresponding value of epoch
-        #    best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+            best_val_loss = val_loss # Save best validation loss
+            tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+            best_val_epoch = epoch+1 # Corresponding value of epoch
+            best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
         
         # Saving losses every 10 epochs
-        #if (epoch + 1) % 10 == 0:
+        #if (epoch + 1) % 10 == 0
         
         # Saving every value
         tr_losses.append(tr_loss)
         val_losses.append(val_loss)
     
     # Save the best model as per validation loss at the end
-    print("Saving the best model at epoch={}, with training loss={}, validation loss={}".format(best_epoch, tr_loss_for_best_val_loss, best_val_loss))
+    print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
     
     if save_chkpoints == True:
-        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_epoch)
         # Save the best model using the designated filename
-        torch.save(best_model_wts, model_filepath + "/" + model_filename)
+        if not best_model_wts is None:
+            model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_val_epoch)
+            torch.save(best_model_wts, model_filepath + "/" + model_filename)
+            
+        else:
+            model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
+            print("Saving last model as best...")
+            torch.save(model, model_filepath + "/" + model_filename)
     elif save_chkpoints == False:
         pass
     
