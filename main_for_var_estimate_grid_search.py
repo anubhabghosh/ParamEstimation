@@ -65,7 +65,7 @@ def main():
     print("Device Used:{}".format(device))
 
     # Json file to store grid search results
-    jsonfile = './log/grid_search_results_{}_var_NS10000_dropout.json'.format(model_type)
+    jsonfile = './log/grid_search_results_{}_var_NS10000.json'.format(model_type)
     
     # Parameters to be tuned
     gs_params = {
