@@ -5,8 +5,8 @@ from scipy.optimize import minimize
 import string
 import random
 import matplotlib.pyplot as plt
-from data_utils import generate_trajectory_param_pairs, Series_Dataset, obtain_tr_val_test_idx
-from data_utils import get_dataloaders
+from data_utils import Series_Dataset, obtain_tr_val_test_idx
+from data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
 from plot_utils import plot_trajectories, plot_losses
 import pickle as pkl 
 import os
@@ -16,24 +16,6 @@ from models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 from gs_utils import create_list_of_dicts
 
-def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
-
-    Z_pM = generate_trajectory_param_pairs(N, M=num_trajs, P=num_realizations, usenorm_flag=usenorm_flag)
-    with open(filename, 'wb') as handle:
-        pkl.dump(Z_pM, handle, protocol=pkl.HIGHEST_PROTOCOL)
-
-def load_saved_dataset(filename):
-
-    with open(filename, 'rb') as handle:
-        Z_pM = pkl.load(handle)
-    return Z_pM
-
-class NDArrayEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return json.JSONEncoder.default(self, obj)
-
 def main():
 
     usage = "use an RNN for parameter estimation using trajectories of non-linear models \n"\
@@ -41,41 +23,23 @@ def main():
     
     parser = argparse.ArgumentParser(description="Input a string indicating the mode of the script \n"\
         "train - training and testing is done, test-only evlaution is carried out")
-    #parser.add_argument("--mode", help="Enter the desired mode", type=str)
+
+    parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
-    #parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
-    #parser.add_argument("--epoch_test", help="Particualr epoch to be tested on", type=int, default=None)
-    parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
+   
     args = parser.parse_args() 
-    #mode = args.mode
+    datafile = args.data
     model_type = args.model_type
-    #epoch_test = args.epoch_test
-    usenorm_flag = args.use_norm
-    #model_file_saved = args.model_file_saved
-
-    # Define the parameters of the model
-    N = 1000
-
-    # Plot the trajectory versus sample points
-    num_trajs = 100
-    num_realizations = 50
-
-    if usenorm_flag == 1:
-        datafile = "./data/trajectories_data_normalized.pkl"
-    else:
-        datafile = "./data/trajectories_data.pkl"
 
     if not os.path.isfile(datafile):
-        print("Creating the data file: {}".format(datafile))
-        create_and_save_dataset(N=N, num_trajs=num_trajs, num_realizations=num_realizations, 
-                                filename=datafile, usenorm=usenorm_flag)
-
-        Z_pM = load_saved_dataset(filename=datafile)
+        
+        print("Dataset is not present, run 'create_function.py' to create the dataset")
         #plot_trajectories(Z_pM, ncols=1, nrows=10)
     else:
-        print("File already present")
+
+        print("Dataset already present")
         Z_pM = load_saved_dataset(filename=datafile)
-    
+
     Z_pM_dataset = Series_Dataset(Z_pM_dict=Z_pM)
 
     tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,

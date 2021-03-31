@@ -93,7 +93,37 @@ def sample_parameter():
                     theta_6,
                     theta_7]).reshape((7, 1))
 
+    #TODO: Need to fix this, inverse of mean is not a good idea, rather use inverse of variances (from Uniform distribution)
     weight_vector = 1.0 / (np.array((np.array([0.9/2, 50.0/2, 2.1/2, 11.0/2, 1.01/2, (10+eps)/2, (5+eps)/2]))) + eps)
+
+    return theta_vector, weight_vector
+
+def sample_parameter_modified():
+    """ Heuristically define the parameter sampling
+    as per question provided
+
+    Returns:
+        theta: Parameter vector
+    """
+    theta_1 = generate_uniform(N=1, a=0, b=0.9) # Parameter a
+    theta_2 = generate_uniform(N=1, a=20, b=30) # Parameter b
+    theta_3 = generate_uniform(N=1, a=0.1, b=1.75) # Parameter c (often fixed as 1)
+    theta_4 = generate_uniform(N=1, a=4, b=12) # Parameter d (often fixed as 8, as not globally identifiable)
+    eps = np.finfo(float).eps # Get the machine epsilon 
+    theta_5 = generate_uniform(N=1, a=0.01, b=1) # Parameter e
+    theta_6 = generate_uniform(N=1, a=0.1, b=1.5) # Variance Q
+    theta_7 = generate_uniform(N=1, a=eps, b=1) # Variance R
+
+    theta_vector = np.array([theta_1,
+                    theta_2,
+                    theta_3,
+                    theta_4,
+                    theta_5,
+                    theta_6,
+                    theta_7]).reshape((7, 1))
+
+    # Hardcoding the weight vector values as ranges are known and pre-defined
+    weight_vector = np.array(400.0 / 27, 12.0 / 100, 1600.0 / 363, 3.0 / 16, 12.244, 300.0 / 49, 12.0)
 
     return theta_vector, weight_vector
 
@@ -192,6 +222,90 @@ def generate_trajectory_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0):
 
     return Z_pM
 
+def generate_trajectory_modified_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0):
+
+    # Define the parameters of the model
+    #N = 1000
+
+    # Plot the trajectory versus sample points
+    #num_trajs = 5
+
+    Z_pM = {}
+    Z_pM["num_realizations"] = P
+    Z_pM["num_trajectories"] = M
+    Z_pM_data_lengths = []
+
+    count = 0
+    Z_pM_data = []
+
+    for i in range(P):
+        
+        # Obtain a realization of theta
+        variances_vector = sample_parameter_modified()[0][-2:].reshape((2, 1))  # Choose only the last two parameters (as stochastically generated)
+        fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
+        # Combine them to form the theta vector required for generating trajectories
+        theta_vector = np.concatenate((fixed_theta_vector, variances_vector), axis=0) 
+
+        for m in range(M): 
+            
+            # Obtain the trajectory from the recursion
+            Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            # Normalize the data in range [0,1]
+            if usenorm_flag == 1:
+                Y = normalize(Y, feature_space=(0,1))
+            elif usenorm_flag == 0:
+                pass
+            Z_pM_data.append([variances_vector, Y])
+            Z_pM_data_lengths.append(N) 
+        
+    Z_pM["data"] = np.row_stack(Z_pM_data).astype(np.object)
+    #Z_pM["data"] = Z_pM_data
+    Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
+
+    return Z_pM
+
+def generate_trajectory_fixed_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0):
+
+    # Define the parameters of the model
+    #N = 1000
+
+    # Plot the trajectory versus sample points
+    #num_trajs = 5
+
+    Z_pM = {}
+    Z_pM["num_realizations"] = P
+    Z_pM["num_trajectories"] = M
+    Z_pM_data_lengths = []
+
+    count = 0
+    Z_pM_data = []
+
+    for i in range(P):
+        
+        # Obtain a realization of theta
+        variances_vector = np.array([1, 0.1]).reshape((2, 1))  # Choose only the last two parameters (as fixed)
+        fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
+        # Combine them to form the theta vector required for generating trajectories
+        theta_vector = np.concatenate((fixed_theta_vector, variances_vector), axis=0) 
+
+        for m in range(M): 
+            
+            # Obtain the trajectory from the recursion
+            Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            # Normalize the data in range [0,1]
+            if usenorm_flag == 1:
+                Y = normalize(Y, feature_space=(0,1))
+            elif usenorm_flag == 0:
+                pass
+            Z_pM_data.append([variances_vector, Y])
+            Z_pM_data_lengths.append(N) 
+        
+    Z_pM["data"] = np.row_stack(Z_pM_data).astype(np.object)
+    #Z_pM["data"] = Z_pM_data
+    Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
+
+    return Z_pM
+
 def generate_trajectory_fixed_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
 
     # Define the parameters of the model
@@ -230,6 +344,18 @@ def generate_trajectory_fixed_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
     Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
 
     return Z_pM
+
+def load_saved_dataset(filename):
+
+    with open(filename, 'rb') as handle:
+        Z_pM = pkl.load(handle)
+    return Z_pM
+
+class NDArrayEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 class Series_Dataset(Dataset):
 
