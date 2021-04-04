@@ -3,7 +3,9 @@ import numpy as np
 import string
 import random
 import torch
+import json
 from torch.utils.data import Dataset, DataLoader
+import pickle as pkl
 
 def generate_uniform(N, a, b):
     
@@ -123,7 +125,7 @@ def sample_parameter_modified():
                     theta_7]).reshape((7, 1))
 
     # Hardcoding the weight vector values as ranges are known and pre-defined
-    weight_vector = np.array(400.0 / 27, 12.0 / 100, 1600.0 / 363, 3.0 / 16, 12.244, 300.0 / 49, 12.0)
+    weight_vector = np.array((14.81, 0.12, 4,408, 0.1875, 12.244, 6.122, 12.0))
 
     return theta_vector, weight_vector
 

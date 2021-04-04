@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 from data_utils import generate_trajectory_variances_pairs, generate_trajectory_modified_variances_pairs
+import os
+import pickle as pkl
 
 def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0):
 
@@ -46,11 +48,11 @@ def main():
 
     if usenorm_flag == 1:
         #datafile = "./data/trajectories_data_vars_normalized.pkl"
-        datafile = "./data/trajectories_data_vars_normalized_NS{}.pkl".format(
+        datafile = "./data/trajectories_data_vars_normalized_modified_NS{}.pkl".format(
             int(num_trajs*num_realizations))
     else:
        # datafile = "./data/trajectories_data_vars.pkl"
-       datafile = "./data/trajectories_data_vars_NS{}.pkl".format(
+       datafile = "./data/trajectories_data_vars_modified_NS{}.pkl".format(
             int(num_trajs*num_realizations))
 
     if not os.path.isfile(datafile):
@@ -61,7 +63,8 @@ def main():
     else:
 
         print("Dataset {} is already present!".format(datafile))
-
+    
+    print("Done...")
     return None
 
 if __name__ == "__main__":

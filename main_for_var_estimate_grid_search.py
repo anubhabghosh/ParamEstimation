@@ -53,7 +53,8 @@ def main():
     print("No. of training, validation and testing batches: {}, {}, {}".format(len(train_loader), 
                                                                                 len(val_loader), 
                                                                                 len(test_loader)))
-
+    
+    usenorm_flag = 0
     #for i_batch, sample_batched in enumerate(train_loader):
     #    print(i_batch, sample_batched[0].size(), sample_batched[1].size())
     #model_type = "gru"
@@ -65,13 +66,13 @@ def main():
     print("Device Used:{}".format(device))
 
     # Json file to store grid search results
-    jsonfile = './log/grid_search_results_{}_var_NS10000.json'.format(model_type)
+    jsonfile = './log/grid_search_results_{}_var_NS25000.json'.format(model_type)
     
     # Parameters to be tuned
     gs_params = {
-                "n_hidden":[20, 30, 40, 50, 60],
+                "n_hidden":[10, 20, 30, 40, 50],
                 "n_layers":[1, 2],
-                "num_epochs":[2000, 3000]
+                "num_epochs":[2000]
                 }
     
     # Creates the list of param combinations (options) based on the provided 'model_type'
@@ -99,8 +100,8 @@ def main():
                                                                                             save_chkpoints=save_chkpoints)
         
         gs_option["Config_no"] = i+1
-        gs_option["tr_loss_end"] = val_losses[-1]
-        gs_option["val_loss_end"] = tr_losses[-1]
+        gs_option["tr_loss_end"] = tr_losses[-1]
+        gs_option["val_loss_end"] = val_losses[-1]
         gs_option["tr_loss_best"] = tr_loss_for_best_val_loss
         gs_option["val_loss_best"] = best_val_loss
 

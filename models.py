@@ -136,10 +136,10 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_var_NS25000_modified.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS10000.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS25000.log".format(model.model_type, usenorm_flag)
     
     # Call back parameters
 
@@ -185,8 +185,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             tr_loss_epoch_sum += tr_loss_batch.item()
 
             if i % 100 == 99 and ((epoch + 1) % 100 == 0):    # print every 10 mini-batches
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100))
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100), file=orig_stdout)
+                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100))
+                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100), file=orig_stdout)
                 tr_running_loss = 0.0
         
         scheduler.step()
