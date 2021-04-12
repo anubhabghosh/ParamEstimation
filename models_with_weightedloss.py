@@ -62,8 +62,13 @@ class RNN_model(nn.Module):
             sys.exit() 
         
         # Fully connected layer to be used for mapping the output
-        self.fc = nn.Linear(self.hidden_dim * self.num_directions, self.output_size)
-    
+        #self.fc = nn.Linear(self.hidden_dim * self.num_directions, self.output_size)
+        
+        self.fc = nn.Linear(self.hidden_dim * self.num_directions, 32)
+        self.fc2 = nn.Linear(32, self.output_size)
+        # Add a dropout layer with 20% probability
+        #self.d1 = nn.Dropout(p=0.2)
+
     def init_h0(self, batch_size):
         """ This function defines the initial hidden state of the RNN
         """
@@ -86,8 +91,13 @@ class RNN_model(nn.Module):
         r_out = r_out[:, -1, :, :]
         r_out_last_step = r_out.reshape((-1, self.hidden_dim))
         
+        # Pass this through dropout layer
+        #r_out_last_step = self.d1(r_out_last_step)
+
         # Passing the output to the fully connected layer
-        y = self.fc(r_out_last_step)
+        y = F.relu(self.fc(r_out_last_step))
+        y = self.fc2(y)
+        #y = self.fc(r_out_last_step)
         return y
 
 def save_model(model, filepath):
@@ -112,7 +122,7 @@ def count_params(model):
     total_num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad == True)
     return total_num_params, total_num_trainable_params
 
-def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True, save_chkpoints=True):
+def train_rnn_with_wtdloss(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True, save_chkpoints=True):
     """ This function implements the training algorithm for the RNN model
     """
     model = RNN_model(**options)
@@ -245,7 +255,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     return tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model
 
-def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
+def evaluate_rnn_with_wtdloss(options, test_loader, device, model_file=None, usenorm_flag=0):
 
     te_running_loss = 0.0
     test_loss_epoch_sum = 0.0

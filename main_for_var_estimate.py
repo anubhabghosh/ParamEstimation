@@ -14,7 +14,7 @@ import torch
 import json
 from models import RNN_model, train_rnn, evaluate_rnn
 # Add weighted MSE based model
-#from models_with_weightedloss import RNN_model, train_rnn, evaluate_rnn
+from models_with_weightedloss import train_rnn_with_wtdloss, evaluate_rnn_with_wtdloss
 import argparse
 
 def main():
@@ -29,12 +29,14 @@ def main():
     parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
     parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
+    parser.add_argument("--use_weighted", help="Use weighted loss for training", type=int, default=0)
     args = parser.parse_args() 
     mode = args.mode
     model_type = args.model_type
     datafile = args.data
     usenorm_flag = args.use_norm
     model_file_saved = args.model_file_saved
+    useweighted_flag = args.use_weighted
 
     if not os.path.isfile(datafile):
         
@@ -73,14 +75,24 @@ def main():
 
     if mode.lower() == "train": 
         model_gru = RNN_model(**options[model_type])
-        tr_verbose = True  
-        tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
-                                                                                            nepochs=options[model_type]["num_epochs"],
-                                                                                            train_loader=train_loader,
-                                                                                            val_loader=val_loader,
-                                                                                            device=device,
-                                                                                            usenorm_flag=usenorm_flag,
-                                                                                            tr_verbose=tr_verbose)
+        tr_verbose = True 
+        if useweighted_flag == 0: 
+            tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
+                                                                                                nepochs=options[model_type]["num_epochs"],
+                                                                                                train_loader=train_loader,
+                                                                                                val_loader=val_loader,
+                                                                                                device=device,
+                                                                                                usenorm_flag=usenorm_flag,
+                                                                                                tr_verbose=tr_verbose)
+        elif useweighted_flag == 1:
+            print("Using Weighted losses for training, but usual MSE for evaluation...\n")
+            tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn_with_wtdloss(options=options[model_type], 
+                                                                                                nepochs=options[model_type]["num_epochs"],
+                                                                                                train_loader=train_loader,
+                                                                                                val_loader=val_loader,
+                                                                                                device=device,
+                                                                                                usenorm_flag=usenorm_flag,
+                                                                                                tr_verbose=tr_verbose)
         #if tr_verbose == True:
         #    plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
         
