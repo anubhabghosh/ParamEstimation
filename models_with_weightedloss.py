@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import sys
 from torch.autograd import Variable
 from timeit import default_timer as timer
-from data_utils import sample_parameter
+from data_utils import sample_parameter_modified
 import copy
 #from tqdm import tqdm
 
@@ -125,7 +125,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     criterion_default = nn.MSELoss() # By default reduction is 'mean'
 
     criterion = weighted_mse_loss
-    weights = torch.from_numpy(sample_parameter()[-1][-2:]) # add weights to device (these weights will weight the MSE loss)
+    weights = torch.from_numpy(sample_parameter_modified()[-1][-2:]) # add weights to device (these weights will weight the MSE loss)
     weights = Variable(weights, requires_grad=False).type(torch.FloatTensor).to(device)
 
     tr_losses = []
@@ -133,10 +133,10 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_weightedMSE_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_weightedMSE_var_NS25000.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_weightedMSE_var.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/gs_training_{}_usenorm_{}_weightedMSE_var_NS25000.log".format(model.model_type, usenorm_flag)
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
     best_model_wts = None
@@ -256,7 +256,7 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
     model.load_state_dict(torch.load(model_file))
     criterion = nn.MSELoss()
     #criterion = weighted_mse_loss
-    #weights = torch.from_numpy(sample_parameter()[-1][-2:])
+    #weights = torch.from_numpy(sample_parameter_modified()[-1][-2:])
     #weights = Variable(weights, requires_grad=False).type(torch.FloatTensor).to(device)
     model = push_model(nets=model, device=device)
     model.eval()

@@ -125,6 +125,8 @@ def sample_parameter_modified():
                     theta_7]).reshape((7, 1))
 
     # Hardcoding the weight vector values as ranges are known and pre-defined
+    # Weight vector values are the inverse of the variances 
+    # (inverse of uniformly distributed variances)
     weight_vector = np.array((14.81, 0.12, 4,408, 0.1875, 12.244, 6.122, 12.0))
 
     return theta_vector, weight_vector
@@ -285,10 +287,10 @@ def generate_trajectory_fixed_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0)
     for i in range(P):
         
         # Obtain a realization of theta
-        variances_vector = np.array([1, 0.1]).reshape((2, 1))  # Choose only the last two parameters (as fixed)
+        fixed_variances_vector = np.array([1, 0.1]).reshape((2, 1))  # Choose only the last two parameters (as fixed)
         fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
         # Combine them to form the theta vector required for generating trajectories
-        theta_vector = np.concatenate((fixed_theta_vector, variances_vector), axis=0) 
+        theta_vector = np.concatenate((fixed_theta_vector, fixed_variances_vector), axis=0) 
 
         for m in range(M): 
             
