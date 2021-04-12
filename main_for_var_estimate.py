@@ -106,7 +106,10 @@ def main():
     elif mode.lower() == "test":
 
         #model_file_saved = "./models/{}_usenorm_{}_ckpt_epoch_{}.pt".format(model_type, usenorm_flag, epoch_test)
-        evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
+        if useweighted_flag == 0:
+            evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
+        elif useweighted_flag == 1:
+            evaluate_rnn_with_wtdloss(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
 
     return None
 
