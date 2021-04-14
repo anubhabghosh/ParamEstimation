@@ -110,6 +110,8 @@ def push_model(nets, device='cpu'):
     return nets
 
 def weighted_mse_loss(input, target, weight):
+    #print("Modified loss shape, before mean ", ((input - target) ** 2).shape)
+    #print("Weight used: ", weight)
     return (weight * (input - target) ** 2).mean()
 
 def count_params(model):
@@ -136,6 +138,7 @@ def train_rnn_with_wtdloss(options, nepochs, train_loader, val_loader, device, u
 
     criterion = weighted_mse_loss
     weights = torch.from_numpy(sample_parameter_modified()[-1][-2:]) # add weights to device (these weights will weight the MSE loss)
+    #weights = weights / (weights.sum() + 1e-12)
     weights = Variable(weights, requires_grad=False).type(torch.FloatTensor).to(device)
 
     tr_losses = []
@@ -176,6 +179,7 @@ def train_rnn_with_wtdloss(options, nepochs, train_loader, val_loader, device, u
             X_train = Variable(tr_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
             tr_predictions_batch = model.forward(X_train)
             tr_loss_batch = criterion(tr_predictions_batch, tr_targets_batch.squeeze(2).to(device), weight=weights)
+            #print(weights.shape, tr_predictions_batch.shape, file=orig_stdout)
             tr_loss_batch.backward()
             optimizer.step()
             #scheduler.step()
@@ -185,8 +189,8 @@ def train_rnn_with_wtdloss(options, nepochs, train_loader, val_loader, device, u
             tr_loss_epoch_sum += tr_loss_batch.item()
 
             if i % 50 == 49 and ((epoch + 1) % 50 == 0):    # print every 10 mini-batches
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50))
-                print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50), file=orig_stdout)
+                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50))
+                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 50), file=orig_stdout)
                 tr_running_loss = 0.0
         
         scheduler.step()
