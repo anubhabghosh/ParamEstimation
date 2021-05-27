@@ -10,9 +10,9 @@ def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_fl
     # Currently this uses the 'modified' function
     # Otherwise use the 'usual' function 'generate_trajectory_variances_pairs'
     Z_pM = generate_trajectory_modified_param_pairs(N=N, 
-                                                        M=num_trajs, 
-                                                        P=num_realizations, 
-                                                        usenorm_flag=usenorm_flag)
+                                                    M=num_trajs, 
+                                                    P=num_realizations, 
+                                                    usenorm_flag=usenorm_flag)
 
     # Saving the model
     with open(filename, 'wb') as handle:
