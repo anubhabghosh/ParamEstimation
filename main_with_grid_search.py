@@ -54,6 +54,7 @@ def main():
                                                                                 len(val_loader), 
                                                                                 len(test_loader)))
 
+    usenorm_flag = 0
     #for i_batch, sample_batched in enumerate(train_loader):
     #    print(i_batch, sample_batched[0].size(), sample_batched[1].size())
     #model_type = "gru"

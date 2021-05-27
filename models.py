@@ -136,10 +136,12 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model_filepath = "./models/"
     if save_chkpoints == True:
         # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_var_NS25000_modified.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
+        #training_logfile = "./log/training_{}_usenorm_{}_var_NS25000_modified.log".format(model.model_type, usenorm_flag)
     else:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS25000.log".format(model.model_type, usenorm_flag)
+        training_logfile = "./log/training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
+        #training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS25000.log".format(model.model_type, usenorm_flag)
     
     # Call back parameters
 
