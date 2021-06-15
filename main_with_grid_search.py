@@ -66,13 +66,13 @@ def main():
     print("Device Used:{}".format(device))
 
     # Json file to store grid search results
-    jsonfile = './log/grid_search_results_{}_trial1.json'.format(model_type)
+    jsonfile = './log/grid_search_results_{}.json'.format(model_type)
     
     # Parameters to be tuned
     gs_params = {
                 "n_hidden":[20, 30, 40, 50, 60],
                 "n_layers":[1, 2],
-                "num_epochs":[2000, 3000]
+                "num_epochs":[3000]
                 }
     
     # Creates the list of param combinations (options) based on the provided 'model_type'

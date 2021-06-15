@@ -24,7 +24,7 @@ def main():
         "train - training and testing is done, test-only evlaution is carried out")
     parser.add_argument("--mode", help="Enter the desired mode", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
-    parser.add_argument("--model_file_saved", help="Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
+    parser.add_argument("--model_file_saved", help="In case of testing mode, Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
     parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
     args = parser.parse_args() 

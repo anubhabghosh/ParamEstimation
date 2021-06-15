@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import generate_trajectory_param_pairs, generate_trajectory_modified_param_pairs
+from data_utils import generate_trajectory_modified_param_pairs
 import os
 import pickle as pkl
 
