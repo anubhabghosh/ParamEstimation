@@ -11,7 +11,7 @@ def generate_uniform(N, a, b):
     
     # theta = U(a, b)
     theta = np.random.uniform(low=a, high=b, size=(N, 1))
-    return theta
+    return np.asscalar(theta)
 
 def generate_normal(N, mean, std):
 
@@ -309,8 +309,8 @@ def sample_parameter_partialfixed():
     theta_1 = generate_uniform(N=1, a=0, b=0.9) # Parameter a
     theta_2 = generate_uniform(N=1, a=20, b=30) # Parameter b
     # Fixed parameters \theta_3 and \theta_4
-    theta_3 = 1 # This parameter theta_3 is fixed as 1 and used for the MATLAB code
-    theta_4 = 8 # Not globally identifiable 
+    theta_3 = np.array(1.0) # This parameter theta_3 is fixed as 1 and used for the MATLAB code
+    theta_4 = np.array(8.0) # Not globally identifiable 
     #theta_3 = generate_uniform(N=1, a=0.1, b=1.75) # Parameter \theta_3 (often fixed as 1)
     #theta_4 = generate_uniform(N=1, a=4, b=12) # Parameter c (often fixed as 8, as not globally identifiable)
     eps = np.finfo(float).eps # Get the machine epsilon 
