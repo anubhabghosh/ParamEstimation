@@ -55,10 +55,11 @@ def main():
                                                                                 len(test_loader)))
 
     usenorm_flag = 0
-    #for i_batch, sample_batched in enumerate(train_loader):
-    #    print(i_batch, sample_batched[0].size(), sample_batched[1].size())
-    #model_type = "gru"
-    with open("configurations.json") as f:
+    
+    #with open("configurations.json") as f: # For estimating all theta parameters
+    #    options = json.load(f)
+
+    with open("configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
@@ -71,7 +72,7 @@ def main():
     # Parameters to be tuned
     gs_params = {
                 "n_hidden":[20, 30, 40, 50, 60],
-                "n_layers":[1, 2],
+                "n_layers":[1, 2], #"n_layers":[1, 2],
                 "num_epochs":[3000]
                 }
     

@@ -92,7 +92,7 @@ def normalize(X, feature_space=(0, 1)):
 # \theta_{2}, \ldots, \theta_{7}. Limits are NOT updated, and using 'OLD' 
 # values
 ################################################################################
-
+'''
 def sample_parameter():
     """ Heuristically define the parameter sampling
     as per question provided
@@ -257,7 +257,7 @@ def generate_trajectory_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0):
     Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
 
     return Z_pM
-
+'''
 ################################################################################
 # 'NEW' Updated parameters hereafter
 ################################################################################
@@ -275,10 +275,46 @@ def sample_parameter_modified():
     """
     theta_1 = generate_uniform(N=1, a=0, b=0.9) # Parameter a
     theta_2 = generate_uniform(N=1, a=20, b=30) # Parameter b
-    theta_3 = generate_uniform(N=1, a=0.1, b=1.75) # Parameter c (often fixed as 1)
-    theta_4 = generate_uniform(N=1, a=4, b=12) # Parameter d (often fixed as 8, as not globally identifiable)
+    theta_3 = generate_uniform(N=1, a=0.1, b=1.75) # Parameter \theta_{3} (often fixed as 1)
+    theta_4 = generate_uniform(N=1, a=4, b=12) # Parameter c (often fixed as 8, as not globally identifiable)
     eps = np.finfo(float).eps # Get the machine epsilon 
-    theta_5 = generate_uniform(N=1, a=0.01, b=1) # Parameter e
+    theta_5 = generate_uniform(N=1, a=0.01, b=1) # Parameter d
+    theta_6 = generate_uniform(N=1, a=0.1, b=1.5) # Variance Q
+    theta_7 = generate_uniform(N=1, a=eps, b=1) # Variance R
+
+    theta_vector = np.array([theta_1,
+                    theta_2,
+                    theta_3,
+                    theta_4,
+                    theta_5,
+                    theta_6,
+                    theta_7]).reshape((7, 1))
+
+    # Hardcoding the weight vector values as ranges are known and pre-defined
+    # Weight vector values are the inverse of the variances 
+    # (inverse of uniformly distributed variances)
+    weight_vector = np.array((14.81, 0.12, 4,408, 0.1875, 12.244, 6.122, 12.0))
+
+    return theta_vector, weight_vector
+
+def sample_parameter_partialfixed():
+    """ Heuristically define the parameter sampling
+    as per question provided, using modified priors and always fixing 
+    theta_3 and theta_4 ('c' in the MATLAB code), and a reduced range 
+    of uniform priors for theta_5 ('d' in the MATLAB code) in [0.05, 0.15] (previously [0.01, 1])
+
+    Returns:
+        theta: Parameter vector
+    """
+    theta_1 = generate_uniform(N=1, a=0, b=0.9) # Parameter a
+    theta_2 = generate_uniform(N=1, a=20, b=30) # Parameter b
+    # Fixed parameters \theta_3 and \theta_4
+    theta_3 = 1 # This parameter theta_3 is fixed as 1 and used for the MATLAB code
+    theta_4 = 8 # Not globally identifiable 
+    #theta_3 = generate_uniform(N=1, a=0.1, b=1.75) # Parameter \theta_3 (often fixed as 1)
+    #theta_4 = generate_uniform(N=1, a=4, b=12) # Parameter c (often fixed as 8, as not globally identifiable)
+    eps = np.finfo(float).eps # Get the machine epsilon 
+    theta_5 = generate_uniform(N=1, a=0.05, b=0.15) # Parameter d # Reduced the range of uniform priors to [0.05, 0.15]
     theta_6 = generate_uniform(N=1, a=0.1, b=1.5) # Variance Q
     theta_7 = generate_uniform(N=1, a=eps, b=1) # Variance R
 
@@ -333,6 +369,53 @@ def generate_trajectory_modified_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
             elif usenorm_flag == 0:
                 pass
             Z_pM_data.append([theta_vector, Y])
+            Z_pM_data_lengths.append(N) 
+        
+    Z_pM["data"] = np.row_stack(Z_pM_data).astype(np.object)
+    #Z_pM["data"] = Z_pM_data
+    Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
+
+    return Z_pM
+
+#################################################################################
+# This function generates training data Z_{p,M} using specified values of p, M
+# for the full set of \theta_{i}. theta_vectors are sampled from the function
+# sample_parameter_partialfixed() 
+#################################################################################
+def generate_trajectory_partialfixed_param_pairs(N=200, M=500, P=50, usenorm_flag=0):
+
+    # Define the parameters of the model
+    #N = 1000
+
+    # Plot the trajectory versus sample points
+    #num_trajs = 5
+
+    Z_pM = {}
+    Z_pM["num_realizations"] = P
+    Z_pM["num_trajectories"] = M
+    Z_pM_data_lengths = []
+
+    count = 0
+    Z_pM_data = []
+
+    for i in range(P):
+        
+        # Obtain a realization of theta using the modified sampling function that fixed theta_3, theta_4
+        theta_vector, _ = sample_parameter_partialfixed()
+
+        # Save a vector that doesn't include the fixed parameters \theta_3 and \theta_4 ('c')
+        theta_vector_saved = theta_vector[[i for i in range(len(theta_vector)) if not i in [2,3]]]
+
+        for m in range(M): 
+            
+            # Obtain the trajectory from the recursion
+            Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            # Normalize the data in range [0,1]
+            if usenorm_flag == 1:
+                Y = normalize(Y, feature_space=(0,1))
+            elif usenorm_flag == 0:
+                pass
+            Z_pM_data.append([theta_vector_saved, Y])
             Z_pM_data_lengths.append(N) 
         
     Z_pM["data"] = np.row_stack(Z_pM_data).astype(np.object)
