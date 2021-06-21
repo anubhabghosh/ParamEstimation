@@ -71,7 +71,7 @@ def main():
     
     # Parameters to be tuned
     gs_params = {
-                "n_hidden":[20, 30, 40, 50, 60],
+                "n_hidden":[30, 40, 50, 60], #[20, 30, 40, 50, 60]
                 "n_layers":[1, 2], #"n_layers":[1, 2],
                 "num_epochs":[3000]
                 }
