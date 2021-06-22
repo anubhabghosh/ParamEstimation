@@ -101,8 +101,8 @@ def main():
                                                                                             save_chkpoints=save_chkpoints)
         
         gs_option["Config_no"] = i+1
-        gs_option["tr_loss_end"] = val_losses[-1]
-        gs_option["val_loss_end"] = tr_losses[-1]
+        gs_option["tr_loss_end"] = tr_losses[-1]
+        gs_option["val_loss_end"] = val_losses[-1]
         gs_option["tr_loss_best"] = tr_loss_for_best_val_loss
         gs_option["val_loss_best"] = best_val_loss
 
