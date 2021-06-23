@@ -27,7 +27,7 @@ def main():
     parser.add_argument("--model_file_saved", help="In case of testing mode, Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
     parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
-    parser.add_argument("--splits", help="Use_normalization", type=str)
+    parser.add_argument("--splits", help="Enter full path to splits file", type=str)
     args = parser.parse_args() 
     mode = args.mode
     model_type = args.model_type
@@ -60,6 +60,7 @@ def main():
         with open(os.path.join(datafolder, "splits_file.pkl"), 'wb') as handle:
             pkl.dump(splits, handle, protocol=pkl.HIGHEST_PROTOCOL)
     else:
+        print("Loading the splits file from {}".format(splits_file))
         splits = load_splits_file(splits_filename=splits_file)
         tr_indices, val_indices, test_indices = splits["train"], splits["val"], splits["test"]
 

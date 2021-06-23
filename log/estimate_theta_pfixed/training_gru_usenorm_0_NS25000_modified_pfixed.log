@@ -4,23 +4,30 @@ Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60,
 
 No. of trainable parameters: 35417
 
-Epoch: 1/3000, Training MSE Loss:43.030024455, Val. MSE Loss:1.707611593, Time_Elapsed:2.8119 secs
-Epoch: 200/3000, Training MSE Loss:0.028579704, Val. MSE Loss:0.015427669, Time_Elapsed:536.8411 secs
-Epoch: 400/3000, Training MSE Loss:0.001804854, Val. MSE Loss:0.008000758, Time_Elapsed:1085.6776 secs
-Epoch: 600/3000, Training MSE Loss:0.004992071, Val. MSE Loss:0.011479942, Time_Elapsed:1647.9791 secs
-Epoch: 800/3000, Training MSE Loss:0.018041781, Val. MSE Loss:0.014282361, Time_Elapsed:2211.1859 secs
-Epoch: 1000/3000, Training MSE Loss:0.000969878, Val. MSE Loss:0.008246173, Time_Elapsed:2775.1403 secs
-Epoch: 1200/3000, Training MSE Loss:0.001191683, Val. MSE Loss:0.010480872, Time_Elapsed:3332.1656 secs
-Epoch: 1400/3000, Training MSE Loss:0.000568569, Val. MSE Loss:0.010948580, Time_Elapsed:3891.1894 secs
-Epoch: 1600/3000, Training MSE Loss:0.072858416, Val. MSE Loss:0.037892027, Time_Elapsed:4454.9917 secs
-Epoch: 1800/3000, Training MSE Loss:0.001531485, Val. MSE Loss:0.013813521, Time_Elapsed:5018.5725 secs
-Epoch: 2000/3000, Training MSE Loss:0.003815829, Val. MSE Loss:0.011459491, Time_Elapsed:5582.7130 secs
-Epoch: 2200/3000, Training MSE Loss:0.002796960, Val. MSE Loss:0.012513621, Time_Elapsed:6144.8658 secs
-Epoch: 2400/3000, Training MSE Loss:0.001874246, Val. MSE Loss:0.008787176, Time_Elapsed:6707.1659 secs
-Epoch: 2600/3000, Training MSE Loss:0.088877866, Val. MSE Loss:0.084829283, Time_Elapsed:7269.8263 secs
-Epoch: 2800/3000, Training MSE Loss:0.002252338, Val. MSE Loss:0.014106748, Time_Elapsed:7832.1884 secs
-Epoch: 3000/3000, Training MSE Loss:0.015843554, Val. MSE Loss:0.035972765, Time_Elapsed:8393.9103 secs
+Epoch: 1/3000, Training MSE Loss:49.596052452, Val. MSE Loss:2.191624924, Time_Elapsed:2.8123 secs
+------------------------------ Training begins --------------------------------- 
 
-Saving the best model at epoch=1102, with training loss=0.0007503720572167615, validation loss=0.0059721972133653855
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 35417
+
+Epoch: 1/3000, Training MSE Loss:70.297857778, Val. MSE Loss:12.292597198, Time_Elapsed:2.7869 secs
+Epoch: 200/3000, Training MSE Loss:0.010224314, Val. MSE Loss:0.028127615, Time_Elapsed:557.3219 secs
+Epoch: 400/3000, Training MSE Loss:0.019938337, Val. MSE Loss:0.043607945, Time_Elapsed:1076.5315 secs
+Epoch: 600/3000, Training MSE Loss:0.001167760, Val. MSE Loss:0.014449915, Time_Elapsed:1630.3551 secs
+Epoch: 800/3000, Training MSE Loss:0.001337354, Val. MSE Loss:0.019733937, Time_Elapsed:2191.0852 secs
+Epoch: 1000/3000, Training MSE Loss:0.022738575, Val. MSE Loss:0.024399784, Time_Elapsed:2711.2099 secs
+Epoch: 1200/3000, Training MSE Loss:0.001106043, Val. MSE Loss:0.017651778, Time_Elapsed:3207.5393 secs
+Epoch: 1400/3000, Training MSE Loss:0.001248232, Val. MSE Loss:0.015551129, Time_Elapsed:3767.7514 secs
+Epoch: 1600/3000, Training MSE Loss:0.005993688, Val. MSE Loss:0.023116229, Time_Elapsed:4248.0496 secs
+Epoch: 1800/3000, Training MSE Loss:0.002680199, Val. MSE Loss:0.018483205, Time_Elapsed:4765.9664 secs
+Epoch: 2000/3000, Training MSE Loss:0.000449738, Val. MSE Loss:0.020202904, Time_Elapsed:5274.5340 secs
+Epoch: 2200/3000, Training MSE Loss:0.000247923, Val. MSE Loss:0.014626234, Time_Elapsed:5835.1084 secs
+Epoch: 2400/3000, Training MSE Loss:0.001929373, Val. MSE Loss:0.016824100, Time_Elapsed:6369.2810 secs
+Epoch: 2600/3000, Training MSE Loss:0.000390687, Val. MSE Loss:0.019247432, Time_Elapsed:6843.3979 secs
+Epoch: 2800/3000, Training MSE Loss:0.000249416, Val. MSE Loss:0.014587924, Time_Elapsed:7321.1493 secs
+Epoch: 3000/3000, Training MSE Loss:0.000266901, Val. MSE Loss:0.011995612, Time_Elapsed:7865.8504 secs
+
+Saving the best model at epoch=1308, with training loss=0.0008543697166015857, validation loss=0.010039957752451301
 ------------------------------ Training ends --------------------------------- 
 
