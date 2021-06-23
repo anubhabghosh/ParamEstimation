@@ -382,7 +382,7 @@ def generate_trajectory_modified_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
 # for the full set of \theta_{i}. theta_vectors are sampled from the function
 # sample_parameter_partialfixed() 
 #################################################################################
-def generate_trajectory_partialfixed_param_pairs(N=200, M=500, P=50, usenorm_flag=0):
+def generate_trajectory_partialfixed_param_pairs(N=200, M=500, P=50, usenorm_flag=0, mode=None):
 
     # Define the parameters of the model
     #N = 1000
@@ -394,14 +394,22 @@ def generate_trajectory_partialfixed_param_pairs(N=200, M=500, P=50, usenorm_fla
     Z_pM["num_realizations"] = P
     Z_pM["num_trajectories"] = M
     Z_pM_data_lengths = []
-
+    
+    fixed_variances_vector = np.array([1, 0.1]).reshape((2, 1))  # Choose only the last two parameters (as fixed)
+    fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
+    # Combine them to form the theta vector required for generating trajectories
+    theta_vector_fixed = np.concatenate((fixed_theta_vector, fixed_variances_vector), axis=0)
+    
     count = 0
     Z_pM_data = []
-
     for i in range(P):
         
         # Obtain a realization of theta using the modified sampling function that fixed theta_3, theta_4
-        theta_vector, _ = sample_parameter_partialfixed()
+        if mode is None: # In case the theta_vetcor needs to be sampled
+            theta_vector, _ = sample_parameter_partialfixed()
+        elif mode.lower() == "fixed": # In case the theta_vector is fixed
+            # Obtain a realization of theta
+            theta_vector = theta_vector_fixed
 
         # Save a vector that doesn't include the fixed parameters \theta_3 and \theta_4 ('c')
         theta_vector_saved = theta_vector[[i for i in range(len(theta_vector)) if not i in [2,3]]]
@@ -521,6 +529,11 @@ def generate_trajectory_fixed_variances_pairs(N=1000, M=50, P=5, usenorm_flag=0)
 ##########################################################################
 # Utils for generating and loading datasets
 ##########################################################################
+def load_splits_file(splits_filename):
+
+    with open(splits_filename, 'rb') as handle:
+        splits = pkl.load(handle)
+    return splits
 
 def load_saved_dataset(filename):
 

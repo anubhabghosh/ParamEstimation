@@ -6,7 +6,7 @@ import string
 import random
 import matplotlib.pyplot as plt
 from data_utils import Series_Dataset, obtain_tr_val_test_idx
-from data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
+from data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
 from plot_utils import plot_trajectories, plot_losses
 import pickle as pkl 
 import os
@@ -27,12 +27,15 @@ def main():
     parser.add_argument("--model_file_saved", help="In case of testing mode, Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
     parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
+    parser.add_argument("--splits", help="Use_normalization", type=str)
     args = parser.parse_args() 
     mode = args.mode
     model_type = args.model_type
     datafile = args.data
+    datafolder = "".join(datafile.split("/")[i]+"/" for i in range(len(datafile.split("/")) - 1))
     usenorm_flag = args.use_norm
     model_file_saved = args.model_file_saved
+    splits_file = args.splits
 
     if not os.path.isfile(datafile):
         
@@ -45,10 +48,20 @@ def main():
     
     Z_pM_dataset = Series_Dataset(Z_pM_dict=Z_pM)
 
-    tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
-                                                                tr_to_test_split=0.9,
-                                                                tr_to_val_split=0.833)
-    print(len(tr_indices), len(val_indices), len(test_indices))
+    if not os.path.isfile(splits_file):
+        tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
+                                                                    tr_to_test_split=0.9,
+                                                                    tr_to_val_split=0.833)
+        print(len(tr_indices), len(val_indices), len(test_indices))
+        splits = {}
+        splits["train"] = tr_indices
+        splits["val"] = val_indices
+        splits["test"] = test_indices
+        with open(os.path.join(datafolder, "splits_file.pkl"), 'wb') as handle:
+            pkl.dump(splits, handle, protocol=pkl.HIGHEST_PROTOCOL)
+    else:
+        splits = load_splits_file(splits_filename=splits_file)
+        tr_indices, val_indices, test_indices = splits["train"], splits["val"], splits["test"]
 
     batch_size = 128 # Set the batch size
     train_loader, val_loader, test_loader = get_dataloaders(Z_pM_dataset, batch_size, tr_indices, val_indices, test_indices)
