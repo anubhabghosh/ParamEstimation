@@ -5,16 +5,16 @@ from scipy.optimize import minimize
 import string
 import random
 import matplotlib.pyplot as plt
-from data_utils import Series_Dataset, obtain_tr_val_test_idx
-from data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
-from plot_utils import plot_trajectories, plot_losses
+from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
+from utils.data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
+from utils.plot_utils import plot_trajectories, plot_losses
 import pickle as pkl 
 import os
 import torch
 import json
-from models import RNN_model, train_rnn, evaluate_rnn
+from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 import argparse
-from gs_utils import create_list_of_dicts
+from utils.gs_utils import create_list_of_dicts
 
 def main():
 
@@ -59,7 +59,7 @@ def main():
     #with open("configurations.json") as f: # For estimating all theta parameters
     #    options = json.load(f)
 
-    with open("configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
+    with open("./config/configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"

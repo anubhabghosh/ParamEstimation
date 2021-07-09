@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import generate_trajectory_modified_param_pairs, generate_trajectory_partialfixed_param_pairs
+from utils.data_utils import generate_trajectory_modified_param_pairs, generate_trajectory_partialfixed_param_pairs
 import os
 import pickle as pkl
 
@@ -21,7 +21,7 @@ def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_fl
     with open(filename, 'wb') as handle:
         pkl.dump(Z_pM, handle, protocol=pkl.HIGHEST_PROTOCOL)
 
-def main():
+def main():    
 
     ######################################
     # Initial configuration

@@ -5,14 +5,14 @@ from scipy.optimize import minimize
 import string
 import random
 import matplotlib.pyplot as plt
-from data_utils import Series_Dataset, obtain_tr_val_test_idx
-from data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
-from plot_utils import plot_trajectories, plot_losses
+from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
+from utils.data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
+from utils.data_utils import plot_trajectories, plot_losses
 import pickle as pkl 
 import os
 import torch
 import json
-from models import RNN_model, train_rnn, evaluate_rnn
+from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 
 def main():
@@ -39,7 +39,7 @@ def main():
 
     if not os.path.isfile(datafile):
         
-        print("Dataset is not present, run 'create_function.py' to create the dataset")
+        print("Dataset is not present, run 'src/create_dataset_[pfixed/vars].py' to create the dataset")
         #plot_trajectories(Z_pM, ncols=1, nrows=10)
     else:
 
@@ -71,10 +71,10 @@ def main():
                                                                                 len(val_loader), 
                                                                                 len(test_loader)))
 
-    #with open("configurations.json") as f: # Config file for estimating all theta parameters
+    #with open("./config/configurations.json") as f: # Config file for estimating all theta parameters
     #    options = json.load(f)
 
-    with open("configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
+    with open("./config/configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
@@ -98,12 +98,12 @@ def main():
         losses_model["tr_losses"] = tr_losses
         losses_model["val_losses"] = val_losses
 
-        with open('{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
+        with open('./plot_data/{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":
 
-        #model_file_saved = "./models/{}_usenorm_{}_ckpt_epoch_{}.pt".format(model_type, usenorm_flag, epoch_test)
+        #model_file_saved = "./model_checkpoints/{}_usenorm_{}_ckpt_epoch_{}.pt".format(model_type, usenorm_flag, epoch_test)
         evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
 
     return None

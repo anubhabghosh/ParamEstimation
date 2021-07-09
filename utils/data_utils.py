@@ -19,13 +19,16 @@ def generate_normal(N, mean, std):
     n = np.random.normal(loc=mean, scale=std, size=(N,1))
     return n
 
-def generate_driving_noise(k, a=1.2):
+def generate_driving_noise(k, a=1.2, add_noise=False):
     
     #u_k = np.cos(a*k) # Previous idea (considering start at k=0)
-    u_k = np.cos(a*(k+1)) # Current modification (considering start at k=1)
+    if add_noise == False:
+        u_k = np.cos(a*(k+1)) # Current modification (considering start at k=1)
+    elif add_noise == True:
+        u_k = np.cos(a*(k+1) + np.random.normal(loc=0, scale=np.pi, size=(1,1))) # Adding noise to the sample
     return u_k
 
-def generate_trajectory(N, theta_vector):
+def generate_trajectory(N, theta_vector, add_noise_flag=False):
     """ This function generates the trajectory for a given value of N and 
     the theta vector 
 
@@ -53,7 +56,7 @@ def generate_trajectory(N, theta_vector):
 
         # Generate driving noise (which is time varying)
         # Driving noise should be carefully selected as per value of k (start from k=0 or =1)
-        u_k = generate_driving_noise(k, a=1.2) 
+        u_k = generate_driving_noise(k, a=1.2, add_noise=add_noise_flag) 
 
         # For each instant k, sample v_k, e_k
         v_k = v_k_arr[k]
@@ -296,7 +299,11 @@ def sample_parameter_modified():
     weight_vector = np.array((14.81, 0.12, 4,408, 0.1875, 12.244, 6.122, 12.0))
 
     return theta_vector, weight_vector
-
+################################################################################
+# This function generates \theta vectors using specified values of \theta_{1},
+# \theta_{2}, \theta_{5}, \theta_{6}, \theta_{7}. Limits are updated, and using 
+# 'NEW' values
+################################################################################
 def sample_parameter_partialfixed():
     """ Heuristically define the parameter sampling
     as per question provided, using modified priors and always fixing 
@@ -418,6 +425,62 @@ def generate_trajectory_partialfixed_param_pairs(N=200, M=500, P=50, usenorm_fla
             
             # Obtain the trajectory from the recursion
             Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            # Normalize the data in range [0,1]
+            if usenorm_flag == 1:
+                Y = normalize(Y, feature_space=(0,1))
+            elif usenorm_flag == 0:
+                pass
+            Z_pM_data.append([theta_vector_saved, Y])
+            Z_pM_data_lengths.append(N) 
+        
+    Z_pM["data"] = np.row_stack(Z_pM_data).astype(np.object)
+    #Z_pM["data"] = Z_pM_data
+    Z_pM["trajectory_lengths"] = np.vstack(Z_pM_data_lengths)
+
+    return Z_pM
+
+#################################################################################
+# This function generates training data Z_{p,M} using specified values of p, M
+# for the full set of \theta_{i}. theta_vectors are sampled from the function
+# sample_parameter_partialfixed(). Only difference is noise is added 
+#################################################################################
+def generate_trajectory_pfixed_noisy_param_pairs(N=200, M=500, P=50, usenorm_flag=0, mode=None):
+
+    # Define the parameters of the model
+    #N = 1000
+
+    # Plot the trajectory versus sample points
+    #num_trajs = 5
+
+    Z_pM = {}
+    Z_pM["num_realizations"] = P
+    Z_pM["num_trajectories"] = M
+    Z_pM_data_lengths = []
+    
+    add_noise_flag = True
+    fixed_variances_vector = np.array([1, 0.1]).reshape((2, 1))  # Choose only the last two parameters (as fixed)
+    fixed_theta_vector = np.array([0.5, 25, 1, 8, 0.05]).reshape((5,1)) # Fixed parameters
+    # Combine them to form the theta vector required for generating trajectories
+    theta_vector_fixed = np.concatenate((fixed_theta_vector, fixed_variances_vector), axis=0)
+    
+    count = 0
+    Z_pM_data = []
+    for i in range(P):
+        
+        # Obtain a realization of theta using the modified sampling function that fixed theta_3, theta_4
+        if mode is None: # In case the theta_vetcor needs to be sampled
+            theta_vector, _ = sample_parameter_partialfixed()
+        elif mode.lower() == "fixed": # In case the theta_vector is fixed
+            # Obtain a realization of theta
+            theta_vector = theta_vector_fixed
+
+        # Save a vector that doesn't include the fixed parameters \theta_3 and \theta_4 ('c')
+        theta_vector_saved = theta_vector[[i for i in range(len(theta_vector)) if not i in [2,3]]]
+
+        for m in range(M): 
+            
+            # Obtain the trajectory from the recursion
+            Y = generate_trajectory(N=N, theta_vector=theta_vector,add_noise_flag=add_noise_flag).reshape((-1, 1))
             # Normalize the data in range [0,1]
             if usenorm_flag == 1:
                 Y = normalize(Y, feature_space=(0,1))

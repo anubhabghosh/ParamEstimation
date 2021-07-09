@@ -5,16 +5,16 @@ from scipy.optimize import minimize
 import string
 import random
 import matplotlib.pyplot as plt
-from data_utils import Series_Dataset, obtain_tr_val_test_idx
-from data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
-from plot_utils import plot_trajectories, plot_losses
+from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
+from utils.data_utils import get_dataloaders, load_saved_dataset, NDArrayEncoder
+from utils.plot_utils import plot_trajectories, plot_losses
 import pickle as pkl 
 import os
 import torch
 import json
-from models import RNN_model, train_rnn, evaluate_rnn
+from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 # Add weighted MSE based model
-from models_with_weightedloss import train_rnn_with_wtdloss, evaluate_rnn_with_wtdloss
+from src.rnn_models_with_weightedloss import train_rnn_with_wtdloss, evaluate_rnn_with_wtdloss
 import argparse
 
 def main():
@@ -66,7 +66,7 @@ def main():
     #model_type = "gru"
     #with open("configurations_var.json", 'r') as f:
         #options = json.load(f)
-    with open("configurations_var_modified.json", 'r') as f:
+    with open("./config/configurations_var_modified.json", 'r') as f:
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
@@ -100,7 +100,7 @@ def main():
         losses_model["tr_losses"] = tr_losses
         losses_model["val_losses"] = val_losses
 
-        with open('{}_losses_eps{}_var.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
+        with open('./plot_data/{}_losses_eps{}_var.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":

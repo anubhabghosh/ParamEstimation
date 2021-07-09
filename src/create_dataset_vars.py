@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from data_utils import generate_trajectory_variances_pairs, generate_trajectory_modified_variances_pairs
+from utils.data_utils import generate_trajectory_variances_pairs, generate_trajectory_modified_variances_pairs
 import os
 import pickle as pkl
 
