@@ -57,7 +57,7 @@ def main():
     else:
         #datafile = "./data/trajectories_data_modified_NS{}.pkl".format(
         #    int(num_trajs*num_realizations))
-        datafile = "./data/trajectories_data_normalized_pfixed_NS{}.pkl".format(
+        datafile = "./data/trajectories_data_pfixed_NS{}.pkl".format(
             int(num_trajs*num_realizations))
 
     if not os.path.isfile(datafile):
