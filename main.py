@@ -7,7 +7,7 @@ import random
 import matplotlib.pyplot as plt
 from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
 from utils.data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
-from utils.data_utils import plot_trajectories, plot_losses, create_splits_file_name
+from utils.data_utils import create_splits_file_name
 import pickle as pkl 
 import os
 import torch
@@ -39,7 +39,7 @@ def main():
 
     if not os.path.isfile(datafile):
         
-        print("Dataset is not present, run 'src/create_dataset_[all_theta/vars].py' to create the dataset")
+        print("Dataset is not present, run 'create_dataset_revised.py' to create the dataset")
         #plot_trajectories(Z_pM, ncols=1, nrows=10)
     else:
 
@@ -83,7 +83,7 @@ def main():
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
     device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu>0) else "cpu")
     print("Device Used:{}".format(device))
-
+    
     if mode.lower() == "train": 
         model_gru = RNN_model(**options[model_type])
         tr_verbose = True  
@@ -108,7 +108,7 @@ def main():
 
         #model_file_saved = "./model_checkpoints/{}_usenorm_{}_ckpt_epoch_{}.pt".format(model_type, usenorm_flag, epoch_test)
         evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
-
+    
     return None
 
 

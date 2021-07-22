@@ -1,8 +1,8 @@
 import numpy as np
 import torch
-from utils.data_utils import generate_trajectory_modified_param_pairs, \
-                       generate_trajectory_modified_variances_pairs, \
-                       generate_trajectory_partialfixed_param_pairs
+from utils.data_utils import generate_trajectory_partialfixed_param_pairs, \
+    generate_trajectory_modified_variances_pairs, \
+    generate_trajectory_modified_param_pairs
 import os
 import pickle as pkl
 import argparse
@@ -48,10 +48,10 @@ def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_fl
     
     save_dataset(Z_pM, filename=filename)
 
-def main():    
-
+if __name__ == "__main__":
+    
     usage = "Create datasets by simulating non-linear state space models \n"\
-            "python create_dataset_revised.py --num_realizations P --num_trajs M --sequence_length N --use_norm [0/1]\n"\
+            "python src/create_dataset_revised.py --num_realizations P --num_trajs M --sequence_length N --use_norm [0/1]\n"\
             "Creates the dataset at the location output_path"\
         
     parser = argparse.ArgumentParser(description="Input arguments related to creating a dataset for training RNNs")
@@ -114,10 +114,6 @@ def main():
         print("Dataset {} is already present!".format(datafile))
     
     print("Done...")
-    return None
-
-if __name__ == "__main__":
-    main()
 
 
 
