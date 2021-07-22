@@ -8,7 +8,7 @@ from torch.autograd import Variable
 from timeit import default_timer as timer
 import copy
 #from tqdm import tqdm
-from custom_callback import callback_val_loss
+from utils.custom_callback import callback_val_loss
 
 # Create an RNN model for prediction
 class RNN_model(nn.Module):

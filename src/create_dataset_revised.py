@@ -106,8 +106,8 @@ def main():
     if not os.path.isfile(datafile):
 
         print("Creating the data file: {}".format(datafile))
-        #create_and_save_dataset(N=N_seq, num_trajs=num_trajectories, num_realizations=num_realizations,
-        #                        filename=datafile, usenorm_flag=usenorm_flag, mode=mode)
+        create_and_save_dataset(N=N_seq, num_trajs=num_trajectories, num_realizations=num_realizations,
+                                filename=datafile, usenorm_flag=usenorm_flag, mode=mode)
 
     else:
 

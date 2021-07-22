@@ -7,7 +7,7 @@ import random
 import matplotlib.pyplot as plt
 from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
 from utils.data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
-from utils.data_utils import plot_trajectories, plot_losses
+from utils.data_utils import plot_trajectories, plot_losses, create_splits_file_name
 import pickle as pkl 
 import os
 import torch
@@ -39,7 +39,7 @@ def main():
 
     if not os.path.isfile(datafile):
         
-        print("Dataset is not present, run 'src/create_dataset_[pfixed/vars].py' to create the dataset")
+        print("Dataset is not present, run 'src/create_dataset_[all_theta/vars].py' to create the dataset")
         #plot_trajectories(Z_pM, ncols=1, nrows=10)
     else:
 
@@ -57,7 +57,10 @@ def main():
         splits["train"] = tr_indices
         splits["val"] = val_indices
         splits["test"] = test_indices
-        with open(os.path.join(datafolder, "splits_file.pkl"), 'wb') as handle:
+        splits_file_name = create_splits_file_name(dataset_filename=datafile,
+                                                splits_filename=splits_file
+                                                )
+        with open(splits_file_name, 'wb') as handle:
             pkl.dump(splits, handle, protocol=pkl.HIGHEST_PROTOCOL)
     else:
         print("Loading the splits file from {}".format(splits_file))
