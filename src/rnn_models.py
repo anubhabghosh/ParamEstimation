@@ -227,7 +227,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         time_elapsed = endtime - starttime
 
         # Displaying loss at an interval of 200 epochs
-        if tr_verbose == True and (((epoch + 1) % 1) == 0 or epoch == 0):
+        if tr_verbose == True and (((epoch + 1) % 200) == 0 or epoch == 0):
             
             print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
             model.num_epochs, tr_loss, val_loss), file=orig_stdout)

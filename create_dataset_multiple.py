@@ -64,7 +64,7 @@ def main():
     usenorm_flag = 0
     mode = "pfixed"
     output_path = "./data/estimate_partialfixed_theta/"
-    create_folders_flag=False
+    create_folders_flag=True
 
     param_dict_dataset = {"N_seq":[200],
              "num_trajectories": [400, 500, 600],
@@ -85,7 +85,7 @@ def main():
         if not os.path.isfile(datafile):
             print("Creating the data file: {}".format(datafile))
             idx = datafile.rfind("trajectories")
-            mode, num_trajectories, num_realizations, N_seq = parse("trajectories_data_{}_M{}_P{}_N{}",datafile[idx:].split('.')[0])
+            mode, num_trajectories, num_realizations, N_seq = parse("trajectories_data_{}_M{:d}_P{:d}_N{:d}",datafile[idx:].split('.')[0])
             create_and_save_dataset(N=N_seq, num_trajs=num_trajectories, num_realizations=num_realizations,
                                     filename=datafile, usenorm_flag=usenorm_flag, mode=mode)
             print("Done...")
