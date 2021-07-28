@@ -119,8 +119,13 @@ def count_params(model):
     total_num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad == True)
     return total_num_params, total_num_trainable_params
 
-def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, tr_verbose=True, save_chkpoints=True):
+def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0, 
+                tr_verbose=True, save_chkpoints=None, logfile_path=None, modelfile_path=None):
     """ This function implements the training algorithm for the RNN model
+    save_chkpoints = (  "all" [saves every checkpoint, inlcuding the best], 
+                        "some" [only saves last and best checkpoint],
+                        None [don't save any chkpoint]
+                    )
     """
     model = RNN_model(**options)
     model = push_model(nets=model, device=device)
@@ -133,15 +138,25 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
-    model_filepath = "./models/"
-    if save_chkpoints == True:
-        # No grid search
-        training_logfile = "./log/training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
-        #training_logfile = "./log/training_{}_usenorm_{}_var_NS25000_modified.log".format(model.model_type, usenorm_flag)
+    
+    if modelfile_path is None:
+        model_filepath = "./models/"
     else:
+        model_filepath = modelfile_path
+
+    #if save_chkpoints == True:
+    if save_chkpoints == "all" or save_chkpoints == "some":
+        # No grid search
+        if logfile_path is None:
+            training_logfile = "./log/training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
+        else:
+            training_logfile = logfile_path
+    elif save_chkpoints == None:
         # Grid search
-        training_logfile = "./log/gs_training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
-        #training_logfile = "./log/gs_training_{}_usenorm_{}_var_NS25000.log".format(model.model_type, usenorm_flag)
+        if logfile_path is None:
+            training_logfile = "./log/gs_training_{}_usenorm_{}_NS25000_modified.log".format(model.model_type, usenorm_flag)
+        else:
+            training_logfile = logfile_path
     
     # Call back parameters
 
@@ -211,8 +226,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         # Measure wallclock time
         time_elapsed = endtime - starttime
 
-        # Displaying loss at an interval of 50 epochs
-        if tr_verbose == True and (((epoch + 1) % 200) == 0 or epoch == 0):
+        # Displaying loss at an interval of 200 epochs
+        if tr_verbose == True and (((epoch + 1) % 1) == 0 or epoch == 0):
             
             print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
             model.num_epochs, tr_loss, val_loss), file=orig_stdout)
@@ -221,10 +236,13 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, Time_Elapsed:{:.4f} secs".format(epoch+1, 
             model.num_epochs, tr_loss, val_loss, time_elapsed))
         
-        # Checkpointing the model every 200 epochs
-        #if (((epoch + 1) % 500) == 0 or epoch == 0):   
-        if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
-            # Checkpointing model every 100 epochs, in case of grid_search is being done, save_chkpoints = False
+        # Checkpointing the model every few  epochs
+        #if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
+        if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == "all": 
+            # Checkpointing model every few epochs, in case of grid_search is being done, save_chkpoints = None
+            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+        elif (((epoch + 1) % nepochs) == 0) and save_chkpoints == "some": 
+            # Checkpointing model at the end of training epochs, in case of grid_search is being done, save_chkpoints = None
             save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
         
         # Save best model in case validation loss improves
@@ -253,9 +271,6 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             best_val_epoch = epoch+1 # Corresponding value of epoch
             best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
         
-        # Saving losses every 10 epochs
-        #if (epoch + 1) % 10 == 0
-        
         # Saving every value
         tr_losses.append(tr_loss)
         val_losses.append(val_loss)
@@ -263,7 +278,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     # Save the best model as per validation loss at the end
     print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
     
-    if save_chkpoints == True:
+    #if save_chkpoints == True:
+    if save_chkpoints == "all" or save_chkpoints == "some":
         # Save the best model using the designated filename
         if not best_model_wts is None:
             model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_val_epoch)
@@ -273,7 +289,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
             print("Saving last model as best...")
             torch.save(model, model_filepath + "/" + model_filename)
-    elif save_chkpoints == False:
+    #elif save_chkpoints == False:
+    elif save_chkpoints == None:
         pass
     
     print("------------------------------ Training ends --------------------------------- \n")
@@ -282,7 +299,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     return tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model
 
-def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
+def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0, test_logfile_path = None):
 
     te_running_loss = 0.0
     test_loss_epoch_sum = 0.0
@@ -294,7 +311,10 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
     criterion = nn.MSELoss()
     model = push_model(nets=model, device=device)
     model.eval()
-    test_log = "./log/test_{}_usenorm_{}_trial1.log".format(usenorm_flag, options["model_type"])
+    if not test_logfile_path is None:
+        test_log = "./log/test_{}_usenorm_{}_trial1.log".format(usenorm_flag, options["model_type"])
+    else:
+        test_log = test_logfile_path
 
     with torch.no_grad():
         
@@ -311,5 +331,5 @@ def evaluate_rnn(options, test_loader, device, model_file=None, usenorm_flag=0):
 
     print('Test loss: {:.3f} using weights from file: {} %'.format(test_loss, model_file))
 
-    with open(test_log, "w") as logfile_test:
+    with open(test_log, "a") as logfile_test:
         logfile_test.write('Test loss: {:.3f} using weights from file: {}'.format(test_loss, model_file))
