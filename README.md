@@ -22,7 +22,7 @@ Characteristics of the Non linear model:
 - [ ] Simulate trajectories for a real-world dataset such as [coupled electric drives](https://sites.google.com/view/nonlinear-benchmark/benchmarks/coupled-electric-drives).
   - [x] Generate the parameters for the Continuous time transfer function `(k, alpha, xi, omega0)`, from the ones reported in the [paper](http://www.it.uu.se/research/publications/reports/2017-024/2017-024-nc.pdf). Take care of the signs of the parameters obtained.
   - [ ] Choose *a reasonable prior* support for the parameters: 
-    - [ ] A first experiment could for example be to sample within 10% to 20% around the best value from the coupled drive paper. *Future work:* The upper and lower limits of the support intervals can be seen as **hyper-parameters** and ideally can be tuned using a method like **cross-validation**. 
+    - [x] A first experiment could for example be to sample within 10% to 20% around the best value from the coupled drive paper. *Future work:* The upper and lower limits of the support intervals can be seen as **hyper-parameters** and ideally can be tuned using a method like **cross-validation**. 
     - [ ] Use domain knowledge to choose reasonable limits for the priors. For e.g. `omega0` (natural frequency in rad/s) should be positive, `xi` should be between -1 and 0, `alpha` should be negative as it is a pole, `k` shouldn't be arbritrarily too high. Even additive noises should be zero-mean with small variances ~ 0.01.
   - [x] Formulate the transfer function using the above set of parameters `(k, alpha, xi, omega0)`, and perform **exact discretization** (tuning parameters for discrete case **actually** results in tuning the same for continuous case). 
   - [ ] Accuracy estimation: Visual inspection by simulating tajectories using `lsim` or computing some form of measure between two simulated trajectories.
@@ -42,4 +42,18 @@ Experiments performed using datasets from [this paper](http://www.it.uu.se/resea
 For now, we focus on only experimenting with PRBS dataset.
 #### *NOTE:* 
 - When generating the training data for the coupled drive example, we should use either the `lsim` function directly on the continuous-time linear model or the `c2d` function with a `'zoh'` option, then simulate the returned linear discrete-time model, then finally take the absolute value to get the output trajectory. This way we are doing the simulation exactly with no approximation error (under the `'zoh'` assumption on the input). *NOTE:* We are **not** concerned with the Euler discretization here; this was used in the [paper](http://www.it.uu.se/research/publications/reports/2017-024/2017-024-nc.pdf) because the algorithm they used was designed to work on general Non-linear models (*not necessarily linear dynamical model followed by a static NL function*), so the algorithm is designed to discretize a general nonlinear model, and to do that they used the approximate method of Euler.
+
 -  During training, there is no real data. Most of it is synthetic, and can be optimized using MSE as earlier. If we plot curves similar to MATLAB file sent by *Mohamed*, one of these curves is the real data trajectory, the second is the simulated output using exact discretization (this is what we should look at), and the last curve is the simulated output using Euler’s method. You will notice that the Euler’s curve is closer to the real data compared to the exact discretization curve. The reason for this is that the algorithm they used fits an Euler discretized model and not an exactly discretized model, which is a disadvantage of [their method in section 3.5](http://www.it.uu.se/research/publications/reports/2017-024/2017-024-nc.pdf). We should fit an exactly discretized model, so only concerned with trying to make the simulated trajectory using the CT-model (learned parametes come from trained model) to be as close to the measured signal as we can. 
+
+#### Running scripts for Real-world data:
+The dataset generation script is create_dataset_ce_drive.py. Example of running it for the PRBS dataset (currently the first input signal `u1` is used for the PRBS dataset generation)
+```
+python create_dataset_ce_drive.py --num_realizations 100 --num_trajectories 50 --sequence_length 500 --use_norm 0 --output_path ./data/coupled_drive/ --input_signal_path ./data/coupled_drive/DATAPRBS.MAT --input_signal_type prbs
+```
+
+The execution script for real-world data is: `main_for_ce_drive.py`. Example of running it:
+```
+python main_for_ce_drive.py --mode train --model_type gru --data ./data/coupled_drive/ce_drive_trajectories_data_prbs_M50_P100_N500.pkl --use_norm 0
+```
+
+The configurations (currently kept the same as `config/configrations_alltheta_pfixed.json`) is stored in `config/configurations_alltheta_ce_drive_prbs.json`
