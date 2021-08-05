@@ -132,24 +132,25 @@ def main():
             #plot_trajectories(Z_pM, ncols=1, nrows=10)
         else:
 
-            print("Dataset already present")
+            print("Dataset {} already present".format(datafile))
             Z_pM = load_saved_dataset(filename=datafile)
             Z_pM_dataset = Series_Dataset(Z_pM_dict=Z_pM)
 
         datafolder = "".join(datafile.split("/")[i]+"/" for i in range(len(datafile.split("/")) - 1))
-        #splits_filename_base = os.path.join(datafolder, "splits_file.pkl")
-        #splits_file = create_splits_file_name(dataset_filename=datafile,
-        #                                    splits_filename=splits_filename_base
-        #                                    )
+        splits_filename_base = os.path.join(datafolder, "splits_file.pkl")
+        splits_file = create_splits_file_name(dataset_filename=datafile,
+                                            splits_filename=splits_filename_base
+                                            )
         if splits_file is None or not os.path.isfile(splits_file):
-            splits_filename_base = os.path.join(datafolder, "splits_file.pkl")
-            splits_file = create_splits_file_name(dataset_filename=datafile,
-                                                splits_filename=splits_filename_base
-                                                )
+            #splits_filename_base = os.path.join(datafolder, "splits_file.pkl")
+            #splits_file = create_splits_file_name(dataset_filename=datafile,
+            #                                    splits_filename=splits_filename_base
+            #                                    )
             tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
                                                                         tr_to_test_split=0.9,
                                                                         tr_to_val_split=0.833)
-            print(len(tr_indices), len(val_indices), len(test_indices))
+            #print(len(tr_indices), len(val_indices), len(test_indices))
+            print("Creating splits file at {}".format(splits_file))
             splits = {}
             splits["train"] = tr_indices
             splits["val"] = val_indices
