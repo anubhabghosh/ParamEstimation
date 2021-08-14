@@ -6,14 +6,23 @@ import scipy
 from scipy.io import loadmat, savemat
 import control as ct
 import os
+from scipy.optimize import curve_fit
 from control.matlab import tf, ss, lsim, bode, c2d
-from .data_utils import NDArrayEncoder
+from .data_utils import NDArrayEncoder  # While running main program, uncomment this line
+#from data_utils import NDArrayEncoder # While running only this file, comment the above import of same name, and uncomment this one
 import json
+from scipy import signal as sig
+
+def generate_uniform(N, a, b):
+    
+    # theta = U(a, b)
+    theta = np.random.uniform(low=a, high=b, size=(N,1))
+    return theta.item()
 
 def get_prbs_dataset(dataset_path=None):
 
     if dataset_path is None:
-        dataset_path = '../CoupledElectricDrivesDataSetAndReferenceModels/DATAPRBS.MAT'
+        dataset_path = './data/coupled_drive/DATAPRBS.MAT'
     else:
         pass
 
@@ -37,7 +46,7 @@ def get_prbs_dataset(dataset_path=None):
 def get_uniform_dataset(dataset_path):
 
     if dataset_path is None:
-        dataset_path = '../CoupledElectricDrivesDataSetAndReferenceModels/DATAUNIF.MAT'
+        dataset_path = './data/coupled_drive/DATAUNIF.MAT'
     else:
         pass
 
@@ -334,7 +343,7 @@ def get_mean_std_params_prbs(dataset_path_prbs):
                                                                         input_signal=u1, 
                                                                         output_signal=z1, 
                                                                         num_parameters=4, 
-                                                                        plot_curves_flag=True)
+                                                                        plot_curves_flag=False)
     return mean_param_array_prbs, std_param_array_prbs
 
 def get_mean_std_params_uniform(dataset_path_uniform):
@@ -349,8 +358,66 @@ def get_mean_std_params_uniform(dataset_path_uniform):
                                                                         input_signal=u11, 
                                                                         output_signal=z11, 
                                                                         num_parameters=4, 
-                                                                        plot_curves_flag=True)
+                                                                        plot_curves_flag=False)
     return mean_param_array_prbs, std_param_array_prbs
+
+def initialize_p0(params_estimate, percent_=0.2):
+    # Percentage within mean (+ or - percent_ %) parameter
+    eps = np.finfo(float).eps # Get the machine epsilon 
+    theta_1 = generate_uniform(N=1, a=params_estimate[0] * (1-percent_), b=params_estimate[0] * (1+percent_)) # Parameter k
+    theta_2 = generate_uniform(N=1, a=params_estimate[1] * (1-percent_), b=params_estimate[1]  * (1+percent_)) # Parameter \alpha
+    theta_3 = generate_uniform(N=1, a=params_estimate[2] * (1-percent_), b=params_estimate[2]  * (1+percent_)) # Parameter \omega0
+    theta_4 = generate_uniform(N=1, a=params_estimate[3] * (1-percent_), b=params_estimate[3]  * (1+percent_)) # Parameter \xi
+    #theta_5 = generate_uniform(N=1, a=eps, b=0.01) # Parameter wn_variance (assuming noise is zero-mean)
+
+    theta_vector = [theta_1,
+                    theta_2,
+                    theta_3,
+                    theta_4]
+
+    return theta_vector
+
+def simulate_model_aliter(x, a, b, c, d):
+    tf = sig.TransferFunction([a], [1, -b, -c, -d])
+    N = len(x)
+    t_arr = np.linspace(1, N, N)*20e-3
+    to, yo, xo = sig.lsim2(tf, U=x, T=t_arr)
+    yo = np.abs(yo)
+    return yo
+    
+def identify_model(t, input_signal, output_signal, method='lm', p0=None, bounds=None):
+    
+    kwargs = {"epsfcn":1e-9}
+    if not p0 is None:
+        params, params_cov = curve_fit(simulate_model_aliter, xdata=input_signal, ydata=output_signal,
+                                       method=method, p0=p0, **kwargs)
+    else:
+        params, params_cov = curve_fit(simulate_model_aliter, xdata=input_signal, ydata=output_signal,
+                                        method=method)
+
+    return {'a': params[0], 'b': params[1], 'c': params[2], 'd': params[3]}, params_cov
+
+def get_actual_params(a, b, c, d):
+    k = -a/d
+    alpha = -get_poles(b, c, d)[0]
+    omega0 = np.sqrt(-d/alpha)
+    xi = (-b - alpha)/(2*omega0)
+    return k, alpha, omega0, xi
+
+def get_optimized_params(t_arr, u1, z1, params_estimate):
+    
+    p0 = initialize_p0(params_estimate=params_estimate, percent_=0.0)
+    #param_bounds = ([1.0, 0.0, 0.0, 0.0], [np.inf, np.inf, np.inf, np.inf])
+    params_opt, params_cov_opt =  identify_model(t=t_arr, input_signal=u1.reshape((-1,)), 
+                                                 output_signal=z1.reshape((-1,)), method='lm', p0=p0)
+
+    k_opt, alpha_opt, omega0_opt, xi_opt = get_actual_params(**params_opt)
+
+    print("Obtained optimized params: (k, alpha, omega, xi)")
+    print([k_opt, alpha_opt, omega0_opt, xi_opt])
+    print("Variances for the parameters:")
+    print(np.sqrt(np.diag(params_cov_opt)))
+    return [k_opt, alpha_opt, omega0_opt, xi_opt], params_opt
 
 def save_params(mean_param_array, std_param_array, dataset_type="prbs", outfile_path=None):
 
@@ -367,13 +434,13 @@ def save_params(mean_param_array, std_param_array, dataset_type="prbs", outfile_
                             "xi": std_param_array[3]
     }
 
-    if os.path.isfile(os.path.join(outfile_path, "{}_dataset.json".format(dataset_type))) == True:
-        # If file already exists
+    if os.path.isfile(os.path.join(outfile_path, "{}_dataset_opt.json".format(dataset_type))) == True:
+        # If file already exists, NOTE: Earlier this file was called '[prbs/uniform]_dataset.json'
         print("File already exists!")
         pass
     else:
         # If the file doesn't exist, we create the file and write down the parameters
-        with open(os.path.join(outfile_path, "{}_dataset.json".format(dataset_type)), "w") as f: 
+        with open(os.path.join(outfile_path, "{}_dataset_opt.json".format(dataset_type)), "w") as f: 
             f.write(json.dumps(params_mean_std, cls=NDArrayEncoder, indent=2))
 
 def main():
@@ -386,6 +453,55 @@ def main():
     mean_param_array_prbs, std_param_array_prbs = get_mean_std_params_prbs(dataset_path_prbs)
     mean_param_array_uniform, std_param_array_uniform = get_mean_std_params_uniform(dataset_path_uniform)                                                                   
     
+    ##################################################################################################
+    # Getting a set of optimized parameters for the PRBS dataset by directly optimizing using 
+    # available input-output data
+    ##################################################################################################
+    print("------- Calculating and saving optimized parameters --------")
+    z1, u1, _, _, _, _, N, Ts, model_params_rsys_prbs = get_prbs_dataset(dataset_path=dataset_path_prbs)
+    t_arr = np.linspace(1, N, N)*Ts
+
+    params_mean_estimate = np.zeros((4,))
+
+    for i in range(len(model_params_rsys_prbs)-1):
+        params_mean_estimate += np.array(list(model_params_rsys_prbs[i].values()))
+    
+    params_mean_estimate = params_mean_estimate / (len(model_params_rsys_prbs) - 1)
+    print("Mean estimates of [a, b, c, d]: \n{}".format(params_mean_estimate))
+
+    tf_params_opt, params_opt = get_optimized_params(t_arr, u1, z1, params_estimate=params_mean_estimate)
+    
+    params_opt_dict = {}
+    params_opt_dict["mean"] = {"k":tf_params_opt[0],
+                                "alpha": tf_params_opt[1],
+                                "omega0": tf_params_opt[2],
+                                "xi": tf_params_opt[3]
+                            }
+
+    print(tf_params_opt)
+    print(params_opt_dict)
+
+    Hs_opt = sig.TransferFunction(params_opt["a"], [1, -params_opt["b"], -params_opt["c"], -params_opt["d"]])
+    y_model_brute_force_optim = np.abs(sig.lsim2(Hs_opt, u1.reshape((-1, 1)), t_arr)[1])
+
+    plt.figure(figsize=(15,5))
+    #plt.subplot(2,1,1)
+    plt.plot(t_arr, z1,'b')
+    #plt.legend(['measured output'])
+    #plt.subplot(2,1,2)
+    plt.plot(t_arr, simulate_model_aliter(u1, **params_opt), 'r')
+    plt.legend(['measured output', 'model (CT, Brute force optim)'])
+    #plt.savefig('./brute_force_optimization.pdf')
+    plt.show()
+    
+    MSE_after_optimization = scipy.linalg.norm(z1.reshape((-1, 1)) - y_model_brute_force_optim.reshape((-1, 1)))**2
+
+    print("MSE values:")
+    print("After brute force optimization: {}".format(MSE_after_optimization))
+
+    with open(os.path.join("./data/coupled_drive", "prbs_dataset_opt.json"), "w") as f: 
+        f.write(json.dumps(params_opt_dict, cls=NDArrayEncoder, indent=2))
+
     #save_params(mean_param_array_prbs, std_param_array_prbs, dataset_type="prbs", outfile_path="./data/coupled_drive/")
     #save_params(mean_param_array_uniform, std_param_array_uniform, dataset_type="uniform", outfile_path="./data/coupled_drive/")
     

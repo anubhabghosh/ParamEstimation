@@ -52,6 +52,8 @@ def main():
     parser.add_argument("--output_path", help="Enter full path to store the data file", type=str, default=None)
     parser.add_argument("--input_signal_path", help="Enter full path to the data file", type=str, default=None)
     parser.add_argument("--input_signal_type", help="Enter type of the data file (PRBS/UNIFORM)", type=str, default=None)
+    parser.add_argument("--input_params_dict_file", help="Enter the full path (incl. filename) to the .json file containing the parameters \
+                        use to sample realizations from", type=str, default="./data/coupled_drive/prbs_dataset_opt.json")
 
     args = parser.parse_args() 
 
@@ -62,6 +64,7 @@ def main():
     output_path = args.output_path
     input_signal_path = args.input_signal_path
     input_signal_type = args.input_signal_type
+    input_params_dict_file = args.input_params_dict_file
 
     # Get the input signal
     if input_signal_type.lower() == "prbs":
@@ -76,7 +79,7 @@ def main():
     datafile = create_filename(P=num_realizations, M=num_trajectories, N=N_seq, use_norm=usenorm_flag, 
                         dataset_basepath=output_path, dataset_type=input_signal_type)
 
-    input_params_dict_file = os.path.join(output_path, "{}_dataset.json".format(input_signal_type))
+    #input_params_dict_file = os.path.join(output_path, "{}_dataset.json".format(input_signal_type))
 
     # If the dataset hasn't been already created, create the dataset
     if not os.path.isfile(datafile):

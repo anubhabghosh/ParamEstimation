@@ -33,10 +33,10 @@ def sample_parameter_modified(params_mean_std_dict):
 
     # Get the mean and standard deviation obtained from the parameters of the CT model:
     # k, \alpha, \omega0, \xi 
-    k_mean, k_std = params_mean_std_dict["mean"]["k"], params_mean_std_dict["std"]["k"] 
-    alpha_mean, alpha_std = params_mean_std_dict["mean"]["alpha"], params_mean_std_dict["std"]["alpha"]
-    omega0_mean, omega0_std = params_mean_std_dict["mean"]["omega0"], params_mean_std_dict["std"]["omega0"]
-    xi_mean, xi_std = params_mean_std_dict["mean"]["xi"], params_mean_std_dict["std"]["xi"]
+    k_mean = params_mean_std_dict["mean"]["k"]
+    alpha_mean = params_mean_std_dict["mean"]["alpha"]
+    omega0_mean = params_mean_std_dict["mean"]["omega0"]
+    xi_mean = params_mean_std_dict["mean"]["xi"]
 
     percent_ = 0.2 # Percentage within mean (+ or - 20 %) parameter
     eps = np.finfo(float).eps # Get the machine epsilon 

@@ -11,6 +11,7 @@ import json
 from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 from parse import parse
+import datetime
 
 def check_if_dir_or_file_exists(file_path, file_name=None):
     flag_dir = os.path.exists(file_path)
@@ -19,6 +20,13 @@ def check_if_dir_or_file_exists(file_path, file_name=None):
     else:
         flag_file = None
     return flag_dir, flag_file
+
+def get_date_and_time():
+    
+    now = datetime.now()
+    #print(now)
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    return dt_string
 
 def main():
 
@@ -54,7 +62,7 @@ def main():
     
     Z_pM_dataset = Series_Dataset(Z_pM_dict=Z_pM)
 
-    if not os.path.isfile(splits_file):
+    if splits_file is None or not os.path.isfile(splits_file):
         tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
                                                                     tr_to_test_split=0.9,
                                                                     tr_to_val_split=0.833)
@@ -91,17 +99,19 @@ def main():
     print("Device Used:{}".format(device))
     
     # Define logfile paths and model file paths
-    logfile_path = "./log/ce_drive/{}/{}_L{}_H{}_results/".format(dataset_type, 
+    current_date = get_date_and_time()
+    dd, mm, yy, hr, mins, secs = parse("{}/{}/{} {}:{}:{}", current_date)
+    logfile_path = "./log/ce_drive/{}/{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(dataset_type, 
                                                                     model_type, 
                                                                     options[model_type]["n_layers"], 
-                                                                    options[model_type]["n_hidden"]
-                                                                    )
+                                                                    options[model_type]["n_hidden"],
+                                                                    dd, mm, yy, hr, mins, secs)
 
-    modelfile_path = "./models/ce_drive/{}/{}_L{}_H{}_results/".format(dataset_type,
+    modelfile_path = "./models/ce_drive/{}/{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(dataset_type,
                                                                     model_type, 
                                                                     options[model_type]["n_layers"], 
-                                                                    options[model_type]["n_hidden"]
-                                                                    )
+                                                                    options[model_type]["n_hidden"],
+                                                                    dd, mm, yy, hr, mins, secs)
 
     log_file_name = "training_{}_M{}_P{}_N{}.log".format(model_type,
                                                         num_trajectories,

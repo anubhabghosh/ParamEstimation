@@ -90,7 +90,7 @@ def main():
         model = RNN_model(**gs_option)
     
         tr_verbose = True 
-        save_chkpoints = False
+        save_chkpoints = None
         tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=gs_option, 
                                                                                             nepochs=gs_option["num_epochs"],
                                                                                             train_loader=train_loader,
