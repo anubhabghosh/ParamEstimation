@@ -1,0 +1,26 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'lstm', 'input_size': 1, 'output_size': 5, 'n_hidden': 50, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 32797
+
+Epoch: 1/3000, Training MSE Loss:20.846406356, Val. MSE Loss:1.693996363, Time_Elapsed:9.3848 secs
+Epoch: 200/3000, Training MSE Loss:0.078955928, Val. MSE Loss:0.113978972, Time_Elapsed:1853.5128 secs
+Epoch: 400/3000, Training MSE Loss:0.038977490, Val. MSE Loss:0.079615414, Time_Elapsed:3705.8450 secs
+Epoch: 600/3000, Training MSE Loss:0.030485466, Val. MSE Loss:0.079592784, Time_Elapsed:5556.5486 secs
+Epoch: 800/3000, Training MSE Loss:0.032204594, Val. MSE Loss:0.073159417, Time_Elapsed:7430.8322 secs
+Epoch: 1000/3000, Training MSE Loss:0.038490771, Val. MSE Loss:0.147840439, Time_Elapsed:9317.4471 secs
+Epoch: 1200/3000, Training MSE Loss:0.019758722, Val. MSE Loss:0.086158212, Time_Elapsed:11051.6623 secs
+Epoch: 1400/3000, Training MSE Loss:0.023051781, Val. MSE Loss:0.068766872, Time_Elapsed:12798.8822 secs
+Epoch: 1600/3000, Training MSE Loss:0.020286381, Val. MSE Loss:0.071333177, Time_Elapsed:14551.5931 secs
+Epoch: 1800/3000, Training MSE Loss:0.013039302, Val. MSE Loss:0.070594144, Time_Elapsed:16404.1728 secs
+Epoch: 2000/3000, Training MSE Loss:0.014080850, Val. MSE Loss:0.067930344, Time_Elapsed:18238.0976 secs
+Epoch: 2200/3000, Training MSE Loss:0.015105633, Val. MSE Loss:0.079224010, Time_Elapsed:20109.7163 secs
+Epoch: 2400/3000, Training MSE Loss:0.013148991, Val. MSE Loss:0.066669054, Time_Elapsed:21921.6984 secs
+Epoch: 2600/3000, Training MSE Loss:0.012489763, Val. MSE Loss:0.067421082, Time_Elapsed:23704.9315 secs
+Epoch: 2800/3000, Training MSE Loss:0.022301383, Val. MSE Loss:0.162545043, Time_Elapsed:25508.1095 secs
+Epoch: 3000/3000, Training MSE Loss:0.014392839, Val. MSE Loss:0.069512970, Time_Elapsed:27393.8302 secs
+
+Saving the best model at epoch=2528, with training loss=0.012386152005470448, validation loss=0.06350649193801144
+------------------------------ Training ends --------------------------------- 
+

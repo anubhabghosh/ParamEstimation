@@ -1,0 +1,26 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'lstm', 'input_size': 1, 'output_size': 5, 'n_hidden': 50, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 32797
+
+Epoch: 1/3000, Training MSE Loss:33.934021134, Val. MSE Loss:1.669175536, Time_Elapsed:4.0302 secs
+Epoch: 200/3000, Training MSE Loss:0.062146054, Val. MSE Loss:0.077900179, Time_Elapsed:874.6539 secs
+Epoch: 400/3000, Training MSE Loss:0.032692972, Val. MSE Loss:0.034705784, Time_Elapsed:1706.4627 secs
+Epoch: 600/3000, Training MSE Loss:0.008900860, Val. MSE Loss:0.025840289, Time_Elapsed:2599.7189 secs
+Epoch: 800/3000, Training MSE Loss:0.010285383, Val. MSE Loss:0.027295544, Time_Elapsed:3533.6868 secs
+Epoch: 1000/3000, Training MSE Loss:0.004496995, Val. MSE Loss:0.024054788, Time_Elapsed:4454.6096 secs
+Epoch: 1200/3000, Training MSE Loss:0.003650771, Val. MSE Loss:0.027848196, Time_Elapsed:5261.8599 secs
+Epoch: 1400/3000, Training MSE Loss:0.005479659, Val. MSE Loss:0.033611757, Time_Elapsed:6188.1336 secs
+Epoch: 1600/3000, Training MSE Loss:0.121088939, Val. MSE Loss:0.098762943, Time_Elapsed:7108.5252 secs
+Epoch: 1800/3000, Training MSE Loss:0.019308527, Val. MSE Loss:0.029170198, Time_Elapsed:8052.3485 secs
+Epoch: 2000/3000, Training MSE Loss:0.001662312, Val. MSE Loss:0.022434287, Time_Elapsed:9000.9403 secs
+Epoch: 2200/3000, Training MSE Loss:0.002523756, Val. MSE Loss:0.019643057, Time_Elapsed:9927.1816 secs
+Epoch: 2400/3000, Training MSE Loss:0.001412224, Val. MSE Loss:0.022044591, Time_Elapsed:10870.3203 secs
+Epoch: 2600/3000, Training MSE Loss:0.001684156, Val. MSE Loss:0.021507742, Time_Elapsed:11805.9207 secs
+Epoch: 2800/3000, Training MSE Loss:0.003221479, Val. MSE Loss:0.023388308, Time_Elapsed:12730.7206 secs
+Epoch: 3000/3000, Training MSE Loss:0.002233705, Val. MSE Loss:0.020599076, Time_Elapsed:13541.3843 secs
+
+Saving the best model at epoch=1655, with training loss=0.0028301941434000716, validation loss=0.01732145909200165
+------------------------------ Training ends --------------------------------- 
+
