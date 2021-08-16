@@ -11,7 +11,7 @@ import json
 from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 from parse import parse
-import datetime
+from datetime import datetime
 
 def check_if_dir_or_file_exists(file_path, file_name=None):
     flag_dir = os.path.exists(file_path)
