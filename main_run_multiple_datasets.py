@@ -85,7 +85,7 @@ def main():
 
     logfile_path = "./log/estimate_theta_{}/".format(dataset_mode)
     modelfile_path = "./models/"
-    main_exp_name = "gru_L{}_H{}_multiple".format(options[model_type]["n_layers"], options[model_type]["n_hidden"])
+    main_exp_name = "{}_L{}_H{}_multiple".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"])
 
     list_of_logfile_paths = create_file_paths(params_combination_list=params_combination_list,
                                             filepath=logfile_path,
