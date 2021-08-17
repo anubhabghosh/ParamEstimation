@@ -148,7 +148,7 @@ def main():
                                                                                             device=device,
                                                                                             usenorm_flag=usenorm_flag,
                                                                                             tr_verbose=tr_verbose,
-                                                                                            save_chkpoints="all",
+                                                                                            save_chkpoints="some",
                                                                                             logfile_path=os.path.join(logfile_path, log_file_name),
                                                                                             modelfile_path=modelfile_path)
         #if tr_verbose == True:

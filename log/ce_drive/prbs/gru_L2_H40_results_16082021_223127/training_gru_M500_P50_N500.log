@@ -1,0 +1,26 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 16477
+
+Epoch: 1/3000, Training MSE Loss:37.089202684, Val. MSE Loss:1.399324612, Time_Elapsed:5.7984 secs
+Epoch: 200/3000, Training MSE Loss:0.000902601, Val. MSE Loss:0.000709013, Time_Elapsed:1149.7516 secs
+Epoch: 400/3000, Training MSE Loss:0.000144336, Val. MSE Loss:0.000141310, Time_Elapsed:2296.5197 secs
+Epoch: 600/3000, Training MSE Loss:0.000452154, Val. MSE Loss:0.000237001, Time_Elapsed:3430.6601 secs
+Epoch: 800/3000, Training MSE Loss:0.000067572, Val. MSE Loss:0.000056997, Time_Elapsed:4581.9750 secs
+Epoch: 1000/3000, Training MSE Loss:0.000047948, Val. MSE Loss:0.000054813, Time_Elapsed:5730.3746 secs
+Epoch: 1200/3000, Training MSE Loss:0.000211625, Val. MSE Loss:0.000209768, Time_Elapsed:6805.4072 secs
+Epoch: 1400/3000, Training MSE Loss:0.000071066, Val. MSE Loss:0.000087792, Time_Elapsed:7958.2804 secs
+Epoch: 1600/3000, Training MSE Loss:0.004500852, Val. MSE Loss:0.002080838, Time_Elapsed:9034.4765 secs
+Epoch: 1800/3000, Training MSE Loss:0.000029869, Val. MSE Loss:0.000026290, Time_Elapsed:10138.8794 secs
+Epoch: 2000/3000, Training MSE Loss:0.000058275, Val. MSE Loss:0.000067926, Time_Elapsed:11283.7501 secs
+Epoch: 2200/3000, Training MSE Loss:0.000013151, Val. MSE Loss:0.000014717, Time_Elapsed:12362.3653 secs
+Epoch: 2400/3000, Training MSE Loss:0.000017040, Val. MSE Loss:0.000034548, Time_Elapsed:13453.9737 secs
+Epoch: 2600/3000, Training MSE Loss:0.000015272, Val. MSE Loss:0.000012141, Time_Elapsed:14605.0710 secs
+Epoch: 2800/3000, Training MSE Loss:0.000020506, Val. MSE Loss:0.000034894, Time_Elapsed:15655.4462 secs
+Epoch: 3000/3000, Training MSE Loss:0.000018258, Val. MSE Loss:0.000018642, Time_Elapsed:16745.8730 secs
+
+Saving the best model at epoch=2240, with training loss=2.1069484022036147e-05, validation loss=8.37789360351356e-06
+------------------------------ Training ends --------------------------------- 
+
