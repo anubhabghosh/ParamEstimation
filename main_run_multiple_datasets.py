@@ -61,8 +61,8 @@ def main():
     splits_file = args.splits
 
     param_dict_dataset = {"N_seq":[200],
-             "num_trajectories": [400, 500, 600],
-             "num_realizations": [50, 100, 200]
+             "num_trajectories": [400, 500, 600], #[400]
+             "num_realizations": [50, 100, 200] #[100]
              }
 
     list_of_datasets = get_list_of_datasets(dataset_mode=dataset_mode,
@@ -180,6 +180,7 @@ def main():
         if mode.lower() == "train": 
             model_gru = RNN_model(**options[model_type])
             tr_verbose = True  
+            
             tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
                                                                                                 nepochs=options[model_type]["num_epochs"],
                                                                                                 train_loader=train_loader,
@@ -197,9 +198,10 @@ def main():
             losses_model["tr_losses"] = tr_losses
             losses_model["val_losses"] = val_losses
 
-            with open('./plot_data/{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
-                f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
-
+            #with open('./plot_data/{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
+            #    f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
+            
+            
         elif mode.lower() == "test":
 
             test_log_file_name = "testing_{}_M{}_P{}_N{}.log".format(model_type,
