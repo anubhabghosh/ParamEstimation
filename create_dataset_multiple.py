@@ -56,7 +56,7 @@ def get_list_of_datasets(dataset_mode, dataset_path, param_dict_dataset, create_
     return list_of_datasets
 
 def main():    
-
+    
     ##############################################################################################
     # Modify this part before running the code
     ##############################################################################################
@@ -70,6 +70,11 @@ def main():
              "num_trajectories": [400, 500, 600],
              "num_realizations": [50, 100, 200]
              }
+
+    #param_dict_dataset = {"N_seq":[20], #NOTE: For debug purposes
+    #         "num_trajectories": [4, 5], #[400]
+    #         "num_realizations": [1, 5] #[100]
+    #         }
 
     ##############################################################################################
 
