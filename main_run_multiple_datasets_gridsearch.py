@@ -60,7 +60,7 @@ def main():
 
     param_dict_dataset = {"N_seq":[200],
              "num_trajectories": [400, 500, 600], #[400]
-             "num_realizations": [50, 100, 200] #[100]
+             "num_realizations": [50, 100, 200]
              }
 
     #param_dict_dataset = {"N_seq":[20], #NOTE: For debug purposes
@@ -192,9 +192,10 @@ def main():
         ####################################################################################
         # Parameters to be tuned
         gs_params = {
-                    "n_hidden":[3, 4], # "n_hidden":[20, 30, 40, 50, 60]
-                    "n_layers":[1, 2], # "n_layers":[1, 2],
-                    "num_epochs":[20] # "n_epochs": [3000, 4000]
+                    "n_hidden":[30, 40, 50, 60, 70],
+                    "n_layers":[2],
+                    #"n_layers":[1, 2],
+                    "num_epochs": [3000]
                     }
         ####################################################################################
 

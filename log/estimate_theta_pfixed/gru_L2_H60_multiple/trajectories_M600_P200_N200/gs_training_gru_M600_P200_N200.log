@@ -1,0 +1,130 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 30, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 9707
+
+Epoch: 1/3000, Training MSE Loss:14.313923652, Val. MSE Loss:1.839451252, Time_Elapsed:12.5206 secs
+Epoch: 200/3000, Training MSE Loss:0.095062772, Val. MSE Loss:0.107670680, Time_Elapsed:2976.5082 secs
+Epoch: 400/3000, Training MSE Loss:0.073115510, Val. MSE Loss:0.090485704, Time_Elapsed:5950.3729 secs
+Epoch: 600/3000, Training MSE Loss:0.063096986, Val. MSE Loss:0.076266741, Time_Elapsed:8881.8821 secs
+Epoch: 800/3000, Training MSE Loss:0.055725916, Val. MSE Loss:0.077351871, Time_Elapsed:11708.5496 secs
+Epoch: 1000/3000, Training MSE Loss:0.052313665, Val. MSE Loss:0.074656894, Time_Elapsed:14653.6370 secs
+Epoch: 1200/3000, Training MSE Loss:0.062114065, Val. MSE Loss:0.079529357, Time_Elapsed:17318.6647 secs
+Epoch: 1400/3000, Training MSE Loss:0.065047559, Val. MSE Loss:0.076362376, Time_Elapsed:20151.5949 secs
+Epoch: 1600/3000, Training MSE Loss:0.183922190, Val. MSE Loss:0.199189315, Time_Elapsed:23101.4017 secs
+Epoch: 1800/3000, Training MSE Loss:0.126447614, Val. MSE Loss:0.125779979, Time_Elapsed:25684.9367 secs
+Epoch: 2000/3000, Training MSE Loss:0.094269490, Val. MSE Loss:0.106571703, Time_Elapsed:28624.1556 secs
+Epoch: 2200/3000, Training MSE Loss:0.079797157, Val. MSE Loss:0.098032548, Time_Elapsed:31597.0886 secs
+Epoch: 2400/3000, Training MSE Loss:0.081711148, Val. MSE Loss:0.087064704, Time_Elapsed:34543.1337 secs
+Epoch: 2600/3000, Training MSE Loss:0.090144181, Val. MSE Loss:0.105754170, Time_Elapsed:37401.5524 secs
+Epoch: 2800/3000, Training MSE Loss:0.061842162, Val. MSE Loss:0.077657348, Time_Elapsed:40387.0655 secs
+Epoch: 3000/3000, Training MSE Loss:0.071648601, Val. MSE Loss:0.340289808, Time_Elapsed:43262.6857 secs
+
+Saving the best model at epoch=1527, with training loss=0.044179969502991835, validation loss=0.06608144785706879
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 16477
+
+Epoch: 1/3000, Training MSE Loss:15.237405437, Val. MSE Loss:1.840311288, Time_Elapsed:13.9187 secs
+Epoch: 200/3000, Training MSE Loss:0.083518528, Val. MSE Loss:0.101819565, Time_Elapsed:2614.6136 secs
+Epoch: 400/3000, Training MSE Loss:0.064777017, Val. MSE Loss:0.094957195, Time_Elapsed:5251.1964 secs
+Epoch: 600/3000, Training MSE Loss:0.049592037, Val. MSE Loss:0.077999895, Time_Elapsed:7879.0347 secs
+Epoch: 800/3000, Training MSE Loss:0.057071977, Val. MSE Loss:0.077806312, Time_Elapsed:10561.1441 secs
+Epoch: 1000/3000, Training MSE Loss:0.051465894, Val. MSE Loss:0.081129541, Time_Elapsed:13323.0852 secs
+Epoch: 1200/3000, Training MSE Loss:0.047836021, Val. MSE Loss:0.133964003, Time_Elapsed:16049.1253 secs
+Epoch: 1400/3000, Training MSE Loss:0.044953195, Val. MSE Loss:0.072767639, Time_Elapsed:18761.7695 secs
+Epoch: 1600/3000, Training MSE Loss:0.096114015, Val. MSE Loss:0.082316441, Time_Elapsed:21543.0598 secs
+Epoch: 1800/3000, Training MSE Loss:0.112220945, Val. MSE Loss:0.120178495, Time_Elapsed:24268.9406 secs
+Epoch: 2000/3000, Training MSE Loss:0.068609700, Val. MSE Loss:0.065516554, Time_Elapsed:26956.2707 secs
+Epoch: 2200/3000, Training MSE Loss:0.032788551, Val. MSE Loss:0.105254345, Time_Elapsed:29652.3125 secs
+Epoch: 2400/3000, Training MSE Loss:0.045582102, Val. MSE Loss:0.064899514, Time_Elapsed:32412.7788 secs
+Epoch: 2600/3000, Training MSE Loss:0.043075046, Val. MSE Loss:0.062418148, Time_Elapsed:35155.0437 secs
+Epoch: 2800/3000, Training MSE Loss:0.050305146, Val. MSE Loss:0.069541470, Time_Elapsed:37886.4664 secs
+Epoch: 3000/3000, Training MSE Loss:0.045070298, Val. MSE Loss:0.062907366, Time_Elapsed:40567.6973 secs
+
+Saving the best model at epoch=2241, with training loss=0.029808489316981684, validation loss=0.05357682780884471
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 50, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 25047
+
+Epoch: 1/3000, Training MSE Loss:12.151784194, Val. MSE Loss:1.840344087, Time_Elapsed:13.5570 secs
+Epoch: 200/3000, Training MSE Loss:0.062118101, Val. MSE Loss:0.145673734, Time_Elapsed:2988.2451 secs
+Epoch: 400/3000, Training MSE Loss:0.057976355, Val. MSE Loss:0.075269417, Time_Elapsed:5962.1944 secs
+Epoch: 600/3000, Training MSE Loss:0.087878692, Val. MSE Loss:0.075182368, Time_Elapsed:8886.7025 secs
+Epoch: 800/3000, Training MSE Loss:0.036742065, Val. MSE Loss:0.055739529, Time_Elapsed:11713.1074 secs
+Epoch: 1000/3000, Training MSE Loss:0.023285979, Val. MSE Loss:0.050750173, Time_Elapsed:14636.4985 secs
+Epoch: 1200/3000, Training MSE Loss:0.086750594, Val. MSE Loss:0.095213457, Time_Elapsed:17516.5932 secs
+Epoch: 1400/3000, Training MSE Loss:0.020704746, Val. MSE Loss:0.055094461, Time_Elapsed:20323.0374 secs
+Epoch: 1600/3000, Training MSE Loss:0.052985262, Val. MSE Loss:0.072010447, Time_Elapsed:23313.3821 secs
+Epoch: 1800/3000, Training MSE Loss:0.024063842, Val. MSE Loss:0.053849214, Time_Elapsed:26294.2439 secs
+Epoch: 2000/3000, Training MSE Loss:0.069120541, Val. MSE Loss:0.070871291, Time_Elapsed:29164.5907 secs
+Epoch: 2200/3000, Training MSE Loss:0.029717767, Val. MSE Loss:0.049704071, Time_Elapsed:32177.8121 secs
+Epoch: 2400/3000, Training MSE Loss:0.407946704, Val. MSE Loss:0.374156481, Time_Elapsed:35004.6438 secs
+Epoch: 2600/3000, Training MSE Loss:0.026256893, Val. MSE Loss:0.052769961, Time_Elapsed:38025.8932 secs
+Epoch: 2800/3000, Training MSE Loss:0.028152327, Val. MSE Loss:0.061863047, Time_Elapsed:41004.6885 secs
+Epoch: 3000/3000, Training MSE Loss:0.033949945, Val. MSE Loss:0.048562303, Time_Elapsed:43943.9203 secs
+
+Saving the best model at epoch=2662, with training loss=0.02558174371390814, validation loss=0.04511018136370901
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 35417
+
+Epoch: 1/3000, Training MSE Loss:10.592128632, Val. MSE Loss:1.840571570, Time_Elapsed:13.7289 secs
+Epoch: 200/3000, Training MSE Loss:0.078953597, Val. MSE Loss:0.080141908, Time_Elapsed:2740.9799 secs
+Epoch: 400/3000, Training MSE Loss:0.030012323, Val. MSE Loss:0.065653906, Time_Elapsed:5495.9839 secs
+Epoch: 600/3000, Training MSE Loss:0.050480430, Val. MSE Loss:0.072420584, Time_Elapsed:8258.5237 secs
+Epoch: 800/3000, Training MSE Loss:0.027695713, Val. MSE Loss:0.057064539, Time_Elapsed:10657.6257 secs
+Epoch: 1000/3000, Training MSE Loss:0.051298855, Val. MSE Loss:0.058549776, Time_Elapsed:13343.0919 secs
+Epoch: 1200/3000, Training MSE Loss:0.033509111, Val. MSE Loss:0.052821313, Time_Elapsed:16003.8139 secs
+Epoch: 1400/3000, Training MSE Loss:0.048418101, Val. MSE Loss:0.064305218, Time_Elapsed:18722.5220 secs
+Epoch: 1600/3000, Training MSE Loss:0.030824869, Val. MSE Loss:0.062610304, Time_Elapsed:21409.2859 secs
+Epoch: 1800/3000, Training MSE Loss:0.033551987, Val. MSE Loss:0.074785160, Time_Elapsed:24067.2508 secs
+Epoch: 2000/3000, Training MSE Loss:0.033880131, Val. MSE Loss:0.156377467, Time_Elapsed:26761.1360 secs
+Epoch: 2200/3000, Training MSE Loss:0.050118080, Val. MSE Loss:0.062624420, Time_Elapsed:29372.4370 secs
+Epoch: 2400/3000, Training MSE Loss:1.683055369, Val. MSE Loss:1.587488978, Time_Elapsed:32133.3007 secs
+Epoch: 2600/3000, Training MSE Loss:0.288742394, Val. MSE Loss:0.274456234, Time_Elapsed:34822.6374 secs
+Epoch: 2800/3000, Training MSE Loss:0.100347575, Val. MSE Loss:0.209119969, Time_Elapsed:37508.9847 secs
+Epoch: 3000/3000, Training MSE Loss:0.075230898, Val. MSE Loss:0.108537687, Time_Elapsed:40280.1265 secs
+
+Saving the best model at epoch=1916, with training loss=0.02201971300820665, validation loss=0.042304898942457446
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 70, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 47587
+
+Epoch: 1/3000, Training MSE Loss:9.778192430, Val. MSE Loss:1.840962981, Time_Elapsed:15.8450 secs
+Epoch: 200/3000, Training MSE Loss:0.040427755, Val. MSE Loss:0.059189231, Time_Elapsed:3141.1198 secs
+Epoch: 400/3000, Training MSE Loss:0.030977531, Val. MSE Loss:0.057935496, Time_Elapsed:6236.1930 secs
+Epoch: 600/3000, Training MSE Loss:0.035737755, Val. MSE Loss:0.086270237, Time_Elapsed:9341.5964 secs
+Epoch: 800/3000, Training MSE Loss:0.029533956, Val. MSE Loss:0.064250079, Time_Elapsed:12460.4165 secs
+Epoch: 1000/3000, Training MSE Loss:0.044674864, Val. MSE Loss:0.058110656, Time_Elapsed:15565.7928 secs
+Epoch: 1200/3000, Training MSE Loss:0.082801575, Val. MSE Loss:0.082077498, Time_Elapsed:18721.2259 secs
+Epoch: 1400/3000, Training MSE Loss:0.050159759, Val. MSE Loss:0.060277293, Time_Elapsed:21873.0581 secs
+Epoch: 1600/3000, Training MSE Loss:0.041399258, Val. MSE Loss:0.073208036, Time_Elapsed:24933.3348 secs
+Epoch: 1800/3000, Training MSE Loss:0.041254120, Val. MSE Loss:0.061411555, Time_Elapsed:28016.6076 secs
+Epoch: 2000/3000, Training MSE Loss:0.036971539, Val. MSE Loss:0.054674167, Time_Elapsed:31051.6273 secs
+Epoch: 2200/3000, Training MSE Loss:0.048782284, Val. MSE Loss:0.057474299, Time_Elapsed:34069.5671 secs
+Epoch: 2400/3000, Training MSE Loss:0.187065613, Val. MSE Loss:0.265579355, Time_Elapsed:37202.2607 secs
+Epoch: 2600/3000, Training MSE Loss:0.079633078, Val. MSE Loss:0.093144379, Time_Elapsed:40311.8191 secs
+Epoch: 2800/3000, Training MSE Loss:0.045606787, Val. MSE Loss:0.065576998, Time_Elapsed:43314.3390 secs
+Epoch: 3000/3000, Training MSE Loss:0.037403909, Val. MSE Loss:0.058094959, Time_Elapsed:46433.6800 secs
+
+Saving the best model at epoch=1470, with training loss=0.025198909282488257, validation loss=0.0435794309798813
+------------------------------ Training ends --------------------------------- 
+

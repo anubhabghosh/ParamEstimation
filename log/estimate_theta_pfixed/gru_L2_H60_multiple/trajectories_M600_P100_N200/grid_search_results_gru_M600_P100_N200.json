@@ -1,0 +1,72 @@
+[
+  {
+    "model_type": "gru",
+    "input_size": 1,
+    "output_size": 5,
+    "n_hidden": 30,
+    "n_layers": 2,
+    "lr": 0.001,
+    "num_epochs": 3000,
+    "Config_no": 1,
+    "tr_loss_end": 0.024224175859920004,
+    "val_loss_end": 0.05673881788069094,
+    "tr_loss_best": 0.011549280302874236,
+    "val_loss_best": 0.038825235001637905
+  },
+  {
+    "model_type": "gru",
+    "input_size": 1,
+    "output_size": 5,
+    "n_hidden": 40,
+    "n_layers": 2,
+    "lr": 0.001,
+    "num_epochs": 3000,
+    "Config_no": 2,
+    "tr_loss_end": 0.015564851683765564,
+    "val_loss_end": 0.04198874245909318,
+    "tr_loss_best": 0.0213003014333398,
+    "val_loss_best": 0.03370182502778693
+  },
+  {
+    "model_type": "gru",
+    "input_size": 1,
+    "output_size": 5,
+    "n_hidden": 50,
+    "n_layers": 2,
+    "lr": 0.001,
+    "num_epochs": 3000,
+    "Config_no": 3,
+    "tr_loss_end": 0.0043432165958537635,
+    "val_loss_end": 0.037502940662178984,
+    "tr_loss_best": 0.0031686306243831164,
+    "val_loss_best": 0.026804089431427945
+  },
+  {
+    "model_type": "gru",
+    "input_size": 1,
+    "output_size": 5,
+    "n_hidden": 60,
+    "n_layers": 2,
+    "lr": 0.001,
+    "num_epochs": 3000,
+    "Config_no": 4,
+    "tr_loss_end": 0.03480199657232416,
+    "val_loss_end": 0.045549542407019875,
+    "tr_loss_best": 0.003923881188463632,
+    "val_loss_best": 0.029287052527725906
+  },
+  {
+    "model_type": "gru",
+    "input_size": 1,
+    "output_size": 5,
+    "n_hidden": 70,
+    "n_layers": 2,
+    "lr": 0.001,
+    "num_epochs": 3000,
+    "Config_no": 5,
+    "tr_loss_end": 0.024666629763404755,
+    "val_loss_end": 0.06722824876262269,
+    "tr_loss_best": 0.007698708427514331,
+    "val_loss_best": 0.03253936795780147
+  }
+]
