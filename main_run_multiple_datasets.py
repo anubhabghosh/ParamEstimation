@@ -2,7 +2,7 @@
 import sys
 from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx
 from utils.data_utils import get_dataloaders, load_saved_dataset, load_splits_file, NDArrayEncoder
-from utils.data_utils import create_splits_file_name
+from utils.data_utils import create_splits_file_name, get_list_of_config_files, create_file_paths
 from utils.gs_utils import create_combined_param_dict
 import pickle as pkl 
 import os
@@ -11,23 +11,6 @@ import json
 from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
 import argparse
 from create_dataset_multiple import get_list_of_datasets
-
-def create_file_paths(params_combination_list, filepath, main_exp_name):
-    
-    list_of_logfile_paths = []
-    # Creating the logfiles
-    for params in params_combination_list:
-
-        exp_folder_name = "trajectories_M{}_P{}_N{}/".format(params["num_trajectories"],
-                                                            params["num_realizations"],
-                                                            params["N_seq"])
-
-        #print(os.path.join(log_filepath, main_exp_name, exp_folder_name))
-        full_path_exp_folder = os.path.join(filepath, main_exp_name, exp_folder_name)
-        list_of_logfile_paths.append(full_path_exp_folder)
-        #os.makedirs(full_path_exp_folder, exist_ok=True)
-    
-    return list_of_logfile_paths
 
 def check_if_dir_or_file_exists(file_path, file_name=None):
     flag_dir = os.path.exists(file_path)
@@ -77,7 +60,9 @@ def main():
     #    options = json.load(f)
 
     with open("./config/configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
-        options = json.load(f)
+        base_options = json.load(f)
+
+    #NOTE: Cannot call a single configuration for running all the files, it has to be different training configuration for every dataset run
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
     device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu>0) else "cpu")
@@ -85,7 +70,14 @@ def main():
 
     logfile_path = "./log/estimate_theta_{}/".format(dataset_mode)
     modelfile_path = "./models/"
-    main_exp_name = "{}_L{}_H{}_multiple".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"])
+
+    #NOTE: Now this uses the optimized / tuned parameters, different for each dataset configuration
+    main_exp_name = "{}_L{}_H{}_multiple_optimized".format(model_type, base_options[model_type]["n_layers"], base_options[model_type]["n_hidden"])
+
+    list_of_config_files = get_list_of_config_files(model_type=model_type, 
+                                                    options=base_options, 
+                                                    dataset_mode='pfixed', 
+                                                    params_combination_list=params_combination_list)
 
     list_of_logfile_paths = create_file_paths(params_combination_list=params_combination_list,
                                             filepath=logfile_path,
@@ -98,6 +90,11 @@ def main():
     for i, params in enumerate(params_combination_list):
 
         datafile = list_of_datasets[i]
+
+        # Load the correct option
+        print("Loading training configurations from: {}".format(list_of_config_files[i]))
+        with open(list_of_config_files[i], 'r') as f:
+            options = json.load(f)
 
         #print(params)
         log_file_name = "training_{}_M{}_P{}_N{}.log".format(model_type,
@@ -173,12 +170,12 @@ def main():
         log_file_path = os.path.join(list_of_logfile_paths[i], log_file_name)
         model_file_path = list_of_modelfile_paths[i]
 
-        #NOTE: This is just to test the main function is working or not!
+        #NOTE: This is just to test the main function is working or not! Comment it out during the actual run
         #options[model_type]["n_hidden"] = 5
         #options[model_type]["num_epochs"] = 10
 
         if mode.lower() == "train": 
-            model_gru = RNN_model(**options[model_type])
+            
             tr_verbose = True  
             
             tr_losses, val_losses, best_val_loss, tr_loss_for_best_val_loss, model = train_rnn(options=options[model_type], 
@@ -194,9 +191,9 @@ def main():
             #if tr_verbose == True:
             #    plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
             
-            losses_model = {}
-            losses_model["tr_losses"] = tr_losses
-            losses_model["val_losses"] = val_losses
+            #losses_model = {}
+            #losses_model["tr_losses"] = tr_losses
+            #losses_model["val_losses"] = val_losses
 
             #with open('./plot_data/{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
             #    f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
@@ -204,6 +201,7 @@ def main():
             
         elif mode.lower() == "test":
 
+            #TODO: Log file paths need to be fixed
             test_log_file_name = "testing_{}_M{}_P{}_N{}.log".format(model_type,
                                                             params["num_trajectories"],
                                                             params["num_realizations"],

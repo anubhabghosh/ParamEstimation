@@ -6,6 +6,8 @@ import torch
 import json
 from torch.utils.data import Dataset, DataLoader
 import pickle as pkl
+import os
+
 
 def generate_uniform(N, a, b):
     
@@ -690,3 +692,55 @@ def create_splits_file_name(dataset_filename, splits_filename):
     idx_splitfilename = splits_filename.rfind(".pkl")
     splits_filename_modified = splits_filename[:idx_splitfilename] + "_" + dataset_filename[idx_dset_info:] 
     return splits_filename_modified
+
+def create_file_paths(params_combination_list, filepath, main_exp_name):
+    
+    list_of_logfile_paths = []
+    # Creating the logfiles
+    for params in params_combination_list:
+
+        exp_folder_name = "trajectories_M{}_P{}_N{}/".format(params["num_trajectories"],
+                                                            params["num_realizations"],
+                                                            params["N_seq"])
+
+        #print(os.path.join(log_filepath, main_exp_name, exp_folder_name))
+        full_path_exp_folder = os.path.join(filepath, main_exp_name, exp_folder_name)
+        list_of_logfile_paths.append(full_path_exp_folder)
+        os.makedirs(full_path_exp_folder, exist_ok=True)
+
+    return list_of_logfile_paths
+
+def get_list_of_config_files(model_type, options, dataset_mode='pfixed', params_combination_list=None):
+    
+    #logfile_path = "./log/estimate_theta_{}/".format(dataset_mode)
+    #modelfile_path = "./models/"
+    main_exp_name = "{}_L{}_H{}_multiple".format(model_type, 
+                                                 options[model_type]["n_layers"], 
+                                                 options[model_type]["n_hidden"])
+            
+    base_config_dirname = os.path.dirname("./config/configurations_alltheta_pfixed.json")
+    
+    list_of_config_folder_paths = create_file_paths(params_combination_list=params_combination_list,
+                                            filepath=base_config_dirname,
+                                            main_exp_name=main_exp_name)
+
+    #list_of_gs_jsonfile_paths = create_file_paths(params_combination_list=params_combination_list,
+    #                                        filepath=modelfile_path,
+    #                                        main_exp_name=main_exp_name)
+
+    list_of_config_files = []
+    
+    for i, config_folder_path in enumerate(list_of_config_folder_paths):
+        
+        config_filename = "configurations_alltheta_pfixed_gru_M{}_P{}_N{}.json".format(
+            params_combination_list[i]["num_trajectories"], params_combination_list[i]["num_realizations"], 
+            params_combination_list[i]["N_seq"])
+        os.makedirs(config_folder_path, exist_ok=True)
+        config_file_name_full = os.path.join(config_folder_path, config_filename)
+        list_of_config_files.append(config_file_name_full)
+    
+    # Print out the model files
+    #print("Config files to be created at:")
+    #print(list_of_config_files)
+    
+    return list_of_config_files
