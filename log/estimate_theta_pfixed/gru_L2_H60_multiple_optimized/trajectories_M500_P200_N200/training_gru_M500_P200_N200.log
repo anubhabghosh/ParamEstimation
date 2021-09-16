@@ -1,0 +1,26 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 70, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 47587
+
+Epoch: 1/3000, Training MSE Loss:12.314222772, Val. MSE Loss:1.616000756, Time_Elapsed:12.9015 secs
+Epoch: 200/3000, Training MSE Loss:0.041596345, Val. MSE Loss:0.076113350, Time_Elapsed:2508.9190 secs
+Epoch: 400/3000, Training MSE Loss:0.040328877, Val. MSE Loss:0.074126484, Time_Elapsed:5082.2042 secs
+Epoch: 600/3000, Training MSE Loss:0.028178941, Val. MSE Loss:0.061699213, Time_Elapsed:7654.0044 secs
+Epoch: 800/3000, Training MSE Loss:0.056776635, Val. MSE Loss:0.168945015, Time_Elapsed:10232.2766 secs
+Epoch: 1000/3000, Training MSE Loss:0.047182294, Val. MSE Loss:0.081116163, Time_Elapsed:12788.5736 secs
+Epoch: 1200/3000, Training MSE Loss:0.039188915, Val. MSE Loss:0.066689277, Time_Elapsed:15286.7531 secs
+Epoch: 1400/3000, Training MSE Loss:0.034324345, Val. MSE Loss:0.058265699, Time_Elapsed:17845.8519 secs
+Epoch: 1600/3000, Training MSE Loss:0.036991433, Val. MSE Loss:0.053350850, Time_Elapsed:20400.2028 secs
+Epoch: 1800/3000, Training MSE Loss:0.040675530, Val. MSE Loss:0.058443916, Time_Elapsed:23560.8420 secs
+Epoch: 2000/3000, Training MSE Loss:0.309239422, Val. MSE Loss:0.314550343, Time_Elapsed:26986.4692 secs
+Epoch: 2200/3000, Training MSE Loss:0.093079324, Val. MSE Loss:0.129546237, Time_Elapsed:30432.8897 secs
+Epoch: 2400/3000, Training MSE Loss:0.059036621, Val. MSE Loss:0.107045468, Time_Elapsed:33860.7530 secs
+Epoch: 2600/3000, Training MSE Loss:0.079105988, Val. MSE Loss:0.085976976, Time_Elapsed:37318.3371 secs
+Epoch: 2800/3000, Training MSE Loss:0.049941346, Val. MSE Loss:0.169066566, Time_Elapsed:40753.6750 secs
+Epoch: 3000/3000, Training MSE Loss:0.050228081, Val. MSE Loss:0.082599385, Time_Elapsed:44139.8813 secs
+
+Saving the best model at epoch=1912, with training loss=0.021420420136353566, validation loss=0.04633687611006326
+------------------------------ Training ends --------------------------------- 
+

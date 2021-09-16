@@ -710,14 +710,17 @@ def create_file_paths(params_combination_list, filepath, main_exp_name):
 
     return list_of_logfile_paths
 
-def get_list_of_config_files(model_type, options, dataset_mode='pfixed', params_combination_list=None):
+def get_list_of_config_files(model_type, options, dataset_mode='pfixed', params_combination_list=None, main_exp_name=None):
     
     #logfile_path = "./log/estimate_theta_{}/".format(dataset_mode)
     #modelfile_path = "./models/"
-    main_exp_name = "{}_L{}_H{}_multiple".format(model_type, 
-                                                 options[model_type]["n_layers"], 
-                                                 options[model_type]["n_hidden"])
-            
+    if main_exp_name is None:
+        main_exp_name = "{}_L{}_H{}_multiple".format(model_type, 
+                                                     options[model_type]["n_layers"], 
+                                                     options[model_type]["n_hidden"])
+    else:
+        pass
+
     base_config_dirname = os.path.dirname("./config/configurations_alltheta_pfixed.json")
     
     list_of_config_folder_paths = create_file_paths(params_combination_list=params_combination_list,

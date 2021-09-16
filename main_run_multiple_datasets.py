@@ -77,7 +77,8 @@ def main():
     list_of_config_files = get_list_of_config_files(model_type=model_type, 
                                                     options=base_options, 
                                                     dataset_mode='pfixed', 
-                                                    params_combination_list=params_combination_list)
+                                                    params_combination_list=params_combination_list,
+                                                    main_exp_name=main_exp_name)
 
     list_of_logfile_paths = create_file_paths(params_combination_list=params_combination_list,
                                             filepath=logfile_path,
