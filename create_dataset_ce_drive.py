@@ -22,7 +22,7 @@ def save_dataset(Z_pM, filename):
         pkl.dump(Z_pM, handle, protocol=pkl.HIGHEST_PROTOCOL)
 
 def create_and_save_dataset(u, N, num_trajs, num_realizations, filename, Ts, 
-    usenorm_flag=0, input_params_dict_file="./data/coupled_drive/prbs_dataset.json"):
+    usenorm_flag=0, input_params_dict_file="../data/coupled_drive/prbs_dataset.json"):
 
     Z_pM = generate_trajectory_param_pairs_ce_drive(u=u,
                                                     N=N, 
@@ -53,7 +53,7 @@ def main():
     parser.add_argument("--input_signal_path", help="Enter full path to the data file", type=str, default=None)
     parser.add_argument("--input_signal_type", help="Enter type of the data file (PRBS/UNIFORM)", type=str, default=None)
     parser.add_argument("--input_params_dict_file", help="Enter the full path (incl. filename) to the .json file containing the parameters \
-                        use to sample realizations from", type=str, default="./data/coupled_drive/prbs_dataset_opt.json")
+                        use to sample realizations from", type=str, default="../data/coupled_drive/prbs_dataset_opt.json")
 
     args = parser.parse_args() 
 
