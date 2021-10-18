@@ -5,8 +5,8 @@
         "output_size":5,
         "n_hidden":60,
         "n_layers":2,
-        "lr":1e-3,
-        "num_epochs":3000,
+        "lr":5e-4,
+        "num_epochs":6000,
         "n_hidden_dense":32
     },
     "lstm":{
