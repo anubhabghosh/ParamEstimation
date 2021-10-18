@@ -300,6 +300,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
                 best_val_loss = val_loss # Save best validation loss
                 tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
                 best_val_epoch = epoch+1 # Corresponding value of epoch
+                best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
                 print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
                 #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
                 break
@@ -316,7 +317,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             else:
                 model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
                 print("Saving last model as best...")
-                torch.save(model, model_filepath + "/" + model_filename)
+                save_model(model, model_filepath + "/" + model_filename)
         #elif save_chkpoints == False:
         elif save_chkpoints == None:
             pass
