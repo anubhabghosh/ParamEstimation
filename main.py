@@ -67,6 +67,8 @@ def main():
         splits_file_name = create_splits_file_name(dataset_filename=datafile,
                                                 splits_filename=splits_file
                                                 )
+        
+        print("Creating split file at:{}".format(splits_file_name))
         with open(splits_file_name, 'wb') as handle:
             pkl.dump(splits, handle, protocol=pkl.HIGHEST_PROTOCOL)
     else:
@@ -94,7 +96,8 @@ def main():
     modelfile_path = "./models/"
 
     #NOTE: Currently this is hardcoded into the system
-    main_exp_name = "{}_L{}_H{}_modified_RNN".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"])
+    main_exp_name = "{}_L{}_H{}_modified_RNN_M{}_P{}_N{}".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"], num_trajs,
+                                                                num_realizations, N_seq)
 
     #print(params)
     tr_log_file_name = "training_{}_M{}_P{}_N{}.log".format(model_type,

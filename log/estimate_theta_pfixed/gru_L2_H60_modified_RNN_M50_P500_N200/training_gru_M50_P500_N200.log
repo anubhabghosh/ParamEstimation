@@ -1,0 +1,48 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60, 'n_layers': 2, 'lr': 0.0005, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 35417
+
+Epoch: 1/6000, Training MSE Loss:77.696180071, Val. MSE Loss:24.565666199, Time_Elapsed:2.6355 secs
+Interrupted!! ...saving the model at epoch:48
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60, 'n_layers': 2, 'lr': 0.0005, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 35417
+
+Epoch: 1/6000, Training MSE Loss:70.184160375, Val. MSE Loss:14.546054204, Time_Elapsed:2.6994 secs
+Epoch: 100/6000, Training MSE Loss:0.249730770, Val. MSE Loss:0.267914904, Time_Elapsed:251.3446 secs
+Epoch: 200/6000, Training MSE Loss:0.181188405, Val. MSE Loss:0.233061680, Time_Elapsed:521.0246 secs
+Epoch: 300/6000, Training MSE Loss:0.127456441, Val. MSE Loss:0.229918970, Time_Elapsed:803.8244 secs
+Epoch: 400/6000, Training MSE Loss:0.084655086, Val. MSE Loss:0.237240749, Time_Elapsed:1087.0696 secs
+Interrupted!! ...saving the model at epoch:493
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 60, 'n_layers': 2, 'lr': 0.0005, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 35417
+
+Epoch: 1/6000, Training MSE Loss:90.881466405, Val. MSE Loss:45.161297480, Time_Elapsed:2.6379 secs
+Epoch: 100/6000, Training MSE Loss:0.250208060, Val. MSE Loss:0.278763961, Time_Elapsed:281.4568 secs
+Epoch: 200/6000, Training MSE Loss:0.169764185, Val. MSE Loss:0.228472514, Time_Elapsed:562.9036 secs
+Epoch: 300/6000, Training MSE Loss:0.118349592, Val. MSE Loss:0.219564603, Time_Elapsed:843.6989 secs
+Epoch: 400/6000, Training MSE Loss:0.085128294, Val. MSE Loss:0.218509463, Time_Elapsed:1124.1494 secs
+Epoch: 500/6000, Training MSE Loss:0.061555226, Val. MSE Loss:0.230418391, Time_Elapsed:1405.7105 secs
+Epoch: 600/6000, Training MSE Loss:0.042238338, Val. MSE Loss:0.244960357, Time_Elapsed:1687.2467 secs
+Epoch: 700/6000, Training MSE Loss:0.031117149, Val. MSE Loss:0.263426081, Time_Elapsed:1969.3331 secs
+Epoch: 800/6000, Training MSE Loss:0.043884895, Val. MSE Loss:0.264525595, Time_Elapsed:2250.7696 secs
+Epoch: 900/6000, Training MSE Loss:0.019102842, Val. MSE Loss:0.276331641, Time_Elapsed:2528.2221 secs
+Epoch: 1000/6000, Training MSE Loss:0.017843794, Val. MSE Loss:0.276327934, Time_Elapsed:2796.1123 secs
+Consecutive iterations are:[1018, 1019, 1020]
+Exit and Convergence reached after 3 iterations for relative change in NLL below :0.01
+Training convergence attained!
+
+Saving the best model at epoch=1020, with training loss=0.015328449760975481, validation loss=0.2803000385562579
+------------------------------ Training ends --------------------------------- 
+
