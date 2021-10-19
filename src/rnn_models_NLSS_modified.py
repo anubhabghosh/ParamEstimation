@@ -135,7 +135,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
     #scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9) # gamma was initially 0.9
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//6, gamma=0.9) # gamma was initially 0.9
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//6, gamma=0.8) # gamma is now set to 0.8
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
