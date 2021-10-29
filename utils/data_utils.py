@@ -63,9 +63,6 @@ def generate_trajectory(N, theta_vector, add_noise_flag=False):
         v_k = v_k_arr[k]
         e_k = e_k_arr[k]
         
-        #v_k = generate_normal(N=1, mean=0, std=theta_vector[5])
-        #e_k = generate_normal(N=1, mean=0, std=theta_vector[6])
-
         # Equation for updating the hidden state
         x[k+1] = x[k] * theta_vector[0] + (x[k] / (x[k]**2 + theta_vector[2])) * theta_vector[1] + \
                  u_k * theta_vector[3] + v_k
