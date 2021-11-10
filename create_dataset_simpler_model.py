@@ -7,7 +7,8 @@ import argparse
 def create_filename(P=50, M=500, N=200, use_norm=0, dataset_basepath="./data/", mode="all"):
     # Create the dataset based on the dataset parameters
     if use_norm == 1:
-        datafile = "trajectories_simpler_model_normalized_{}_M{}_P{}_N{}.pkl".format(mode, int(M), int(P), int(N))
+        #datafile = "trajectories_simpler_model_normalized_{}_M{}_P{}_N{}.pkl".format(mode, int(M), int(P), int(N))
+        datafile = "trajectories_simpler_altmodel_normalized_{}_M{}_P{}_N{}.pkl".format(mode, int(M), int(P), int(N))
     else:
         #datafile = "trajectories_simpler_model_{}_M{}_P{}_N{}.pkl".format(mode, int(M), int(P), int(N))
         datafile = "trajectories_simpler_altmodel_{}_M{}_P{}_N{}.pkl".format(mode, int(M), int(P), int(N))

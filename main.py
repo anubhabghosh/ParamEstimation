@@ -100,7 +100,7 @@ def main():
     modelfile_path = "./models/"
 
     #NOTE: Currently this is hardcoded into the system
-    main_exp_name = "{}_L{}_H{}_modified_RNN_simpler_model_M{}_P{}_N{}".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"], num_trajs,
+    main_exp_name = "{}_L{}_H{}_modified_RNN_simpler_altmodel_M{}_P{}_N{}".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"], num_trajs,
                                                                 num_realizations, N_seq)
 
     #print(params)
