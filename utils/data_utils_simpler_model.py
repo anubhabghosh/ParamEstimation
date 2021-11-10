@@ -134,7 +134,7 @@ def generate_trajectory(N, theta_vector, add_noise_flag=False):
         e_k = e_k_arr[k]
         
         # Equation for updating the hidden state
-        x[k+1] = theta_vector[0] * (x[k] / (x[k]**2 + 1))  + u_k + v_k
+        x[k+1] = theta_vector[0] * (x[k] / (x[k]**2 + 1.0))  + u_k + v_k
         
         # Equation for calculating the output state
         y[k] = theta_vector[1] * (x[k]**2) + e_k
@@ -179,7 +179,7 @@ def generate_trajectory_alternative_model(N, theta_vector, add_noise_flag=False)
         e_k = e_k_arr[k]
         
         # Equation for updating the hidden state
-        x[k+1] = theta_vector[0] * (x[k] / ((0.2*x[k])**2 + 1))  + u_k + v_k
+        x[k+1] = theta_vector[0] * (x[k] / ((0.2*x[k])**2 + 1.0))  + u_k + v_k
         
         # Equation for calculating the output state
         y[k] = theta_vector[1] * (x[k]**2) + e_k
