@@ -68,6 +68,34 @@ def sample_parameter():
 
     return theta_vector
 
+################################################################################
+# This function generates \theta vectors using specified values of \theta_{1},
+# \theta_{2}, \theta_{3}, \theta_{4} for the alternate model
+
+# x_{k+1} = \theta_{1} * (x_{k} / ((0.2 * (x_{k}**2)) + 1)) + u_{k} + v_{k}
+# y_{k} = \theta_{2} * x_{k} ** 2 + e_{k}
+################################################################################
+def sample_parameter_alternate_model():
+    """ Heuristically define the parameter sampling
+    as per the chosen priors for the alternative, simpler model provided. 
+    We assume uniform priors for all the parameters present.
+
+    Returns:
+        theta: Parameter vector
+    """
+    theta_1 = generate_uniform(N=1, a=0, b=1.0) # Parameter \theta_{1}
+    theta_2 = generate_uniform(N=1, a=0.1, b=2) # Parameter \theta_{2}
+    eps = np.finfo(float).eps # Get the machine epsilon 
+    theta_3 = generate_uniform(N=1, a=eps, b=1) # Variance of v_{k}, i.e. \theta_{3} 
+    theta_4 = generate_uniform(N=1, a=eps, b=1) # Variance of e_{k}, i.e. \theta_{4}
+
+    theta_vector = np.array([theta_1,
+                    theta_2,
+                    theta_3,
+                    theta_4]).reshape((4, 1))
+
+    return theta_vector
+
 #########################################################################
 # Define a function for generating trajectories for the simpler model
 #########################################################################
@@ -113,6 +141,51 @@ def generate_trajectory(N, theta_vector, add_noise_flag=False):
     
     return y
 
+###################################################################################
+# Define a function for generating trajectories for the alternative simpler model
+###################################################################################
+def generate_trajectory_alternative_model(N, theta_vector, add_noise_flag=False):
+    """ This function generates the trajectory for a given value of N and 
+    the theta vector for the alternative model
+
+    Assuming the vector is:
+        theta = [theta_1, theta_2, theta_3, theta_4]^T
+
+    Args:
+        N ([int]): The length of the trajectory
+        theta_vector ([type]): An estimate of the theta_vector (a single realization of Theta)
+                            that remains the same during the recursion
+    """
+    
+    # Starting the recursion
+    x = np.zeros((N+1,)) # Also includes initial zero value
+    y = np.zeros((N,))
+
+    #NOTE: Since theta_5 and theta_6 are modeling variances in this code, 
+    # for direct comparison with the MATLAB code, the std param input should be
+    # a square root version
+    v_k_arr = generate_normal(N=N, mean=0, std=np.sqrt(theta_vector[2]))
+    e_k_arr = generate_normal(N=N, mean=0, std=np.sqrt(theta_vector[3]))
+
+    # Initiating the recursion
+    for k in range(N):
+
+        # Generate driving noise (which is time varying)
+        # Driving noise should be carefully selected as per value of k (start from k=0 or =1)
+        u_k = generate_driving_signal(k, a=1.2, add_noise=add_noise_flag)
+
+        # For each instant k, sample v_k, e_k
+        v_k = v_k_arr[k]
+        e_k = e_k_arr[k]
+        
+        # Equation for updating the hidden state
+        x[k+1] = theta_vector[0] * (x[k] / ((0.2*x[k]**2) + 1))  + u_k + v_k
+        
+        # Equation for calculating the output state
+        y[k] = theta_vector[1] * (x[k]**2) + e_k
+    
+    return y
+
 ######################################################################################
 # Normalize the generated trajectories through min-max scaling
 ######################################################################################
@@ -132,8 +205,8 @@ def normalize(X, feature_space=(0, 1)):
 
 #################################################################################
 # This function generates training data Z_{p,M} using specified values of p, M
-# for the full set of \theta_{i}. theta_vectors are sampled from the function
-# sample_parameter_modified () 
+# for the full set of \theta_{i}. theta_vectors are sampled from the priors defined 
+# earlier 
 #################################################################################
 def generate_trajectory_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
 
@@ -154,12 +227,14 @@ def generate_trajectory_param_pairs(N=1000, M=50, P=5, usenorm_flag=0):
     for i in range(P):
         
         # Obtain a realization of theta
-        theta_vector = sample_parameter()
+        #theta_vector = sample_parameter()  # For existing, simpler model
+        theta_vector = sample_parameter_alternate_model() # For alternative, simpler model
         
         for m in range(M): 
             
             # Obtain the trajectory from the recursion
-            Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1))
+            #Y = generate_trajectory(N=N, theta_vector=theta_vector).reshape((-1, 1)) # for the existing, simpler model
+            Y = generate_trajectory_alternative_model(N=N, theta_vector=theta_vector).reshape((-1, 1)) # for the alternative, simpler model
             # Normalize the data in range [0,1]
             if usenorm_flag == 1:
                 Y = normalize(Y, feature_space=(0,1))
