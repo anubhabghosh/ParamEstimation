@@ -26,6 +26,7 @@ def main():
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
     parser.add_argument("--dataset_mode", help="Enter the type of dataset (pfixed/vars/all)", type=str)
     parser.add_argument("--model_file_saved", help="In case of testing mode, Enter the desired model checkpoint with full path (gru/lstm/rnn)", type=str)
+    parser.add_argument("--config", help="Enter full path to the configurations json file", type=str)
     parser.add_argument("--datafile", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
     parser.add_argument("--splits", help="Enter full path to splits file", type=str)
@@ -35,6 +36,7 @@ def main():
     model_type = args.model_type
     datafile = args.datafile
     dataset_mode = args.dataset_mode
+    config_file = args.config
     datafolder = "".join(datafile.split("/")[i]+"/" for i in range(len(datafile.split("/")) - 1))
     usenorm_flag = args.use_norm
     model_file_saved = args.model_file_saved
@@ -85,7 +87,9 @@ def main():
     #with open("./config/configurations.json") as f: # Config file for estimating all theta parameters
     #    options = json.load(f)
 
-    with open("./config/configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
+    #with open("./config/configurations_alltheta_pfixed.json") as f: # Config file for estimating theta_vector when some parameters are fixed
+    #    options = json.load(f)
+    with open(config_file) as f: # Config file for estimating theta_vector when some parameters are fixed
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
@@ -96,7 +100,7 @@ def main():
     modelfile_path = "./models/"
 
     #NOTE: Currently this is hardcoded into the system
-    main_exp_name = "{}_L{}_H{}_modified_RNN_M{}_P{}_N{}".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"], num_trajs,
+    main_exp_name = "{}_L{}_H{}_modified_RNN_simpler_model_M{}_P{}_N{}".format(model_type, options[model_type]["n_layers"], options[model_type]["n_hidden"], num_trajs,
                                                                 num_realizations, N_seq)
 
     #print(params)
