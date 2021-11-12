@@ -8,7 +8,8 @@ from torch.autograd import Variable
 from timeit import default_timer as timer
 import copy
 #from tqdm import tqdm
-from utils.convg_monitor import ConvergenceMonitor
+#from utils.convg_monitor import ConvergenceMonitor
+from utils.convg_monitor_ES import ConvergenceMonitor_ES
 from utils.custom_callback import callback_val_loss
 
 # Create an RNN model for prediction
@@ -164,6 +165,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     patience = 0
     num_patience = 3 
     min_delta = 1e-3 # 1e-3 for simpler model, for complicated model we use 1e-2
+    min_tol = 1e-4
     check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
@@ -174,9 +176,14 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     sys.stdout = f_tmp
     
 
-    # Convergence monitoring
-    model_monitor = ConvergenceMonitor(tol=min_delta,
-                                    max_epochs=num_patience)
+    # Convergence monitoring (checks the convergence but not ES of the val_loss)
+    #model_monitor = ConvergenceMonitor(tol=min_delta,
+    #                                max_epochs=num_patience)
+
+    # This checkes the ES of the val loss, if the loss deteriorates for specified no. of
+    # max_epochs, stop the training
+    model_monitor = ConvergenceMonitor_ES(tol=min_tol,
+                                    max_epochs=6)
 
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
