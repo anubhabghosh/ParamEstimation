@@ -50,3 +50,702 @@ Training convergence attained!
 Saving the best model at epoch=3834, with training loss=0.0036930745771648933, validation loss=0.02425325152774652
 ------------------------------ Training ends --------------------------------- 
 
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/6000, Training MSE Loss:0.148519535, Val. MSE Loss:0.068286667, Time_Elapsed:2.6513 secs
+Epoch: 100/6000, Training MSE Loss:0.013375863, Val. MSE Loss:0.014276043, Time_Elapsed:281.7122 secs
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/6000, Training MSE Loss:0.184996128, Val. MSE Loss:0.071907278, Time_Elapsed:2.6149 secs
+Epoch: 10/6000, Training MSE Loss:0.027566620, Val. MSE Loss:0.026996751, Time_Elapsed:27.7669 secs
+Epoch: 20/6000, Training MSE Loss:0.019976666, Val. MSE Loss:0.021796638, Time_Elapsed:55.8147 secs
+Epoch: 30/6000, Training MSE Loss:0.015831190, Val. MSE Loss:0.015886245, Time_Elapsed:83.9275 secs
+Epoch: 40/6000, Training MSE Loss:0.015063680, Val. MSE Loss:0.015821613, Time_Elapsed:111.9174 secs
+Epoch: 50/6000, Training MSE Loss:0.014557071, Val. MSE Loss:0.015435262, Time_Elapsed:139.9336 secs
+Epoch: 60/6000, Training MSE Loss:0.014528316, Val. MSE Loss:0.015440181, Time_Elapsed:168.0594 secs
+Epoch: 70/6000, Training MSE Loss:0.014247185, Val. MSE Loss:0.015829026, Time_Elapsed:196.1677 secs
+Epoch: 80/6000, Training MSE Loss:0.013790073, Val. MSE Loss:0.014532639, Time_Elapsed:224.2676 secs
+Epoch: 90/6000, Training MSE Loss:0.013634074, Val. MSE Loss:0.015523879, Time_Elapsed:252.3864 secs
+Epoch: 100/6000, Training MSE Loss:0.013338416, Val. MSE Loss:0.014562739, Time_Elapsed:280.0696 secs
+Epoch: 110/6000, Training MSE Loss:0.013180234, Val. MSE Loss:0.014357133, Time_Elapsed:308.2036 secs
+Epoch: 120/6000, Training MSE Loss:0.012936133, Val. MSE Loss:0.014307783, Time_Elapsed:336.2330 secs
+Epoch: 130/6000, Training MSE Loss:0.012885790, Val. MSE Loss:0.014307727, Time_Elapsed:364.3292 secs
+Epoch: 140/6000, Training MSE Loss:0.012427979, Val. MSE Loss:0.014551324, Time_Elapsed:392.3260 secs
+Epoch: 150/6000, Training MSE Loss:0.012308165, Val. MSE Loss:0.015246922, Time_Elapsed:420.3698 secs
+Epoch: 160/6000, Training MSE Loss:0.012233316, Val. MSE Loss:0.014720056, Time_Elapsed:447.5492 secs
+Epoch: 170/6000, Training MSE Loss:0.011827713, Val. MSE Loss:0.014669486, Time_Elapsed:475.6849 secs
+Epoch: 180/6000, Training MSE Loss:0.011649659, Val. MSE Loss:0.016411663, Time_Elapsed:503.8233 secs
+Epoch: 190/6000, Training MSE Loss:0.011607841, Val. MSE Loss:0.015865412, Time_Elapsed:531.9835 secs
+Interrupted!! ...saving the model at epoch:200
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 6000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/6000, Training MSE Loss:0.146651758, Val. MSE Loss:0.066252936, Time_Elapsed:2.6549 secs
+Epoch: 10/6000, Training MSE Loss:0.027518961, Val. MSE Loss:0.026078795, Time_Elapsed:28.0473 secs
+Epoch: 20/6000, Training MSE Loss:0.023132515, Val. MSE Loss:0.022206553, Time_Elapsed:56.2317 secs
+Epoch: 30/6000, Training MSE Loss:0.017217054, Val. MSE Loss:0.017808519, Time_Elapsed:84.4251 secs
+Epoch: 40/6000, Training MSE Loss:0.015292603, Val. MSE Loss:0.015806019, Time_Elapsed:112.5945 secs
+Epoch: 50/6000, Training MSE Loss:0.014648176, Val. MSE Loss:0.015419221, Time_Elapsed:140.7715 secs
+Epoch: 60/6000, Training MSE Loss:0.014249560, Val. MSE Loss:0.015346373, Time_Elapsed:168.9696 secs
+Epoch: 70/6000, Training MSE Loss:0.014100292, Val. MSE Loss:0.014454403, Time_Elapsed:197.1386 secs
+Epoch: 80/6000, Training MSE Loss:0.013776158, Val. MSE Loss:0.014511076, Time_Elapsed:225.3453 secs
+Epoch: 90/6000, Training MSE Loss:0.013569288, Val. MSE Loss:0.014547641, Time_Elapsed:253.4919 secs
+Epoch: 100/6000, Training MSE Loss:0.013235884, Val. MSE Loss:0.014225689, Time_Elapsed:281.5699 secs
+Error:0.00033789391939838785, Tol:0.0001
+Epoch: 110/6000, Training MSE Loss:0.012996865, Val. MSE Loss:0.014265834, Time_Elapsed:309.6855 secs
+Error:0.0017053642620642965, Tol:0.0001
+Error:0.00034710442026456186, Tol:0.0001
+Epoch: 120/6000, Training MSE Loss:0.012865430, Val. MSE Loss:0.014732825, Time_Elapsed:337.8371 secs
+Interrupted!! ...saving the model at epoch:122
+------------------------------ Training ends --------------------------------- 
+
+Buffer State:[] reset!!
+Count:0, epoch_prev:169, epoch:170, flag:False
+Count:0, epoch_prev:169, epoch:171, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:171, epoch:172, flag:False
+Count:0, epoch_prev:171, epoch:173, flag:False
+Error:0.0002985705621540557, Tol:0.0001
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:173, epoch:174, flag:False
+Count:0, epoch_prev:173, epoch:175, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:175, epoch:176, flag:False
+Count:0, epoch_prev:175, epoch:177, flag:False
+Error:0.00034683424358566625, Tol:0.0001
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:177, epoch:178, flag:False
+Count:0, epoch_prev:177, epoch:179, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:179, epoch:180, flag:False
+Count:0, epoch_prev:179, epoch:181, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:181, epoch:182, flag:False
+Count:0, epoch_prev:181, epoch:183, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:183, epoch:184, flag:False
+Count:0, epoch_prev:183, epoch:185, flag:False
+Error:0.00012846713264783212, Tol:0.0001
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:185, epoch:186, flag:False
+Count:0, epoch_prev:185, epoch:187, flag:False
+Error:0.00043255686759948765, Tol:0.0001
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:187, epoch:188, flag:False
+Count:0, epoch_prev:187, epoch:189, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:189, epoch:190, flag:False
+Count:0, epoch_prev:189, epoch:191, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:191, epoch:192, flag:False
+Count:0, epoch_prev:191, epoch:193, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:193, epoch:194, flag:False
+Count:0, epoch_prev:193, epoch:195, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:195, epoch:196, flag:False
+Count:0, epoch_prev:195, epoch:197, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Count:0, epoch_prev:197, epoch:198, flag:False
+Count:0, epoch_prev:197, epoch:199, flag:False
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Epoch: 200/200, Training MSE Loss:0.011847095, Val. MSE Loss:0.014821112, Time_Elapsed:525.2381 secs
+Count:0, epoch_prev:199, epoch:200, flag:False
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 200, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/200, Training MSE Loss:0.143828372, Val. MSE Loss:0.066989327, Time_Elapsed:2.6177 secs
+Epoch: 100/200, Training MSE Loss:0.013388968, Val. MSE Loss:0.014847532, Time_Elapsed:280.2788 secs
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Consecutive criteria failed, Buffer Reset !!
+Buffer State:[] reset!!
+Epoch: 200/200, Training MSE Loss:0.011718321, Val. MSE Loss:0.014548266, Time_Elapsed:545.3350 secs
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.143371503, Val. MSE Loss:0.067672533, Time_Elapsed:2.6287 secs
+Epoch: 100/1000, Training MSE Loss:0.013438572, Val. MSE Loss:0.014651917, Time_Elapsed:280.5004 secs
+Interrupted!! ...saving the model at epoch:134
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.176220356, Val. MSE Loss:0.070673833, Time_Elapsed:2.6332 secs
+Epoch: 100/1000, Training MSE Loss:0.013504370, Val. MSE Loss:0.014612992, Time_Elapsed:282.0490 secs
+Epoch: 200/1000, Training MSE Loss:0.011343185, Val. MSE Loss:0.015469430, Time_Elapsed:564.3531 secs
+Epoch: 300/1000, Training MSE Loss:0.009269316, Val. MSE Loss:0.017517351, Time_Elapsed:845.3680 secs
+Interrupted!! ...saving the model at epoch:346
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.159060777, Val. MSE Loss:0.068967354, Time_Elapsed:2.6403 secs
+Epoch: 100/1000, Training MSE Loss:0.013190921, Val. MSE Loss:0.015055141, Time_Elapsed:282.6203 secs
+Count:0, epoch_prev:0, epoch:103, flag:False
+Count:0, epoch_prev:103, epoch:105, flag:False
+Count:0, epoch_prev:105, epoch:107, flag:False
+Count:0, epoch_prev:107, epoch:109, flag:False
+Error:0.0015270671186347808, Tol:0.001
+Count:0, epoch_prev:109, epoch:111, flag:True
+Count:0, epoch_prev:111, epoch:113, flag:False
+Count:0, epoch_prev:113, epoch:115, flag:False
+Count:0, epoch_prev:115, epoch:117, flag:False
+Count:0, epoch_prev:117, epoch:119, flag:False
+Count:0, epoch_prev:119, epoch:121, flag:False
+Count:0, epoch_prev:121, epoch:123, flag:False
+Count:0, epoch_prev:123, epoch:125, flag:False
+Count:0, epoch_prev:125, epoch:127, flag:False
+Count:0, epoch_prev:127, epoch:129, flag:False
+Count:0, epoch_prev:129, epoch:131, flag:False
+Count:0, epoch_prev:131, epoch:133, flag:False
+Count:0, epoch_prev:133, epoch:135, flag:False
+Count:0, epoch_prev:135, epoch:137, flag:False
+Count:0, epoch_prev:137, epoch:139, flag:False
+Count:0, epoch_prev:139, epoch:141, flag:False
+Count:0, epoch_prev:141, epoch:143, flag:False
+Count:0, epoch_prev:143, epoch:145, flag:False
+Count:0, epoch_prev:145, epoch:147, flag:False
+Count:0, epoch_prev:147, epoch:149, flag:False
+Count:0, epoch_prev:149, epoch:151, flag:False
+Count:0, epoch_prev:151, epoch:153, flag:False
+Count:0, epoch_prev:153, epoch:155, flag:False
+Count:0, epoch_prev:155, epoch:157, flag:False
+Count:0, epoch_prev:157, epoch:159, flag:False
+Count:0, epoch_prev:159, epoch:161, flag:False
+Count:0, epoch_prev:161, epoch:163, flag:False
+Count:0, epoch_prev:163, epoch:165, flag:False
+Count:0, epoch_prev:165, epoch:167, flag:False
+Count:0, epoch_prev:167, epoch:169, flag:False
+Count:0, epoch_prev:169, epoch:171, flag:False
+Count:0, epoch_prev:171, epoch:173, flag:False
+Count:0, epoch_prev:173, epoch:175, flag:False
+Count:0, epoch_prev:175, epoch:177, flag:False
+Count:0, epoch_prev:177, epoch:179, flag:False
+Count:0, epoch_prev:179, epoch:181, flag:False
+Count:0, epoch_prev:181, epoch:183, flag:False
+Count:0, epoch_prev:183, epoch:185, flag:False
+Count:0, epoch_prev:185, epoch:187, flag:False
+Count:0, epoch_prev:187, epoch:189, flag:False
+Count:0, epoch_prev:189, epoch:191, flag:False
+Count:0, epoch_prev:191, epoch:193, flag:False
+Count:0, epoch_prev:193, epoch:195, flag:False
+Count:0, epoch_prev:195, epoch:197, flag:False
+Count:0, epoch_prev:197, epoch:199, flag:False
+Epoch: 200/1000, Training MSE Loss:0.011205257, Val. MSE Loss:0.014796767, Time_Elapsed:557.0195 secs
+Count:0, epoch_prev:199, epoch:201, flag:False
+Count:0, epoch_prev:201, epoch:203, flag:False
+Count:0, epoch_prev:203, epoch:205, flag:False
+Error:0.0010913128033280383, Tol:0.001
+Count:0, epoch_prev:205, epoch:207, flag:True
+Count:0, epoch_prev:207, epoch:209, flag:False
+Count:0, epoch_prev:209, epoch:211, flag:False
+Count:0, epoch_prev:211, epoch:213, flag:False
+Count:0, epoch_prev:213, epoch:215, flag:False
+Count:0, epoch_prev:215, epoch:217, flag:False
+Count:0, epoch_prev:217, epoch:219, flag:False
+Count:0, epoch_prev:219, epoch:221, flag:False
+Count:0, epoch_prev:221, epoch:223, flag:False
+Count:0, epoch_prev:223, epoch:225, flag:False
+Count:0, epoch_prev:225, epoch:227, flag:False
+Count:0, epoch_prev:227, epoch:229, flag:False
+Count:0, epoch_prev:229, epoch:231, flag:False
+Count:0, epoch_prev:231, epoch:233, flag:False
+Count:0, epoch_prev:233, epoch:235, flag:False
+Count:0, epoch_prev:235, epoch:237, flag:False
+Count:0, epoch_prev:237, epoch:239, flag:False
+Count:0, epoch_prev:239, epoch:241, flag:False
+Count:0, epoch_prev:241, epoch:243, flag:False
+Count:0, epoch_prev:243, epoch:245, flag:False
+Count:0, epoch_prev:245, epoch:247, flag:False
+Count:0, epoch_prev:247, epoch:249, flag:False
+Count:0, epoch_prev:249, epoch:251, flag:False
+Count:0, epoch_prev:251, epoch:253, flag:False
+Count:0, epoch_prev:253, epoch:255, flag:False
+Count:0, epoch_prev:255, epoch:257, flag:False
+Count:0, epoch_prev:257, epoch:259, flag:False
+Count:0, epoch_prev:259, epoch:261, flag:False
+Count:0, epoch_prev:261, epoch:263, flag:False
+Count:0, epoch_prev:263, epoch:265, flag:False
+Count:0, epoch_prev:265, epoch:267, flag:False
+Count:0, epoch_prev:267, epoch:269, flag:False
+Count:0, epoch_prev:269, epoch:271, flag:False
+Count:0, epoch_prev:271, epoch:273, flag:False
+Count:0, epoch_prev:273, epoch:275, flag:False
+Count:0, epoch_prev:275, epoch:277, flag:False
+Count:0, epoch_prev:277, epoch:279, flag:False
+Count:0, epoch_prev:279, epoch:281, flag:False
+Count:0, epoch_prev:281, epoch:283, flag:False
+Count:0, epoch_prev:283, epoch:285, flag:False
+Count:0, epoch_prev:285, epoch:287, flag:False
+Count:0, epoch_prev:287, epoch:289, flag:False
+Count:0, epoch_prev:289, epoch:291, flag:False
+Count:0, epoch_prev:291, epoch:293, flag:False
+Count:0, epoch_prev:293, epoch:295, flag:False
+Count:0, epoch_prev:295, epoch:297, flag:False
+Count:0, epoch_prev:297, epoch:299, flag:False
+Epoch: 300/1000, Training MSE Loss:0.009408055, Val. MSE Loss:0.016189296, Time_Elapsed:838.7967 secs
+Count:0, epoch_prev:299, epoch:301, flag:False
+Count:0, epoch_prev:301, epoch:303, flag:False
+Count:0, epoch_prev:303, epoch:305, flag:False
+Count:0, epoch_prev:305, epoch:307, flag:False
+Count:0, epoch_prev:307, epoch:309, flag:False
+Count:0, epoch_prev:309, epoch:311, flag:False
+Count:0, epoch_prev:311, epoch:313, flag:False
+Count:0, epoch_prev:313, epoch:315, flag:False
+Count:0, epoch_prev:315, epoch:317, flag:False
+Count:0, epoch_prev:317, epoch:319, flag:False
+Count:0, epoch_prev:319, epoch:321, flag:False
+Count:0, epoch_prev:321, epoch:323, flag:False
+Count:0, epoch_prev:323, epoch:325, flag:False
+Count:0, epoch_prev:325, epoch:327, flag:False
+Count:0, epoch_prev:327, epoch:329, flag:False
+Count:0, epoch_prev:329, epoch:331, flag:False
+Count:0, epoch_prev:331, epoch:333, flag:False
+Count:0, epoch_prev:333, epoch:335, flag:False
+Count:0, epoch_prev:335, epoch:337, flag:False
+Count:0, epoch_prev:337, epoch:339, flag:False
+Count:0, epoch_prev:339, epoch:341, flag:False
+Count:0, epoch_prev:341, epoch:343, flag:False
+Count:0, epoch_prev:343, epoch:345, flag:False
+Count:0, epoch_prev:345, epoch:347, flag:False
+Count:0, epoch_prev:347, epoch:349, flag:False
+Count:0, epoch_prev:349, epoch:351, flag:False
+Count:0, epoch_prev:351, epoch:353, flag:False
+Count:0, epoch_prev:353, epoch:355, flag:False
+Count:0, epoch_prev:355, epoch:357, flag:False
+Count:0, epoch_prev:357, epoch:359, flag:False
+Count:0, epoch_prev:359, epoch:361, flag:False
+Count:0, epoch_prev:361, epoch:363, flag:False
+Count:0, epoch_prev:363, epoch:365, flag:False
+Count:0, epoch_prev:365, epoch:367, flag:False
+Count:0, epoch_prev:367, epoch:369, flag:False
+Count:0, epoch_prev:369, epoch:371, flag:False
+Count:0, epoch_prev:371, epoch:373, flag:False
+Count:0, epoch_prev:373, epoch:375, flag:False
+Count:0, epoch_prev:375, epoch:377, flag:False
+Count:0, epoch_prev:377, epoch:379, flag:False
+Count:0, epoch_prev:379, epoch:381, flag:False
+Count:0, epoch_prev:381, epoch:383, flag:False
+Count:0, epoch_prev:383, epoch:385, flag:False
+Count:0, epoch_prev:385, epoch:387, flag:False
+Count:0, epoch_prev:387, epoch:389, flag:False
+Count:0, epoch_prev:389, epoch:391, flag:False
+Count:0, epoch_prev:391, epoch:393, flag:False
+Count:0, epoch_prev:393, epoch:395, flag:False
+Count:0, epoch_prev:395, epoch:397, flag:False
+Count:0, epoch_prev:397, epoch:399, flag:False
+Epoch: 400/1000, Training MSE Loss:0.007969892, Val. MSE Loss:0.018015537, Time_Elapsed:1121.2685 secs
+Count:0, epoch_prev:399, epoch:401, flag:False
+Count:0, epoch_prev:401, epoch:403, flag:False
+Count:0, epoch_prev:403, epoch:405, flag:False
+Count:0, epoch_prev:405, epoch:407, flag:False
+Count:0, epoch_prev:407, epoch:409, flag:False
+Count:0, epoch_prev:409, epoch:411, flag:False
+Count:0, epoch_prev:411, epoch:413, flag:False
+Count:0, epoch_prev:413, epoch:415, flag:False
+Count:0, epoch_prev:415, epoch:417, flag:False
+Count:0, epoch_prev:417, epoch:419, flag:False
+Count:0, epoch_prev:419, epoch:421, flag:False
+Count:0, epoch_prev:421, epoch:423, flag:False
+Count:0, epoch_prev:423, epoch:425, flag:False
+Count:0, epoch_prev:425, epoch:427, flag:False
+Count:0, epoch_prev:427, epoch:429, flag:False
+Count:0, epoch_prev:429, epoch:431, flag:False
+Count:0, epoch_prev:431, epoch:433, flag:False
+Count:0, epoch_prev:433, epoch:435, flag:False
+Count:0, epoch_prev:435, epoch:437, flag:False
+Count:0, epoch_prev:437, epoch:439, flag:False
+Count:0, epoch_prev:439, epoch:441, flag:False
+Count:0, epoch_prev:441, epoch:443, flag:False
+Count:0, epoch_prev:443, epoch:445, flag:False
+Count:0, epoch_prev:445, epoch:447, flag:False
+Count:0, epoch_prev:447, epoch:449, flag:False
+Count:0, epoch_prev:449, epoch:451, flag:False
+Count:0, epoch_prev:451, epoch:453, flag:False
+Count:0, epoch_prev:453, epoch:455, flag:False
+Count:0, epoch_prev:455, epoch:457, flag:False
+Count:0, epoch_prev:457, epoch:459, flag:False
+Count:0, epoch_prev:459, epoch:461, flag:False
+Count:0, epoch_prev:461, epoch:463, flag:False
+Count:0, epoch_prev:463, epoch:465, flag:False
+Count:0, epoch_prev:465, epoch:467, flag:False
+Error:0.0015528663992881789, Tol:0.001
+Count:0, epoch_prev:467, epoch:469, flag:True
+Count:0, epoch_prev:469, epoch:471, flag:False
+Count:0, epoch_prev:471, epoch:473, flag:False
+Count:0, epoch_prev:473, epoch:475, flag:False
+Count:0, epoch_prev:475, epoch:477, flag:False
+Count:0, epoch_prev:477, epoch:479, flag:False
+Count:0, epoch_prev:479, epoch:481, flag:False
+Count:0, epoch_prev:481, epoch:483, flag:False
+Count:0, epoch_prev:483, epoch:485, flag:False
+Count:0, epoch_prev:485, epoch:487, flag:False
+Count:0, epoch_prev:487, epoch:489, flag:False
+Count:0, epoch_prev:489, epoch:491, flag:False
+Count:0, epoch_prev:491, epoch:493, flag:False
+Count:0, epoch_prev:493, epoch:495, flag:False
+Count:0, epoch_prev:495, epoch:497, flag:False
+Count:0, epoch_prev:497, epoch:499, flag:False
+Epoch: 500/1000, Training MSE Loss:0.007054362, Val. MSE Loss:0.018357801, Time_Elapsed:1403.8824 secs
+Count:0, epoch_prev:499, epoch:501, flag:False
+Count:0, epoch_prev:501, epoch:503, flag:False
+Count:0, epoch_prev:503, epoch:505, flag:False
+Count:0, epoch_prev:505, epoch:507, flag:False
+Count:0, epoch_prev:507, epoch:509, flag:False
+Count:0, epoch_prev:509, epoch:511, flag:False
+Interrupted!! ...saving the model at epoch:512
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.154497950, Val. MSE Loss:0.067674371, Time_Elapsed:2.6575 secs
+Epoch: 100/1000, Training MSE Loss:0.013199685, Val. MSE Loss:0.015148110, Time_Elapsed:284.1526 secs
+Error:4.0226212392250466e-05, Tol:1e-05
+Error:0.0003493240103125579, Tol:1e-05
+Error:0.0005883429509898029, Tol:1e-05
+Error:0.001467266026884316, Tol:1e-05
+Error:0.00012575720126430275, Tol:1e-05
+Error:0.0005080258473753943, Tol:1e-05
+Error:0.0006106910606225348, Tol:1e-05
+Error:0.0002806444962819409, Tol:1e-05
+Error:4.484470312794003e-05, Tol:1e-05
+Error:9.825446953376157e-05, Tol:1e-05
+Error:0.000926331058144568, Tol:1e-05
+Error:0.00038615822171171425, Tol:1e-05
+Error:0.0004466247744858258, Tol:1e-05
+Error:0.0004838083249827235, Tol:1e-05
+Error:0.0001542126139005024, Tol:1e-05
+Error:4.7924959411223614e-05, Tol:1e-05
+Error:0.0008327875907222435, Tol:1e-05
+Error:0.0002839806489646438, Tol:1e-05
+Error:0.00022597862407565047, Tol:1e-05
+Error:0.00023975875228643244, Tol:1e-05
+Error:0.00014483894531925647, Tol:1e-05
+Epoch: 200/1000, Training MSE Loss:0.011473646, Val. MSE Loss:0.015722585, Time_Elapsed:568.7489 secs
+Error:1.3180232296388511e-05, Tol:1e-05
+Error:0.000504479774584371, Tol:1e-05
+Error:7.697353139519622e-05, Tol:1e-05
+Error:0.0002578015439212329, Tol:1e-05
+Error:0.0008677781559526913, Tol:1e-05
+Error:0.00034112020706136836, Tol:1e-05
+Error:0.0003300810853640243, Tol:1e-05
+Error:0.0002167812859018639, Tol:1e-05
+Error:0.0007441900360087537, Tol:1e-05
+Error:0.00035772438471515927, Tol:1e-05
+Error:0.00017373996476332393, Tol:1e-05
+Interrupted!! ...saving the model at epoch:246
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.151673392, Val. MSE Loss:0.067218296, Time_Elapsed:2.6525 secs
+Epoch: 100/1000, Training MSE Loss:0.013262914, Val. MSE Loss:0.014666209, Time_Elapsed:281.8366 secs
+Count:0, epoch_prev:0, epoch:103, flag:False
+Count:0, epoch_prev:103, epoch:105, flag:False
+Count:0, epoch_prev:105, epoch:107, flag:False
+Error:0.0003904964464406177, Tol:1e-05
+Count:0, epoch_prev:107, epoch:109, flag:True
+Count:0, epoch_prev:109, epoch:111, flag:False
+Error:0.00041728438809513976, Tol:1e-05
+Count:0, epoch_prev:111, epoch:113, flag:True
+Error:0.00042531263704101256, Tol:1e-05
+Count:0, epoch_prev:113, epoch:115, flag:True
+Error:6.304187700152328e-05, Tol:1e-05
+Count:0, epoch_prev:115, epoch:117, flag:True
+Error:5.605102827151674e-05, Tol:1e-05
+Count:0, epoch_prev:117, epoch:119, flag:True
+Count:0, epoch_prev:119, epoch:121, flag:False
+Count:0, epoch_prev:121, epoch:123, flag:False
+Count:0, epoch_prev:123, epoch:125, flag:False
+Error:0.0005122799736758075, Tol:1e-05
+Count:0, epoch_prev:125, epoch:127, flag:True
+Count:0, epoch_prev:127, epoch:129, flag:False
+Count:0, epoch_prev:129, epoch:131, flag:False
+Count:0, epoch_prev:131, epoch:133, flag:False
+Count:0, epoch_prev:133, epoch:135, flag:False
+Count:0, epoch_prev:135, epoch:137, flag:False
+Error:0.00020558309430877483, Tol:1e-05
+Count:0, epoch_prev:137, epoch:139, flag:True
+Error:0.0006305026821792122, Tol:1e-05
+Count:0, epoch_prev:139, epoch:141, flag:True
+Error:0.0010629447797934205, Tol:1e-05
+Count:0, epoch_prev:141, epoch:143, flag:True
+Error:0.0004272668622434146, Tol:1e-05
+Count:0, epoch_prev:143, epoch:145, flag:True
+Error:0.0003162164861957237, Tol:1e-05
+Count:0, epoch_prev:145, epoch:147, flag:True
+Error:8.734101429581746e-05, Tol:1e-05
+Count:0, epoch_prev:147, epoch:149, flag:True
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 1000, 'n_hidden_dense': 32} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/1000, Training MSE Loss:0.142669691, Val. MSE Loss:0.068768135, Time_Elapsed:2.6302 secs
+Epoch: 100/1000, Training MSE Loss:0.013364410, Val. MSE Loss:0.014241490, Time_Elapsed:279.6991 secs
+Error:0.0005278740388651691, Tol:1e-05
+Count:0, epoch_prev:0, epoch:103, flag:True
+Error:7.997481152415171e-05, Tol:1e-05
+Count:0, epoch_prev:103, epoch:104, flag:True
+Count:1
+Error:0.0007254691173632956, Tol:1e-05
+Count:1, epoch_prev:104, epoch:105, flag:True
+Count:2
+Count:2, epoch_prev:105, epoch:106, flag:False
+Error:0.00014945107201735225, Tol:1e-05
+Count:0, epoch_prev:106, epoch:107, flag:True
+Count:1
+Count:1, epoch_prev:107, epoch:108, flag:False
+Count:0, epoch_prev:108, epoch:109, flag:False
+Count:0, epoch_prev:109, epoch:110, flag:False
+Count:0, epoch_prev:110, epoch:111, flag:False
+Error:0.00029832283034920623, Tol:1e-05
+Count:0, epoch_prev:111, epoch:112, flag:True
+Count:1
+Count:1, epoch_prev:112, epoch:113, flag:False
+Error:0.00022838935256004438, Tol:1e-05
+Count:0, epoch_prev:113, epoch:114, flag:True
+Count:1
+Count:1, epoch_prev:114, epoch:115, flag:False
+Error:0.0005619901853303119, Tol:1e-05
+Count:0, epoch_prev:115, epoch:116, flag:True
+Count:1
+Error:0.0014042216663559277, Tol:1e-05
+Count:1, epoch_prev:116, epoch:117, flag:True
+Count:2
+Count:2, epoch_prev:117, epoch:118, flag:False
+Count:0, epoch_prev:118, epoch:119, flag:False
+Count:0, epoch_prev:119, epoch:120, flag:False
+Error:9.73115054269634e-05, Tol:1e-05
+Count:0, epoch_prev:120, epoch:121, flag:True
+Count:1
+Count:1, epoch_prev:121, epoch:122, flag:False
+Error:0.00046873027458787034, Tol:1e-05
+Count:0, epoch_prev:122, epoch:123, flag:True
+Count:1
+Count:1, epoch_prev:123, epoch:124, flag:False
+Count:0, epoch_prev:124, epoch:125, flag:False
+Error:0.00040405901769796984, Tol:1e-05
+Count:0, epoch_prev:125, epoch:126, flag:True
+Count:1
+Count:1, epoch_prev:126, epoch:127, flag:False
+Error:0.00010778891543547324, Tol:1e-05
+Count:0, epoch_prev:127, epoch:128, flag:True
+Count:1
+Count:1, epoch_prev:128, epoch:129, flag:False
+Count:0, epoch_prev:129, epoch:130, flag:False
+Error:0.0007686429346601166, Tol:1e-05
+Count:0, epoch_prev:130, epoch:131, flag:True
+Count:1
+Count:1, epoch_prev:131, epoch:132, flag:False
+Error:0.00020103628436724322, Tol:1e-05
+Count:0, epoch_prev:132, epoch:133, flag:True
+Count:1
+Count:1, epoch_prev:133, epoch:134, flag:False
+Error:0.00012712916359305416, Tol:1e-05
+Count:0, epoch_prev:134, epoch:135, flag:True
+Count:1
+Error:0.0001498990381757423, Tol:1e-05
+Count:1, epoch_prev:135, epoch:136, flag:True
+Count:2
+Count:2, epoch_prev:136, epoch:137, flag:False
+Error:9.920736774802173e-05, Tol:1e-05
+Count:0, epoch_prev:137, epoch:138, flag:True
+Count:1
+Count:1, epoch_prev:138, epoch:139, flag:False
+Error:0.0011465218539039295, Tol:1e-05
+Count:0, epoch_prev:139, epoch:140, flag:True
+Count:1
+Count:1, epoch_prev:140, epoch:141, flag:False
+Error:0.0008015695959329612, Tol:1e-05
+Count:0, epoch_prev:141, epoch:142, flag:True
+Count:1
+Count:1, epoch_prev:142, epoch:143, flag:False
+Count:0, epoch_prev:143, epoch:144, flag:False
+Count:0, epoch_prev:144, epoch:145, flag:False
+Error:0.0011206435350080337, Tol:1e-05
+Count:0, epoch_prev:145, epoch:146, flag:True
+Count:1
+Count:1, epoch_prev:146, epoch:147, flag:False
+Error:0.00041004003336032185, Tol:1e-05
+Count:0, epoch_prev:147, epoch:148, flag:True
+Count:1
+Error:0.0003895590702692672, Tol:1e-05
+Count:1, epoch_prev:148, epoch:149, flag:True
+Count:2
+Count:2, epoch_prev:149, epoch:150, flag:False
+Count:0, epoch_prev:150, epoch:151, flag:False
+Error:0.00011096733311812164, Tol:1e-05
+Count:0, epoch_prev:151, epoch:152, flag:True
+Count:1
+Count:1, epoch_prev:152, epoch:153, flag:False
+Error:9.051300585269893e-05, Tol:1e-05
+Count:0, epoch_prev:153, epoch:154, flag:True
+Count:1
+Count:1, epoch_prev:154, epoch:155, flag:False
+Error:0.0004283244411150619, Tol:1e-05
+Count:0, epoch_prev:155, epoch:156, flag:True
+Count:1
+Error:0.00011914263789852483, Tol:1e-05
+Count:1, epoch_prev:156, epoch:157, flag:True
+Count:2
+Error:5.1405001431702874e-05, Tol:1e-05
+Count:2, epoch_prev:157, epoch:158, flag:True
+Count:3
+Consecutive iterations are:[156, 157, 158]
+Exit and Convergence reached after 3 iterations for relative change in NLL below :1e-05
+
+Saving the best model at epoch=157, with training loss=0.012257675893706124, validation loss=0.014800893577436606
+------------------------------ Training ends --------------------------------- 
+
