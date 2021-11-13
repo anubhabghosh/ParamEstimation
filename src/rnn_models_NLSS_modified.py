@@ -165,7 +165,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     patience = 0
     num_patience = 3 
     min_delta = 1e-3 # 1e-3 for simpler model, for complicated model we use 1e-2
-    min_tol = 1e-4
+    min_tol = 1e-5
     check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
@@ -182,8 +182,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     # This checkes the ES of the val loss, if the loss deteriorates for specified no. of
     # max_epochs, stop the training
-    model_monitor = ConvergenceMonitor_ES(tol=min_tol,
-                                    max_epochs=6)
+    model_monitor = ConvergenceMonitor_ES(tol=min_tol, max_epochs=num_patience)
 
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
@@ -244,7 +243,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_loss = val_loss_epoch_sum / len(val_loader)
 
             # Record the validation loss per epoch
-            if epoch > nepochs // 6:
+            if epoch > 100: # nepochs/6
                 model_monitor.record(val_loss)
 
             # Displaying loss at an interval of 200 epochs
@@ -300,17 +299,26 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             if model_monitor.monitor(epoch=epoch+1) == True:
 
                 if tr_verbose == True:
-                    print("Training convergence attained! Saving model at Epoch:{}".format(epoch+1), file=orig_stdout)
+                    print("Training convergence attained! Saving model at Epoch: {}".format(epoch+1), file=orig_stdout)
                 
-                print("Training convergence attained!".format(epoch+1))
+                #print("Training convergence attained at Epoch: {}!".format(epoch+1))
                 # Save the best model as per validation loss at the end
+                #best_val_loss = val_loss # Save best validation loss
+                #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                #best_val_epoch = epoch+1 # Corresponding value of epoch
+                #best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+                print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
+                #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+                break
+
+            else:
+
+                #print("Model improvement attained at Epoch: {}".format(epoch+1))
                 best_val_loss = val_loss # Save best validation loss
                 tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
                 best_val_epoch = epoch+1 # Corresponding value of epoch
                 best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
-                print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
-                #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
-                break
+
         
         # Save the best model as per validation loss at the end
         #print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
