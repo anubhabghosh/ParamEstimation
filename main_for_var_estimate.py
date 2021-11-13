@@ -10,7 +10,8 @@ import pickle as pkl
 import os
 import torch
 import json
-from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
+#from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
+from src.rnn_models_NLSS_modified import RNN_model, train_rnn, evaluate_rnn
 import argparse
 
 def main():

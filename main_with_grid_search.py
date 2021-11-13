@@ -96,7 +96,7 @@ def main():
     #print(params)
     # Json file to store grid search results
     jsonfile_name = 'grid_search_results_{}_{}_NS{}.json'.format(model_type, dataset_mode, int(num_trajs*num_realizations))
-    gs_log_file_name = "gs_training_{}_M{}_P{}_N{}.log".format(model_type,
+    gs_log_file_name = "gs_training_modified_RNN_{}_M{}_P{}_N{}.log".format(model_type,
                                                             num_trajs,
                                                             num_realizations,
                                                             N_seq)
@@ -130,7 +130,7 @@ def main():
                     }
     elif dataset_mode == "pfixed":
         gs_params = {
-                    "n_hidden":[50, 60, 70],
+                    "n_hidden":[30, 40, 50, 60, 70],
                     "n_layers":[1, 2],
                     "num_epochs":[1000, 2000],
                     "n_hidden_dense":[32, 40, 64]
