@@ -23,12 +23,14 @@ def main():
     parser.add_argument("--datafile", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--dataset_mode", help="Enter the type of dataset (pfixed/vars/all)", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
+    parser.add_argument("--config", help="Enter full path to the configurations json file", type=str)
     parser.add_argument("--splits", help="Enter full path to splits file", type=str)
 
     args = parser.parse_args() 
     datafile = args.datafile
     dataset_mode = args.dataset_mode
     model_type = args.model_type
+    config_file = args.config
     splits_file = args.splits
 
     # Dataset parameters obtained from the 'datafile' variable
@@ -76,13 +78,16 @@ def main():
     #for i_batch, sample_batched in enumerate(train_loader):
     #    print(i_batch, sample_batched[0].size(), sample_batched[1].size())
     #model_type = "gru"
-    if dataset_mode == "vars":
-        with open("./config/configurations_var.json") as f:
-            options = json.load(f)
-    elif dataset_mode == "pfixed":
-        with open("./config/configurations_alltheta_pfixed.json") as f:
-            options = json.load(f)
-        
+    #if dataset_mode == "vars":
+    #    with open("./config/configurations_var.json") as f:
+    #        options = json.load(f)
+    #elif dataset_mode == "pfixed":
+    #    with open("./config/configurations_alltheta_pfixed.json") as f:
+    #        options = json.load(f)
+    
+    with open(config_file) as f: # Config file for estimating theta_vector when some parameters are fixed
+        options = json.load(f)
+
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
     device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu>0) else "cpu")
     print("Device Used:{}".format(device))

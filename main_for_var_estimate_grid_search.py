@@ -1,8 +1,9 @@
 # This code writes down the solution for Task 1
 from parse import parse
+import pickle as pkl
 from torch.utils import data
 from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx, check_if_dir_or_file_exists
-from utils.data_utils import get_dataloaders, load_saved_dataset
+from utils.data_utils import get_dataloaders, load_saved_dataset, create_splits_file_name, load_splits_file
 import os
 import torch
 import json
@@ -21,12 +22,16 @@ def main():
 
     parser.add_argument("--data", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--dataset_mode", help="Enter the type of dataset (pfixed/vars/all)", type=str)
+    parser.add_argument("--config", help="Enter full path to the configurations json file", type=str)
     parser.add_argument("--model_type", help="Enter the desired model (gru/lstm/rnn)", type=str)
-   
+    parser.add_argument("--splits", help="Enter full path to splits file", type=str)
+
     args = parser.parse_args() 
     datafile = args.data
     dataset_mode = args.dataset_mode
     model_type = args.model_type
+    config_file = args.config
+    splits_file = args.splits
 
     # Dataset parameters obtained from the 'datafile' variable
     _, num_trajs, num_realizations, N_seq = parse("{}_M{:d}_P{:d}_N{:d}.pkl", datafile.split('/')[-1])
@@ -43,10 +48,24 @@ def main():
     
     Z_pM_dataset = Series_Dataset(Z_pM_dict=Z_pM)
 
-    tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
-                                                                tr_to_test_split=0.9,
-                                                                tr_to_val_split=0.833)
-    print(len(tr_indices), len(val_indices), len(test_indices))
+    if not os.path.isfile(splits_file):
+        tr_indices, val_indices, test_indices = obtain_tr_val_test_idx(dataset=Z_pM_dataset,
+                                                                    tr_to_test_split=0.9,
+                                                                    tr_to_val_split=0.833)
+        print(len(tr_indices), len(val_indices), len(test_indices))
+        splits = {}
+        splits["train"] = tr_indices
+        splits["val"] = val_indices
+        splits["test"] = test_indices
+        splits_file_name = create_splits_file_name(dataset_filename=datafile,
+                                                splits_filename=splits_file
+                                                )
+        with open(splits_file_name, 'wb') as handle:
+            pkl.dump(splits, handle, protocol=pkl.HIGHEST_PROTOCOL)
+    else:
+        print("Loading the splits file from {}".format(splits_file))
+        splits = load_splits_file(splits_filename=splits_file)
+        tr_indices, val_indices, test_indices = splits["train"], splits["val"], splits["test"]
 
     batch_size = 128
     train_loader, val_loader, test_loader = get_dataloaders(Z_pM_dataset, batch_size, tr_indices, val_indices, test_indices)
@@ -59,13 +78,16 @@ def main():
     #for i_batch, sample_batched in enumerate(train_loader):
     #    print(i_batch, sample_batched[0].size(), sample_batched[1].size())
     #model_type = "gru"
-    if dataset_mode == "vars":
-        with open("./config/configurations_var.json") as f:
-            options = json.load(f)
-    elif dataset_mode == "pfixed":
-        with open("./config/configurations_alltheta_pfixed.json") as f:
-            options = json.load(f)
-        
+    #if dataset_mode == "vars":
+    #    with open("./config/configurations_var.json") as f:
+    #        options = json.load(f)
+    #elif dataset_mode == "pfixed":
+    #    with open("./config/configurations_alltheta_pfixed.json") as f:
+    #        options = json.load(f)
+
+    with open(config_file) as f: # Config file for estimating theta_vector when some parameters are fixed
+        options = json.load(f)
+
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
     device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu>0) else "cpu")
     print("Device Used:{}".format(device))
