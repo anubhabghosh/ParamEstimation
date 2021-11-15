@@ -8,8 +8,8 @@ from torch.autograd import Variable
 from timeit import default_timer as timer
 import copy
 #from tqdm import tqdm
-#from utils.convg_monitor import ConvergenceMonitor
-from utils.convg_monitor_ES import ConvergenceMonitor_ES
+from utils.convg_monitor import ConvergenceMonitor
+#from utils.convg_monitor_ES import ConvergenceMonitor_ES
 from utils.custom_callback import callback_val_loss
 
 # Create an RNN model for prediction
@@ -177,12 +177,12 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     
 
     # Convergence monitoring (checks the convergence but not ES of the val_loss)
-    #model_monitor = ConvergenceMonitor(tol=min_delta,
-    #                                max_epochs=num_patience)
+    model_monitor = ConvergenceMonitor(tol=min_delta,
+                                    max_epochs=num_patience)
 
     # This checkes the ES of the val loss, if the loss deteriorates for specified no. of
     # max_epochs, stop the training
-    model_monitor = ConvergenceMonitor_ES(tol=min_tol, max_epochs=num_patience)
+    #model_monitor = ConvergenceMonitor_ES(tol=min_tol, max_epochs=num_patience)
 
     print("------------------------------ Training begins --------------------------------- \n")
     print("Config: {} \n".format(options))
@@ -243,7 +243,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_loss = val_loss_epoch_sum / len(val_loader)
 
             # Record the validation loss per epoch
-            if (epoch + 1) > 100: # nepochs/6 for complicated, 100 for simpler model
+            if (epoch + 1) > nepochs // 6: # nepochs/6 for complicated, 100 for simpler model
                 model_monitor.record(val_loss)
 
             # Displaying loss at an interval of 200 epochs
@@ -301,23 +301,23 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
                 if tr_verbose == True:
                     print("Training convergence attained! Saving model at Epoch: {}".format(epoch+1), file=orig_stdout)
                 
-                #print("Training convergence attained at Epoch: {}!".format(epoch+1))
+                print("Training convergence attained at Epoch: {}!".format(epoch+1))
                 # Save the best model as per validation loss at the end
-                #best_val_loss = val_loss # Save best validation loss
-                #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-                #best_val_epoch = epoch+1 # Corresponding value of epoch
-                #best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
-                print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
+                best_val_loss = val_loss # Save best validation loss
+                tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                best_val_epoch = epoch+1 # Corresponding value of epoch
+                best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+                #print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
                 #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
                 break
 
             else:
 
-                #print("Model improvement attained at Epoch: {}".format(epoch+1))
-                best_val_loss = val_loss # Save best validation loss
-                tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-                best_val_epoch = epoch+1 # Corresponding value of epoch
-                best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+                print("Model improvement attained at Epoch: {}".format(epoch+1))
+                #best_val_loss = val_loss # Save best validation loss
+                #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                #best_val_epoch = epoch+1 # Corresponding value of epoch
+                #best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
 
         
         # Save the best model as per validation loss at the end
@@ -345,7 +345,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
         else:
             print("Interrupted!! ...saving the model at epoch:{}".format(epoch+1))
 
-        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_val_epoch)
+        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_latest.pt".format(model.model_type, usenorm_flag, epoch+1)
         torch.save(model, model_filepath + "/" + model_filename)
 
     print("------------------------------ Training ends --------------------------------- \n")
