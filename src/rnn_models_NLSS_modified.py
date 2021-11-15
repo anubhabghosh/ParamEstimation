@@ -164,7 +164,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     
     patience = 0
     num_patience = 3 
-    min_delta = 1e-3 # 1e-3 for simpler model, for complicated model we use 1e-2
+    min_delta = 1e-2 # 1e-3 for simpler model, for complicated model we use 1e-2
     min_tol = 1e-3 # for tougher model, we use 1e-2, easier models we use 1e-5
     check_patience=False
     best_val_loss = np.inf
@@ -311,9 +311,9 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
                 #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
                 break
 
-            else:
+            #else:
 
-                print("Model improvement attained at Epoch: {}".format(epoch+1))
+                #print("Model improvement attained at Epoch: {}".format(epoch+1))
                 #best_val_loss = val_loss # Save best validation loss
                 #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
                 #best_val_epoch = epoch+1 # Corresponding value of epoch
