@@ -243,7 +243,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_loss = val_loss_epoch_sum / len(val_loader)
 
             # Record the validation loss per epoch
-            if (epoch + 1) > nepochs // 10: # nepochs/6 for complicated, 100 for simpler model
+            if (epoch + 1) > 100: # nepochs/6 for complicated, 100 for simpler model
                 model_monitor.record(val_loss)
 
             # Displaying loss at an interval of 200 epochs
