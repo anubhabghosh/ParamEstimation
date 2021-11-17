@@ -137,8 +137,9 @@ def main():
         gs_params = {
                     "n_hidden":[40, 50, 60, 70],
                     "n_layers":[1, 2],
-                    "num_epochs":[3000],
-                    "n_hidden_dense":[32, 40]
+                    "num_epochs":[6000],
+                    "lr":[5e-4, 1e-3],
+                    "n_hidden_dense":[32]
                     }
     
     # Creates the list of param combinations (options) based on the provided 'model_type'
