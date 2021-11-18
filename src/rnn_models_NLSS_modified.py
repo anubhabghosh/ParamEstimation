@@ -321,7 +321,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
         
         # Save the best model as per validation loss at the end
-        #print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
+        print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
         
         #if save_chkpoints == True:
         if save_chkpoints == "all" or save_chkpoints == "some":
