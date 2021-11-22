@@ -3,6 +3,7 @@ from utils.data_utils_simpler_model import generate_trajectory_param_pairs
 import os
 import pickle as pkl
 import argparse
+import numpy as np
 
 def create_filename(P=50, M=500, N=200, use_norm=0, dataset_basepath="./data/", mode="all"):
     # Create the dataset based on the dataset parameters
@@ -23,6 +24,7 @@ def save_dataset(Z_pM, filename):
 
 def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_flag=0, mode="all"):
     
+    np.random.seed(10) # This can be kept at a fixed step for being consistent
     if mode.lower() == "all":
         Z_pM = generate_trajectory_param_pairs(N=N, 
                                         M=num_trajs, 
