@@ -17,7 +17,7 @@ class RNN_model(nn.Module):
     """ This super class defines the specific model to be used i.e. LSTM or GRU or RNN
     """
     def __init__(self, input_size, output_size, n_hidden, n_layers, 
-        model_type, lr, num_epochs, n_hidden_dense=32, num_directions=1, batch_first = True):
+        model_type, lr, num_epochs, n_hidden_dense=32, num_directions=1, batch_first = True, min_delta=1e-2):
         super(RNN_model, self).__init__()
         """
         Args:
@@ -164,7 +164,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     
     patience = 0
     num_patience = 3 
-    min_delta = 1e-3 # 1e-3 for simpler model, for complicated model we use 1e-2
+    min_delta = options["min_delta"] # 1e-3 for simpler model, for complicated model we use 1e-2
     #min_tol = 1e-3 # for tougher model, we use 1e-2, easier models we use 1e-5
     check_patience=False
     best_val_loss = np.inf
@@ -243,7 +243,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             val_loss = val_loss_epoch_sum / len(val_loader)
 
             # Record the validation loss per epoch
-            if (epoch + 1) > nepochs // 6: # nepochs/6 for complicated, 100 for simpler model
+            if (epoch + 1) > 100: # nepochs/6 for complicated, 100 for simpler model
                 model_monitor.record(val_loss)
 
             # Displaying loss at an interval of 200 epochs

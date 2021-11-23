@@ -23,3 +23,58 @@ Training convergence attained at Epoch: 1144!
 Saving the best model at epoch=1144, with training loss=0.03875664061335379, validation loss=0.039029803950669004
 ------------------------------ Training ends --------------------------------- 
 
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000, 'n_hidden_dense': 32, 'min_delta': 0.01} 
+
+No. of trainable parameters: 16444
+
+Interrupted!! ...saving the model at epoch:1
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000, 'n_hidden_dense': 32, 'min_delta': 0.01} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/3000, Training MSE Loss:0.040605934, Val. MSE Loss:0.020084991, Time_Elapsed:52.4039 secs
+Epoch: 100/3000, Training MSE Loss:0.012715057, Val. MSE Loss:0.013153131, Time_Elapsed:5447.0376 secs
+Consecutive iterations are:[103, 104, 105]
+Exit and Convergence reached after 3 iterations for relative change in NLL below :0.01
+Training convergence attained at Epoch: 105!
+
+Saving the best model at epoch=105, with training loss=0.012699307259852648, validation loss=0.013102175930806367
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000, 'n_hidden_dense': 32, 'min_delta': 0.005} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/3000, Training MSE Loss:0.038964972, Val. MSE Loss:0.023977215, Time_Elapsed:52.5864 secs
+Epoch: 100/3000, Training MSE Loss:0.012748521, Val. MSE Loss:0.013480951, Time_Elapsed:5549.0406 secs
+Consecutive iterations are:[111, 112, 113]
+Exit and Convergence reached after 3 iterations for relative change in NLL below :0.005
+Training convergence attained at Epoch: 113!
+
+Saving the best model at epoch=113, with training loss=0.012700994491078577, validation loss=0.013363797771966173
+------------------------------ Training ends --------------------------------- 
+
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 4, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000, 'n_hidden_dense': 32, 'min_delta': 0.001} 
+
+No. of trainable parameters: 16444
+
+Epoch: 1/3000, Training MSE Loss:0.039778209, Val. MSE Loss:0.022006094, Time_Elapsed:46.0865 secs
+Epoch: 100/3000, Training MSE Loss:0.012708431, Val. MSE Loss:0.013111821, Time_Elapsed:5489.0776 secs
+Epoch: 200/3000, Training MSE Loss:0.012531724, Val. MSE Loss:0.013376090, Time_Elapsed:10976.9770 secs
+Epoch: 300/3000, Training MSE Loss:0.012228218, Val. MSE Loss:0.013023568, Time_Elapsed:16444.1329 secs
+Epoch: 400/3000, Training MSE Loss:0.012220656, Val. MSE Loss:0.013025301, Time_Elapsed:21989.7818 secs
+Epoch: 500/3000, Training MSE Loss:0.012125143, Val. MSE Loss:0.013208988, Time_Elapsed:27451.0497 secs
+Epoch: 600/3000, Training MSE Loss:0.012060314, Val. MSE Loss:0.013172248, Time_Elapsed:32987.6503 secs
+Interrupted!! ...saving the model at epoch:626
+------------------------------ Training ends --------------------------------- 
+
