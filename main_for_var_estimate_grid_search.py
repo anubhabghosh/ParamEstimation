@@ -130,8 +130,8 @@ def main():
         gs_params = {
                     "n_hidden":[30, 40, 50, 60],
                     "n_layers":[1, 2],
-                    "num_epochs":[3000, 4000],
-                    "n_hidden_dense":[32, 64]
+                    "num_epochs":[3000],
+                    "n_hidden_dense":[32, 40]
                     }
     elif dataset_mode == "pfixed":
         gs_params = {
