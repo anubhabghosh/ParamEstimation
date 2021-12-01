@@ -29,11 +29,13 @@ def main():
     parser.add_argument("--datafile", help="Enter the full path to the dataset", type=str)
     parser.add_argument("--use_norm", help="Use_normalization", type=int, default=None)
     parser.add_argument("--splits", help="Enter full path to splits file", type=str)
+    parser.add_argument("--config", help="Enter full path to the configurations json file", type=str)
 
     args = parser.parse_args() 
+    config_file = args.config
     mode = args.mode
     model_type = args.model_type
-    datafile = args.data
+    datafile = args.datafile
     dataset_mode = args.dataset_mode
     usenorm_flag = args.use_norm
     model_file_saved = args.model_file_saved
@@ -85,7 +87,7 @@ def main():
     #model_type = "gru"
     #with open("configurations_var.json", 'r') as f:
         #options = json.load(f)
-    with open("./config/configurations_vars.json", 'r') as f:
+    with open(config_file, 'r') as f:
         options = json.load(f)
 
     ngpu = 1 # Comment this out if you want to run on cpu and the next line just set device to "cpu"
