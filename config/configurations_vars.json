@@ -3,11 +3,12 @@
         "model_type":"gru",
         "input_size":1,
         "output_size":2,
-        "n_hidden":40,
+        "n_hidden":50,
         "n_layers":2,
         "lr":1e-3,
         "num_epochs":2000,
-        "min_delta":1e-2
+        "min_delta":1e-2,
+        "n_hidden_dense":32
     },
     "lstm":{
         "model_type":"lstm",
@@ -17,7 +18,8 @@
         "n_layers":1,
         "lr":1e-3,
         "num_epochs":2000,
-        "min_delta":1e-2
+        "min_delta":1e-2,
+        "n_hidden_dense":32
     },
     "rnn":{
         "model_type":"rnn",
@@ -27,7 +29,8 @@
         "n_layers":2,
         "lr":1e-3,
         "num_epochs":800,
-        "min_delta":1e-2
+        "min_delta":1e-2,
+        "n_hidden_dense":32
     }
     }
     

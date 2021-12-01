@@ -142,7 +142,10 @@ def main():
                                                                                         val_loader=val_loader,
                                                                                         device=device,
                                                                                         usenorm_flag=usenorm_flag,
-                                                                                        tr_verbose=tr_verbose)
+                                                                                        tr_verbose=tr_verbose,
+                                                                                        logfile_path=tr_logfile_name_with_path,
+                                                                                        modelfile_path=os.path.join(modelfile_path, main_exp_name),
+                                                                                        save_chkpoints="some")
         #if tr_verbose == True:
         #    plot_losses(tr_losses=tr_losses, val_losses=val_losses, logscale=False)
         
@@ -155,7 +158,8 @@ def main():
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":
-        evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag)
+        evaluate_rnn(options[model_type], test_loader, device, model_file=model_file_saved, usenorm_flag=usenorm_flag,
+        test_logfile_path=te_logfile_name_with_path)
 
     return None
 
