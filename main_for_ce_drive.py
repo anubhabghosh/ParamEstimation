@@ -8,7 +8,8 @@ import pickle as pkl
 import os
 import torch
 import json
-from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
+#from src.rnn_models import RNN_model, train_rnn, evaluate_rnn
+from src.rnn_models_ce_drive import RNN_model, train_rnn, evaluate_rnn
 import argparse
 from parse import parse
 from datetime import datetime

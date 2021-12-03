@@ -1,0 +1,15 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'lstm', 'input_size': 1, 'output_size': 2, 'n_hidden': 60, 'n_layers': 1, 'lr': 0.001, 'num_epochs': 2000, 'min_delta': 0.01, 'n_hidden_dense': 40} 
+
+No. of trainable parameters: 17642
+
+Epoch: 1/2000, Training MSE Loss:0.124984937, Val. MSE Loss:0.055797988, Time_Elapsed:1.7564 secs
+Epoch: 100/2000, Training MSE Loss:0.006193986, Val. MSE Loss:0.006641660, Time_Elapsed:187.0201 secs
+Consecutive iterations are:[168, 169, 170]
+Exit and Convergence reached after 3 iterations for relative change in NLL below :0.01
+Training convergence attained at Epoch: 170!
+
+Saving the best model at epoch=170, with training loss=0.005406002884692684, validation loss=0.005995229724794627
+------------------------------ Training ends --------------------------------- 
+

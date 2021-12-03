@@ -14,12 +14,12 @@
         "model_type":"lstm",
         "input_size":1,
         "output_size":2,
-        "n_hidden":40,
-        "n_layers":2,
+        "n_hidden":60,
+        "n_layers":1,
         "lr":1e-3,
         "num_epochs":2000,
         "min_delta":1e-2,
-        "n_hidden_dense":32
+        "n_hidden_dense":40
     },
     "rnn":{
         "model_type":"rnn",
