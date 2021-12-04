@@ -159,8 +159,13 @@ def main():
         losses_model["tr_losses"] = tr_losses
         losses_model["val_losses"] = val_losses
 
-        #with open('./plot_data/{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"]), 'w') as f:
-        #    f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
+        with open(os.path.join(os.path.join(logfile_path, "{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(
+                                                                    model_type, 
+                                                                    options[model_type]["n_layers"], 
+                                                                    options[model_type]["n_hidden"],
+                                                                    dd, mm, yy, hr, mins, secs)), 
+                                            '{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"])), 'w') as f:
+            f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":
 
