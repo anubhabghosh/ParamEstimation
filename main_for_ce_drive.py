@@ -102,17 +102,15 @@ def main():
     # Define logfile paths and model file paths
     current_date = get_date_and_time()
     dd, mm, yy, hr, mins, secs = parse("{}/{}/{} {}:{}:{}", current_date)
-    logfile_path = "./log/ce_drive/{}/{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(dataset_type, 
-                                                                    model_type, 
-                                                                    options[model_type]["n_layers"], 
-                                                                    options[model_type]["n_hidden"],
-                                                                    dd, mm, yy, hr, mins, secs)
+    
+    main_exp_name = "{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(model_type,
+                                                              options[model_type]["n_layers"],                                                                                                                                                                            options[model_type]["n_hidden"],                                                                                                                                                                            dd, mm, yy, hr, mins, secs)
 
-    modelfile_path = "./models/ce_drive/{}/{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(dataset_type,
-                                                                    model_type, 
-                                                                    options[model_type]["n_layers"], 
-                                                                    options[model_type]["n_hidden"],
-                                                                    dd, mm, yy, hr, mins, secs)
+    logfile_path = "./log/ce_drive/{}/".format(dataset_type) 
+    modelfile_path = "./models/ce_drive/{}/".format(dataset_type)
+    
+    logfile_path = os.path.join(logfile_path, main_exp_name)
+    modelfile_path = os.path.join(modelfile_path, main_exp_name)
 
     log_file_name = "training_{}_M{}_P{}_N{}.log".format(model_type,
                                                         num_trajectories,
@@ -159,12 +157,7 @@ def main():
         losses_model["tr_losses"] = tr_losses
         losses_model["val_losses"] = val_losses
 
-        with open(os.path.join(os.path.join(logfile_path, "{}_L{}_H{}_results_{}{}{}_{}{}{}/".format(
-                                                                    model_type, 
-                                                                    options[model_type]["n_layers"], 
-                                                                    options[model_type]["n_hidden"],
-                                                                    dd, mm, yy, hr, mins, secs)), 
-                                            '{}_losses_eps{}.json'.format(model_type, options[model_type]["num_epochs"])), 'w') as f:
+        with open(os.path.join(logfile_path, "{}_losses_eps{}.json".format(model_type, options[model_type]["num_epochs"])), 'w+') as f:
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":

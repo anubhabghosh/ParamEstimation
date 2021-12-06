@@ -6,7 +6,7 @@
         "n_hidden":40,
         "n_layers":2,
         "lr":1e-3,
-        "num_epochs":3000
+        "num_epochs":4000
     },
     "lstm":{
         "model_type":"lstm",
@@ -15,6 +15,6 @@
         "n_hidden":50,
         "n_layers":2,
         "lr":1e-3,
-        "num_epochs":3000
+        "num_epochs":4000
     }
 }
