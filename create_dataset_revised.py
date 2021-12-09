@@ -30,6 +30,7 @@ def create_and_save_dataset(N, num_trajs, num_realizations, filename, usenorm_fl
     #                                                M=num_trajs, 
     #                                                P=num_realizations, 
     #                                                usenorm_flag=usenorm_flag)
+    np.random.seed(10) # This can be kept at a fixed step for being consistent
     if mode == "pfixed":
         Z_pM = generate_trajectory_partialfixed_param_pairs(N=N, 
                                                             M=num_trajs, 

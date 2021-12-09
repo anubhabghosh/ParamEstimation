@@ -156,7 +156,7 @@ def main():
         losses_model["val_losses"] = val_losses
 
         with open(os.path.join(os.path.join(logfile_path, main_exp_name), 
-            '{}_losses_eps{}_{}.json'.format(model_type, options[model_type]["num_epochs"], dataset_mode)), 'w') as f:
+            '{}_losses_eps{}_{}_2.json'.format(model_type, options[model_type]["num_epochs"], dataset_mode)), 'w') as f:
             f.write(json.dumps(losses_model, cls=NDArrayEncoder, indent=2))
 
     elif mode.lower() == "test":

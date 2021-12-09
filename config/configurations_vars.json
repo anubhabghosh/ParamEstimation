@@ -6,7 +6,7 @@
         "n_hidden":30,
         "n_layers":2,
         "lr":1e-3,
-        "num_epochs":2000,
+        "num_epochs":3000,
         "min_delta":1e-2,
         "n_hidden_dense":32
     },
