@@ -236,11 +236,11 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             if (epoch + 1) > 100:#nepochs // 6: # nepochs/6 for complicated, 100 for simpler model
                 model_monitor.record(val_loss)
 
-            # Displaying loss at an interval of 200 epochs
+            # Displaying loss at an interval of 100 epochs
             if tr_verbose == True and (((epoch + 1) % 100) == 0 or epoch == 0):
                 
-                print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
-                model.num_epochs, tr_loss, val_loss), file=orig_stdout)
+                print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, , Time_Elapsed:{:.4f} secs".format(epoch+1, 
+                model.num_epochs, tr_loss, val_loss, time_elapsed), file=orig_stdout)
                 #save_model(model, model_filepath + "/" + "{}_ckpt_epoch_{}.pt".format(model.model_type, epoch+1))
 
                 print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, Time_Elapsed:{:.4f} secs".format(epoch+1, 

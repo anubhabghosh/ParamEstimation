@@ -1,0 +1,13 @@
+------------------------------ Training begins --------------------------------- 
+
+Config: {'model_type': 'gru', 'input_size': 1, 'output_size': 5, 'n_hidden': 40, 'n_layers': 2, 'lr': 0.001, 'num_epochs': 3000} 
+
+No. of trainable parameters: 16477
+
+Epoch: 1/3000, Training MSE Loss:2.646538620, Val. MSE Loss:1.156819021, Time_Elapsed:116.2965 secs
+Epoch: 100/3000, Training MSE Loss:0.000605573, Val. MSE Loss:0.000960201, Time_Elapsed:11011.0539 secs
+Epoch: 200/3000, Training MSE Loss:0.000352230, Val. MSE Loss:0.000308264, Time_Elapsed:22248.7084 secs
+Epoch: 300/3000, Training MSE Loss:0.001030199, Val. MSE Loss:0.000931926, Time_Elapsed:33512.7526 secs
+Interrupted!! ...saving the model at epoch:318
+------------------------------ Training ends --------------------------------- 
+
