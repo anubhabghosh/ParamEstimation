@@ -135,7 +135,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     model.train()
     optimizer = optim.Adam(model.parameters(), lr=model.lr)
     #scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.998)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//3, gamma=0.9) # gamma was initially 0.9
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=nepochs//6, gamma=0.9) # gamma was initially 0.9
     criterion = nn.MSELoss() # By default reduction is 'mean'
     tr_losses = []
     val_losses = []
@@ -185,146 +185,158 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     # Start time
     starttime = timer()
-    for epoch in range(nepochs):
-        
-        tr_running_loss = 0.0
-        tr_loss_epoch_sum = 0.0
-        val_loss_epoch_sum = 0.0
-    
-        for i, data in enumerate(train_loader, 0):
-        
-            tr_inputs_batch, tr_targets_batch = data
-            optimizer.zero_grad()
-            X_train = Variable(tr_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
-            tr_predictions_batch = model.forward(X_train)
-            tr_loss_batch = criterion(tr_predictions_batch, tr_targets_batch.squeeze(2).to(device))
-            tr_loss_batch.backward()
-            optimizer.step()
-            #scheduler.step()
-
-            # print statistics
-            tr_running_loss += tr_loss_batch.item()
-            tr_loss_epoch_sum += tr_loss_batch.item()
-
-            if i % 100 == 99 and ((epoch + 1) % 100 == 0):    # print every 10 mini-batches
-                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100))
-                #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100), file=orig_stdout)
-                tr_running_loss = 0.0
-        
-        scheduler.step()
-        with torch.no_grad():
+    try:
+        for epoch in range(nepochs):
             
-            for i, data in enumerate(val_loader, 0):
-                
-                val_inputs_batch, val_targets_batch = data
-                X_val = Variable(val_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
-                val_predictions_batch = model.forward(X_val)
-                val_loss_batch = criterion(val_predictions_batch, val_targets_batch.squeeze(2).to(device))
+            tr_running_loss = 0.0
+            tr_loss_epoch_sum = 0.0
+            val_loss_epoch_sum = 0.0
+        
+            for i, data in enumerate(train_loader, 0):
+            
+                tr_inputs_batch, tr_targets_batch = data
+                optimizer.zero_grad()
+                X_train = Variable(tr_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
+                tr_predictions_batch = model.forward(X_train)
+                tr_loss_batch = criterion(tr_predictions_batch, tr_targets_batch.squeeze(2).to(device))
+                tr_loss_batch.backward()
+                optimizer.step()
+                #scheduler.step()
+
                 # print statistics
-                val_loss_epoch_sum += val_loss_batch.item()
-        
-        # Loss at the end of each epoch
-        tr_loss = tr_loss_epoch_sum / len(train_loader)
-        val_loss = val_loss_epoch_sum / len(val_loader)
+                tr_running_loss += tr_loss_batch.item()
+                tr_loss_epoch_sum += tr_loss_batch.item()
 
-        endtime = timer()
-        # Measure wallclock time
-        time_elapsed = endtime - starttime
-
-        # Record the validation loss per epoch
-        if (epoch + 1) > 100:#nepochs // 6: # nepochs/6 for complicated, 100 for simpler model
-            model_monitor.record(val_loss)
-
-        # Displaying loss at an interval of 200 epochs
-        if tr_verbose == True and (((epoch + 1) % 200) == 0 or epoch == 0):
+                if i % 100 == 99 and ((epoch + 1) % 100 == 0):    # print every 10 mini-batches
+                    #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100))
+                    #print("Epoch: {}/{}, Batch index: {}, Training loss: {}".format(epoch+1, nepochs, i+1, tr_running_loss / 100), file=orig_stdout)
+                    tr_running_loss = 0.0
             
-            print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
-            model.num_epochs, tr_loss, val_loss), file=orig_stdout)
-            #save_model(model, model_filepath + "/" + "{}_ckpt_epoch_{}.pt".format(model.model_type, epoch+1))
-
-            print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, Time_Elapsed:{:.4f} secs".format(epoch+1, 
-            model.num_epochs, tr_loss, val_loss, time_elapsed))
-        
-        # Checkpointing the model every few  epochs
-        #if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
-        if (((epoch + 1) % 100) == 0 or epoch == 0) and save_chkpoints == "all": 
-            # Checkpointing model every few epochs, in case of grid_search is being done, save_chkpoints = None
-            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
-        elif (((epoch + 1) % nepochs) == 0) and save_chkpoints == "some": 
-            # Checkpointing model at the end of training epochs, in case of grid_search is being done, save_chkpoints = None
-            save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
-        
-        # Save best model in case validation loss improves
-        '''
-        best_val_loss, best_model_wts, best_val_epoch, patience, check_patience = callback_val_loss(model=model,
-                                                                                                best_model_wts=best_model_wts,
-                                                                                                val_loss=val_loss,
-                                                                                                best_val_loss=best_val_loss,
-                                                                                                best_val_epoch=best_val_epoch,
-                                                                                                current_epoch=epoch+1,
-                                                                                                patience=patience,
-                                                                                                num_patience=num_patience,
-                                                                                                min_delta=min_delta,
-                                                                                                check_patience=check_patience,
-                                                                                                orig_stdout=orig_stdout)
-        #if check_patience == True:
-        #    print("Monitoring validation loss for criterion", file=orig_stdout)
-        #    print("Monitoring validation loss for criterion")
-        #else:
-        #    pass
-        ''' 
-        if val_loss < best_val_loss:
-
-            best_val_loss = val_loss # Save best validation loss
-            tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-            best_val_epoch = epoch+1 # Corresponding value of epoch
-            best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
-        
-        # Saving every value
-        tr_losses.append(tr_loss)
-        val_losses.append(val_loss)
-
-        # Check monitor flag
-        if model_monitor.monitor(epoch=epoch+1) == True:
-
-            if tr_verbose == True:
-                print("Training convergence attained! Saving model at Epoch: {}".format(epoch+1), file=orig_stdout)
+            scheduler.step()
+            with torch.no_grad():
+                
+                for i, data in enumerate(val_loader, 0):
+                    
+                    val_inputs_batch, val_targets_batch = data
+                    X_val = Variable(val_inputs_batch, requires_grad=False).type(torch.FloatTensor).to(device)
+                    val_predictions_batch = model.forward(X_val)
+                    val_loss_batch = criterion(val_predictions_batch, val_targets_batch.squeeze(2).to(device))
+                    # print statistics
+                    val_loss_epoch_sum += val_loss_batch.item()
             
-            print("Training convergence attained at Epoch: {}!".format(epoch+1))
-            # Save the best model as per validation loss at the end
-            best_val_loss = val_loss # Save best validation loss
-            tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-            best_val_epoch = epoch+1 # Corresponding value of epoch
-            best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
-            #print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
-            #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
-            break
+            # Loss at the end of each epoch
+            tr_loss = tr_loss_epoch_sum / len(train_loader)
+            val_loss = val_loss_epoch_sum / len(val_loader)
 
-        #else:
+            endtime = timer()
+            # Measure wallclock time
+            time_elapsed = endtime - starttime
 
-            #print("Model improvement attained at Epoch: {}".format(epoch+1))
-            #best_val_loss = val_loss # Save best validation loss
-            #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
-            #best_val_epoch = epoch+1 # Corresponding value of epoch
-            #best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+            # Record the validation loss per epoch
+            if (epoch + 1) > 100:#nepochs // 6: # nepochs/6 for complicated, 100 for simpler model
+                model_monitor.record(val_loss)
+
+            # Displaying loss at an interval of 200 epochs
+            if tr_verbose == True and (((epoch + 1) % 100) == 0 or epoch == 0):
+                
+                print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f} ".format(epoch+1, 
+                model.num_epochs, tr_loss, val_loss), file=orig_stdout)
+                #save_model(model, model_filepath + "/" + "{}_ckpt_epoch_{}.pt".format(model.model_type, epoch+1))
+
+                print("Epoch: {}/{}, Training MSE Loss:{:.9f}, Val. MSE Loss:{:.9f}, Time_Elapsed:{:.4f} secs".format(epoch+1, 
+                model.num_epochs, tr_loss, val_loss, time_elapsed))
             
-    # Save the best model as per validation loss at the end
-    print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
-    
-    #if save_chkpoints == True:
-    if save_chkpoints == "all" or save_chkpoints == "some":
-        # Save the best model using the designated filename
-        if not best_model_wts is None:
-            model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_val_epoch)
-            torch.save(best_model_wts, model_filepath + "/" + model_filename)
+            # Checkpointing the model every few  epochs
+            #if (((epoch + 1) % 500) == 0 or epoch == 0) and save_chkpoints == True:     
+            if (((epoch + 1) % 100) == 0 or epoch == 0) and save_chkpoints == "all": 
+                # Checkpointing model every few epochs, in case of grid_search is being done, save_chkpoints = None
+                save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+            elif (((epoch + 1) % nepochs) == 0) and save_chkpoints == "some": 
+                # Checkpointing model at the end of training epochs, in case of grid_search is being done, save_chkpoints = None
+                save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
             
+            # Save best model in case validation loss improves
+            '''
+            best_val_loss, best_model_wts, best_val_epoch, patience, check_patience = callback_val_loss(model=model,
+                                                                                                    best_model_wts=best_model_wts,
+                                                                                                    val_loss=val_loss,
+                                                                                                    best_val_loss=best_val_loss,
+                                                                                                    best_val_epoch=best_val_epoch,
+                                                                                                    current_epoch=epoch+1,
+                                                                                                    patience=patience,
+                                                                                                    num_patience=num_patience,
+                                                                                                    min_delta=min_delta,
+                                                                                                    check_patience=check_patience,
+                                                                                                    orig_stdout=orig_stdout)
+            #if check_patience == True:
+            #    print("Monitoring validation loss for criterion", file=orig_stdout)
+            #    print("Monitoring validation loss for criterion")
+            #else:
+            #    pass
+            ''' 
+            if val_loss < best_val_loss:
+
+                best_val_loss = val_loss # Save best validation loss
+                tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                best_val_epoch = epoch+1 # Corresponding value of epoch
+                best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+            
+            # Saving every value
+            tr_losses.append(tr_loss)
+            val_losses.append(val_loss)
+
+            # Check monitor flag
+            if model_monitor.monitor(epoch=epoch+1) == True:
+
+                if tr_verbose == True:
+                    print("Training convergence attained! Saving model at Epoch: {}".format(epoch+1), file=orig_stdout)
+                
+                print("Training convergence attained at Epoch: {}!".format(epoch+1))
+                # Save the best model as per validation loss at the end
+                best_val_loss = val_loss # Save best validation loss
+                tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                best_val_epoch = epoch+1 # Corresponding value of epoch
+                best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+                #print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
+                #save_model(model, model_filepath + "/" + "{}_usenorm_{}_ckpt_epoch_{}.pt".format(model.model_type, usenorm_flag, epoch+1))
+                break
+
+            #else:
+
+                #print("Model improvement attained at Epoch: {}".format(epoch+1))
+                #best_val_loss = val_loss # Save best validation loss
+                #tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
+                #best_val_epoch = epoch+1 # Corresponding value of epoch
+                #best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
+                
+        # Save the best model as per validation loss at the end
+        print("\nSaving the best model at epoch={}, with training loss={}, validation loss={}".format(best_val_epoch, tr_loss_for_best_val_loss, best_val_loss))
+        
+        #if save_chkpoints == True:
+        if save_chkpoints == "all" or save_chkpoints == "some":
+            # Save the best model using the designated filename
+            if not best_model_wts is None:
+                model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, best_val_epoch)
+                torch.save(best_model_wts, model_filepath + "/" + model_filename)
+                
+            else:
+                model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
+                print("Saving last model as best...")
+                torch.save(model, model_filepath + "/" + model_filename)
+        #elif save_chkpoints == False:
+        elif save_chkpoints == None:
+            pass
+
+    except KeyboardInterrupt:
+
+        if tr_verbose == True:
+            print("Interrupted!! ...saving the model at epoch:{}".format(epoch+1), file=orig_stdout)
+            print("Interrupted!! ...saving the model at epoch:{}".format(epoch+1))
         else:
-            model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
-            print("Saving last model as best...")
-            torch.save(model, model_filepath + "/" + model_filename)
-    #elif save_chkpoints == False:
-    elif save_chkpoints == None:
-        pass
+            print("Interrupted!! ...saving the model at epoch:{}".format(epoch+1))
+
+        model_filename = "{}_usenorm_{}_ckpt_epoch_{}_latest.pt".format(model.model_type, usenorm_flag, epoch+1)
+        torch.save(model, model_filepath + "/" + model_filename)
     
     print("------------------------------ Training ends --------------------------------- \n")
     # Restoring the original std out pointer

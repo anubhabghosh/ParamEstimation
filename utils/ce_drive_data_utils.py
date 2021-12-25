@@ -12,13 +12,31 @@ from control.matlab import c2d
 import control as ct
 
 def generate_uniform(N, a, b):
-    
+    """ This function defines the prior for sampling the parameters
+
+    Args:
+        N ([int]): The length of the vector 
+        a ([float]): lower limit of the support
+        b ([float]): upper limit of the support
+
+    Returns:
+        theta ([numpy.array]): The length of the parameter vector
+    """
     # theta = U(a, b)
     theta = np.random.uniform(low=a, high=b, size=(N,1))
     return np.asscalar(theta)
 
 def generate_normal(N, mean, std):
+    """ This function defines the prior for sampling the parameters
 
+    Args:
+        N ([int]): The length of the vector 
+        mean ([float]): mean of the normal distribution
+        std ([float]): standard dev. of the normal distribution
+
+    Returns:
+        theta ([numpy.array]): The length of the parameter vector
+    """
     # n = N(mean, std**2)
     n = np.random.normal(loc=mean, scale=std, size=(N,1))
     return n
