@@ -322,7 +322,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             else:
                 model_filename = "{}_usenorm_{}_ckpt_epoch_{}_best.pt".format(model.model_type, usenorm_flag, epoch+1)
                 print("Saving last model as best...")
-                torch.save(model, model_filepath + "/" + model_filename)
+                save_model(model, model_filepath + "/" + model_filename)
         #elif save_chkpoints == False:
         elif save_chkpoints == None:
             pass
@@ -336,7 +336,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             print("Interrupted!! ...saving the model at epoch:{}".format(epoch+1))
 
         model_filename = "{}_usenorm_{}_ckpt_epoch_{}_latest.pt".format(model.model_type, usenorm_flag, epoch+1)
-        torch.save(model, model_filepath + "/" + model_filename)
+        save_model(model, model_filepath + "/" + model_filename)
     
     print("------------------------------ Training ends --------------------------------- \n")
     # Restoring the original std out pointer
