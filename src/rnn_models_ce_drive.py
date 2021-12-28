@@ -163,7 +163,7 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
 
     patience = 0
     num_patience = 3 
-    min_delta = 1e-2 # 1e-3 for simpler model, for complicated model we use 1e-2
+    min_delta = 5e-1 # 1e-3 for simpler model, for complicated model we use 1e-2
     check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
@@ -273,14 +273,14 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
             #    print("Monitoring validation loss for criterion")
             #else:
             #    pass
-            ''' 
+             
             if val_loss < best_val_loss:
 
                 best_val_loss = val_loss # Save best validation loss
                 tr_loss_for_best_val_loss = tr_loss # Training loss corresponding to best validation loss
                 best_val_epoch = epoch+1 # Corresponding value of epoch
                 best_model_wts = copy.deepcopy(model.state_dict()) # Weights for the best model
-            
+            '''
             # Saving every value
             tr_losses.append(tr_loss)
             val_losses.append(val_loss)
