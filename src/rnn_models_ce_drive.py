@@ -162,8 +162,8 @@ def train_rnn(options, nepochs, train_loader, val_loader, device, usenorm_flag=0
     # Call back parameters
 
     patience = 0
-    num_patience = 3 
-    min_delta = 5e-1 # 1e-3 for simpler model, for complicated model we use 1e-2
+    num_patience = 2 
+    min_delta = 1e-2 # 1e-3 for simpler model, for complicated model we use 1e-2
     check_patience=False
     best_val_loss = np.inf
     tr_loss_for_best_val_loss = np.inf
