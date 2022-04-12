@@ -37,6 +37,8 @@ matplotlib==3.4.3
   - `/SimplerNLSS_Model/`: This folder contains code to execute the PSEM method for the simpler NLSS model for estimating 4 unknown parameters, you should execute the file [`run_ML_based_fixed_theta_random_init.m`](https://github.com/anubhabghosh/ParamEstimation/blob/master/MATLAB_Code/AlternativeML_based_methods/NL_time_series_model/SimplerNLSSmodel/run_ML_based_fixed_theta_random_init.m)
   - `/Linear_Toy_model/` : This folder contains code for executing the linear estimator based on the approach of DeepBayes for the linear Toy model, you should run [`run_multiple_simulations_fixed_theta_w_bias.m`](https://github.com/anubhabghosh/ParamEstimation/blob/master/MATLAB_Code/Linear_Toy_Model/Linear_Model/run_multiple_simulations_fixed_theta_w_bias.m) to execute the method for a multiple values of P, M in order to replicate the table of varying MSE versus P, M.
 - `/analysis_ipynbs/`: This folder contains IPython notebooks used for analysing the results.
+- `/evaluation_data/`: Trajectories generated using Python for performing inference
+- `/matlab_results/`: Results of ML-based methods on the evaluation datasets
 
 ## Dataset creation
 
