@@ -22,7 +22,7 @@ matplotlib==3.4.3
 ```
 ## Repository organization
 
-- `/data/` : Folder that should contains the training data, viz. simulated trajectories for a chosen value of P, M (P - number of parameter realizations, M -  number of simulated trajectories per realization).
+- `/data/` : Folder that should contains the training data, viz. simulated trajectories for a chosen value of P, M (P - number of parameter realizations, M -  number of simulated trajectories per realization). 
 
 - `/src/`: Folder that contains essential scripts containing model descriptions such as 
   - `rnn_models_NLSS_modified.py` : RNN model defined for the NLSS models.
@@ -32,7 +32,7 @@ matplotlib==3.4.3
 - `/config/`: This folder contains configurations for training RNN models in `.json` format. 
 - `/log/`:  This folder contains the logfiles related to the training of the RNN models.
 - `/models/`: This folder contains the trained model checkpoints saved as `*.pt` files.
-- `/MATLAB_Code/`: This folder contains relevant code to simulate the MATLAB models. Relevant MATLAB code is found for:
+- `/MATLAB_Code/`: This folder contains relevant code to simulate the MATLAB models. Note that for the inference comparison, both MATLAB and Python based methods should use the same kind of trajectories (which can be created in Python as .mat file, usually done in the analysis notebooks and then the relevant path is provided to the MATLAB scripts. The datafile by default provided in the scripts may need to be changed depending on the filename of the generated dataset. Users are used to check the information in the subfolders provided:
   - `/cpf_saem/`: This folder contains code to execute the conditional CPF-SAEM method for estimating the two variance parameters, you should execute the file [`compute_ML_performance.m`](https://github.com/anubhabghosh/ParamEstimation/blob/master/MATLAB_Code/AlternativeML_based_methods/cpf_saem/compute_ML_performance.m).
   - `/SimplerNLSS_Model/`: This folder contains code to execute the PSEM method for the simpler NLSS model for estimating 4 unknown parameters, you should execute the file [`run_ML_based_fixed_theta_random_init.m`](https://github.com/anubhabghosh/ParamEstimation/blob/master/MATLAB_Code/AlternativeML_based_methods/NL_time_series_model/SimplerNLSSmodel/run_ML_based_fixed_theta_random_init.m)
   - `/Linear_Toy_model/` : This folder contains code for executing the linear estimator based on the approach of DeepBayes for the linear Toy model, you should run [`run_multiple_simulations_fixed_theta_w_bias.m`](https://github.com/anubhabghosh/ParamEstimation/blob/master/MATLAB_Code/Linear_Toy_Model/Linear_Model/run_multiple_simulations_fixed_theta_w_bias.m) to execute the method for a multiple values of P, M in order to replicate the table of varying MSE versus P, M.
@@ -61,7 +61,7 @@ python3 main.py --help
 
 ## Analysis of results
 
-We can see the analysed results in the notebooks under `/analysis_ipynbs/`
+We can see the analysed results in the notebooks under `/analysis_ipynbs/` where evaluation / inference is done using test data and loaded model checkpoints. 
 
 ## How to run the code for DeepBayes ...
 1. Generate the appropriate dataset by calling one of the dataset creation files. List of available options that can be accessed are found by using
@@ -76,5 +76,7 @@ We can see the analysed results in the notebooks under `/analysis_ipynbs/`
     python3 main.py --mode train --model_type gru --dataset_mode pfixed --config [path to config file] --datafile [path to the dataset (.pkl file)] --use_norm 0 --splits [path to the splits file (splitting data into train, val, ...), for the first time this will be created]
     ```
  5. The log files will be stored under appropriate folders under `/log/` and model checkpoints under `/models/`. 
- 6. Check one of the analysis IPython notebooks where you can simulate or load an evaluation dataset, load the saved model and perform inference. In some cases, it may ne required to run the MATLAB code for the comparing methods (like PSEM (NLSS Simpler Model), CPF_SAEM and CME-MH (Metropolis hastings) and then put the location to the results in the notebook.
- 
+ 6. Check one of the analysis IPython notebooks where you can simulate or load an evaluation dataset, load the saved model and perform inference. In some cases, it may be required to run the MATLAB code for the comparing methods (like PSEM (NLSS Simpler Model), CPF_SAEM and CME-MH (Metropolis hastings) and then put the location to the results in the notebook.
+
+## License
+The code is published under the MIT license
