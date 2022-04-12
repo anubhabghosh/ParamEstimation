@@ -1,3 +1,6 @@
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 from utils.data_utils_simpler_model import generate_trajectory_param_pairs
 
 import os

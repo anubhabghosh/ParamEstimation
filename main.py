@@ -1,5 +1,9 @@
 # This code calls the functions relevant for running RNN-based parameter estimator on
 # NLSS models
+
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.data_utils import Series_Dataset, obtain_tr_val_test_idx

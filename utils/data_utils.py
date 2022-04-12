@@ -1,4 +1,7 @@
 # This file contains functions necessary for simulating the dataset parameters
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import numpy as np
 import string
 import random

@@ -1,4 +1,7 @@
 # This code writes down the solution for Task 1
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 from parse import parse
 import pickle as pkl
 from torch.utils import data

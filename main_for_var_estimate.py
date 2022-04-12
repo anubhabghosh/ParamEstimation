@@ -1,4 +1,7 @@
 # This code writes down the solution for Task 1
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt

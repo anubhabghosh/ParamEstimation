@@ -1,3 +1,6 @@
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 # Import the necessary libraries
 import numpy as np
 import matplotlib.pyplot as plt

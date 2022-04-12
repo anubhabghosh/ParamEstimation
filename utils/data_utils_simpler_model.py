@@ -1,3 +1,6 @@
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 ###################################################################################
 # This file contains functions necessary for simulating the dataset parameters
 # Model definition:

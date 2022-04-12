@@ -1,3 +1,6 @@
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import numpy as np
 from collections import deque
 

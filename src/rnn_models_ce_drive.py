@@ -1,4 +1,7 @@
 # This file defines the model to be used for use in parameter estimation
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import numpy as np
 import torch
 from torch import nn, optim

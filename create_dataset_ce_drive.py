@@ -1,3 +1,6 @@
+# Creator: Anubhab Ghosh (anubhabg@kth.se)
+# April 2022
+
 import argparse
 from ast import parse
 import pickle as pkl
